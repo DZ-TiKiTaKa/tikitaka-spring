@@ -14,5 +14,7 @@ public class ChatService {
 	
 	public void insert(Chat chat) {
 		chatRepository.insert(chat);
+		
+		//test
 	}
 }
