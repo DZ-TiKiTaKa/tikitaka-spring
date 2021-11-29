@@ -24,24 +24,24 @@ public class RedisTempalateTest {
 	
 	
 	
-//	@Test
-//	public void testStrings() {
-//		Chat chat = new Chat();
-//		chat.setContents("testing...");
-//		chat.setNo(1L);
-//		// 데이터 주기
-//		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//		String key = chat.getNo().toString();
-//		// when
-//		valueOperations.set(key, chat.getContents());
-//		
-//		// then
-//		String value = valueOperations.get(key);
-//		Boolean expire = redisTemplate.expire(key, 5, TimeUnit.SECONDS);
-//		
-//		assertThat(value).isEqualTo(chat.getContents());
-//		assertThat(expire).isTrue();
-//	}
+	@Test
+	public void testStrings() {
+		Chat chat = new Chat();
+		chat.setContents("testing...");
+		chat.setNo(1L);
+		// 데이터 주기
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		String key = chat.getNo().toString();
+		// when
+		valueOperations.set(key, chat.getContents());
+		
+		// then
+		String value = valueOperations.get(key);
+		//Boolean expire = redisTemplate.expire(key, 5, TimeUnit.SECONDS);
+		
+		assertThat(value).isEqualTo(chat.getContents());
+		//assertThat(expire).isTrue();
+	}
 	
 //	@Test
 //	public void testSet() {

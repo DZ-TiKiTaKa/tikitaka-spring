@@ -14,16 +14,18 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.tikitaka.model.Chat;
+import com.tikitaka.redis.redisTempalate;
 import com.tikitaka.service.ChatService;
 
 @Configuration
 @EnableRedisRepositories
-@ComponentScan("com.tikitaka.service")
+@ComponentScan("com.tikitaka")
 public class RedisConfiguration {
 	
 	
 	@Autowired
 	private ChatService chatService;
+	
 	
 	@Value("${spring.redis.host}")
 	private String host;
@@ -36,8 +38,8 @@ public class RedisConfiguration {
 		return new LettuceConnectionFactory(host,port);
 	}
 	
-	@Bean
-	public RedisTemplate<?, ?> redisTemplate(){
+	@Bean //이 메소드는 주석해도 안해도 redis 들어오는게 같은데 무슨 역할인지
+	public RedisTemplate<  ?, ?> redisTemplate(){
 		RedisTemplate<?, ?> redisTemplatePub = new RedisTemplate<>();
 		redisTemplatePub.setConnectionFactory(redisConnectionFactory());
 		redisTemplatePub.setKeySerializer(new StringRedisSerializer());
@@ -45,14 +47,13 @@ public class RedisConfiguration {
 		return redisTemplatePub;
 	}
 	
-	@Bean
+	@Bean //
 	public void insert() {
 		Chat chat = new Chat();
-		chat.setContents("yayayayaya");
+		chat.setContents("hoohohohohoh");
 		chatService.insert(chat);
+		System.out.println("인설트 완료");
 		
 	}
-	
-	
 	
 }
