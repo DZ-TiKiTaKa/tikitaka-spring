@@ -14,5 +14,15 @@ public class ChatService {
 	
 	public void insert(Chat chat) {
 		chatRepository.insert(chat);
+
+		System.out.println(chat);
+		System.out.println(chat);
+		System.out.println(chat);
+		System.out.println(chat);
+		System.out.println("마스터에는 안넣고 디벨로퍼에만 넣어볼게용");
+		
+		System.out.println("223");
+		//test
+
 	}
 }
