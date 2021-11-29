@@ -29,5 +29,6 @@ public class RedisTemplateApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(RedisTemplateApplication.class);
+		System.out.println("branch developer");
 	}
 }
