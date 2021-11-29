@@ -14,7 +14,10 @@ public class ChatService {
 	
 	public void insert(Chat chat) {
 		chatRepository.insert(chat);
-		
+		System.out.println(chat);
+		System.out.println(chat);
+		System.out.println(chat);
+		System.out.println(chat);
 		//test
 	}
 }
