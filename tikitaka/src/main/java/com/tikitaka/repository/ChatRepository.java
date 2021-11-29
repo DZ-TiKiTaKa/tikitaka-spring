@@ -26,6 +26,7 @@ public class ChatRepository {
 	public boolean insert(Chat chat) {
 		int count = sqlSession.insert("chat.insert", chat);
 		return count == 1;
+		System.out.println("테스트 ㅜㅇ입니다 무시하세요");
 	}
 	
 	
