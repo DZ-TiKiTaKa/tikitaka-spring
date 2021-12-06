@@ -4,9 +4,10 @@
 	<typeAliases>
 		
 		<typeAlias type="com.tikitaka.model.Chat" alias="chat"/>
+		<typeAlias type="com.tikitaka.model.User" alias="user"/>
 	</typeAliases>
 	<mappers>
-		
 		<mapper resource="mybatis/mappers/chat.xml" />
+		<mapper resource="mybatis/mappers/user.xml" />
 	</mappers>
 </configuration>
