@@ -8,12 +8,89 @@ public class User {
 	
 	@Id
 	private Long No;
+	private String role;
 	private String name;
 	private String password;
-	private String email;
 	private String phone;
+	private String email;
+	private String profile;
+	private String loginTime;
+	private String logoutTime;
+	private boolean status;
+	private Long careNo;
+	private String proName;
 
 	
+	public String getRole() {
+		return role;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+	public String getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+
+	public String getLoginTime() {
+		return loginTime;
+	}
+
+
+	public void setLoginTime(String loginTime) {
+		this.loginTime = loginTime;
+	}
+
+
+	public String getLogoutTime() {
+		return logoutTime;
+	}
+
+
+	public void setLogoutTime(String logoutTime) {
+		this.logoutTime = logoutTime;
+	}
+
+
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+
+	public Long getCareNo() {
+		return careNo;
+	}
+
+
+	public void setCareNo(Long careNo) {
+		this.careNo = careNo;
+	}
+
+
+	public String getProName() {
+		return proName;
+	}
+
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+
 	public User() {
 		
 	};
@@ -71,16 +148,12 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [No=" + No + ", name=" + name + ", password=" + password + ", email=" + email + ", phone=" + phone
-				+ "]";
+		return "User [No=" + No + ", role=" + role + ", name=" + name + ", password=" + password + ", phone=" + phone
+				+ ", email=" + email + ", profile=" + profile + ", loginTime=" + loginTime + ", logoutTime="
+				+ logoutTime + ", status=" + status + ", careNo=" + careNo + ", proName=" + proName + "]";
 	};
 	
-//	public User(Long id, String name, int age, String message) {
-//		this.id = id;
-//		this.name = name;
-//		this.age = age;
-//		this.message = message;
-//	}
+
 	
 	
 	

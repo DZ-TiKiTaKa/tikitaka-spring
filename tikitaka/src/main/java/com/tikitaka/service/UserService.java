@@ -15,4 +15,8 @@ public class UserService {
 	public User getUser(String email, String password) {
 		return userRepository.findByIdAndPassword(email, password);
 	}
+	
+	public void joinUser(User user) {
+		userRepository.insertUser(user);
+	}
 }

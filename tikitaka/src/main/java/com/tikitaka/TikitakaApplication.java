@@ -22,13 +22,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *  : Dependencies > spring-boot-autoconfigure > META-INF > spring.factories
  *  
  *  3. @SpringBootConfiguration
- *   - 스프링 부트의 설정을 나타내는 어노테이
+ *   - 스프링 부트의 설정을 나타내는 어노테이션
  * */
 @SpringBootApplication
-public class RedisTemplateApplication {
+public class TikitakaApplication {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(RedisTemplateApplication.class);
-		System.out.println("branch developer");
+		SpringApplication.run(TikitakaApplication.class);
+		
 	}
 }
