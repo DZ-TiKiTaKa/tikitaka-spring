@@ -38,6 +38,7 @@ public class UserController {
 		//프로필 창에서 vaule값 dB에서 받아오기
 		//창현이 형이 말해준 password 암호화 설정해야함
 	}
+
 	
 	@PostMapping("/join")
 	public String join(@RequestBody User user) {
@@ -48,4 +49,5 @@ public class UserController {
 		
 		return "success";
 	}
+
 }
