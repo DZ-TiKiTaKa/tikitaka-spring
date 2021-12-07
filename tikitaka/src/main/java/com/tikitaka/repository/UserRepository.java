@@ -24,5 +24,9 @@ public class UserRepository {
 		
 		return sqlSession.selectOne("user.findByIdAndPassword", map);
 	}
+	
+	public boolean insertUser(User user) {
+		return 1 == sqlSession.insert("user.insertUser", user);
+	}
 }
 

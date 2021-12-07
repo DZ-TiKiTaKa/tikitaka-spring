@@ -1,18 +1,17 @@
 package com.tikitaka.test;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import com.tikitaka.RedisConfiguration;
-import com.tikitaka.model.User;
 import com.tikitaka.repository.UserRedisRepository;
 
-@SpringBootTest(classes= {RedisConfiguration.class})
+@Ignore
+//@SpringBootTest(classes= {RedisConfiguration.class})
 public class RedisRepositoryTest {
 	
 	@Autowired
-	private UserRedisRepository urrp;
+	private UserRedisRepository urrp;	
 	
 	@Test
 	public void test() {
