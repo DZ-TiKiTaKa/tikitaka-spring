@@ -1,6 +1,7 @@
 package com.tikitaka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,4 +38,16 @@ public class UserController {
 		//프로필 창에서 vaule값 dB에서 받아오기
 		//창현이 형이 말해준 password 암호화 설정해야함
 	}
+
+	
+	@PostMapping("/join")
+	public String join(@RequestBody User user) {
+		System.out.println("join controller called...");
+		System.out.println("user:" + user);
+		
+		userService.joinUser(user);
+		
+		return "success";
+	}
+
 }
