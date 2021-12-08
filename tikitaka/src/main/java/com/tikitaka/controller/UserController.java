@@ -31,6 +31,7 @@ public class UserController {
 		return JsonResult.success(uservo != null);
 		
 	}
+
 	
 	@PostMapping("/join")
 	public String join(@RequestBody User user) {
@@ -39,4 +40,5 @@ public class UserController {
 		
 		return "success";
 	}
+
 }
