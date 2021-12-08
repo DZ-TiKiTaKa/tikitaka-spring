@@ -25,7 +25,7 @@ public class RedisTempalateTest {
 	public void testStrings() {
 		Chat chat = new Chat();
 		chat.setContents("hello");
-		chat.setNo(1221L);
+		chat.setNo(1221L);	
 		// 데이터 주기
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		String key = chat.getNo().toString();
