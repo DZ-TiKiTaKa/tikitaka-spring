@@ -15,4 +15,21 @@
 			insert into user values(null, #{role}, #{name}, #{password}, #{phone}, #{email}, null, now(), now(), 0, null, null)
 		]]>
 	</insert>
+	
+	
+	<update id="UpdateUserState" parameterType="map">
+		<choose>
+		<when test="status == 1">
+		<![CDATA[
+		 update user set status='0' where no=${no}; 		
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+		 update user set status='1' where no=${no}; 		
+		]]>
+		</otherwise>
+		</choose>
+	</update>
+	
 </mapper>

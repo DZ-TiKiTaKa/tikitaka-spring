@@ -28,5 +28,16 @@ public class UserRepository {
 	public boolean insertUser(User user) {
 		return 1 == sqlSession.insert("user.insertUser", user);
 	}
+
+	public boolean UpdateUserState(Long no, int status) {
+		Map map  = new HashMap<String, Integer>();
+		map.put("no", no);
+		map.put("status", status);
+		
+		return 1 == sqlSession.update("user.UpdateUserState",map);
+	}
+
+
+
 }
 
