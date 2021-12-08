@@ -21,7 +21,7 @@ public class RedisController {
 	
 	@Autowired
 	private ChatService chatService;
-	
+	//
 	@PostMapping("/send")
 	public void send(@RequestBody HashMap<String, Object> result) {
 		//System.out.println("result:" + result);
