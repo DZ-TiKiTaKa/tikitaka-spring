@@ -29,6 +29,9 @@ public class UserRepository {
 		return 1 == sqlSession.insert("user.insertUser", user);
 	}
 
+	public User findLogStatus(Long no) {
+		return sqlSession.selectOne("user.findLogStatus", no);
+	}
 	public boolean UpdateUserState(Long no, int status) {
 		Map map  = new HashMap<String, Integer>();
 		map.put("no", no);
