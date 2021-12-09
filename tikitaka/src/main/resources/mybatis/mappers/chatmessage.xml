@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="chat">
-	<insert id="insert" parameterType="chat">
+<mapper namespace="chatmessage">
+	<insert id="insert" parameterType="chatmessage">
 		<![CDATA[
-			insert into chat values(null, "MEMBER", #{contents}, 1, now())
+			insert into chat_message 
+			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now())
 		]]>
 	</insert>
 	

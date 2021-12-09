@@ -1,5 +1,8 @@
 package com.tikitaka.model;
 
+import org.springframework.data.redis.core.RedisHash;
+
+
 public class Chat {
 
 	private Long no;
