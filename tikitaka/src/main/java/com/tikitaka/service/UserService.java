@@ -22,7 +22,7 @@ public class UserService {
 	
 	public User getLogStatus(Long no) {
 		return userRepository.findLogStatus(no);
-
+	}
 	//회원 로그인/로그아웃 상태 업데이트 메소드
 	public boolean UpdateUserState(Long no,int status) {
 		return userRepository.UpdateUserState(no,status);
