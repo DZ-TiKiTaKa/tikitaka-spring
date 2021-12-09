@@ -42,8 +42,6 @@ public class UserController {
 	
 	@PostMapping("/join")
 	public String join(@RequestBody User user) {
-		System.out.println("join controller called...");
-		System.out.println("user:" + user);
 		
 		userService.joinUser(user);
 		

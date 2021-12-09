@@ -23,4 +23,20 @@
 	 		WHERE no=#{no}
 	 	]]>
 	</select>
+	
+	<update id="UpdateUserState" parameterType="map">
+		<choose>
+		<when test="status == 1">
+		<![CDATA[
+		 update user set status='0' where no=${no}; 		
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+		 update user set status='1' where no=${no}; 		
+		]]>
+		</otherwise>
+		</choose>
+	</update>
+	
 </mapper>
