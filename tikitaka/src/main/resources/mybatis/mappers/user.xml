@@ -15,4 +15,12 @@
 			insert into user values(null, #{role}, #{name}, #{password}, #{phone}, #{email}, null, now(), now(), 0, null, null)
 		]]>
 	</insert>
+	
+	<select id="findLogStatus" parameterType="int" resultType="user">
+	 	<![CDATA[	
+	 		SELECT status 
+	 		FROM user 
+	 		WHERE no=#{no}
+	 	]]>
+	</select>
 </mapper>

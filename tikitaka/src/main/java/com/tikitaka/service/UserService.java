@@ -19,4 +19,8 @@ public class UserService {
 	public void joinUser(User user) {
 		userRepository.insertUser(user);
 	}
+	
+	public User getLogStatus(Long no) {
+		return userRepository.findLogStatus(no);
+	}
 }

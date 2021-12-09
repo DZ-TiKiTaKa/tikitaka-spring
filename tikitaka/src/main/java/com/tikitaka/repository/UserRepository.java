@@ -28,5 +28,9 @@ public class UserRepository {
 	public boolean insertUser(User user) {
 		return 1 == sqlSession.insert("user.insertUser", user);
 	}
+
+	public User findLogStatus(Long no) {
+		return sqlSession.selectOne("user.findLogStatus", no);
+	}
 }
 
