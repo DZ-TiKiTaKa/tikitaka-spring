@@ -12,7 +12,7 @@
 	</select>
 	<insert id="insertUser" parameterType="user">
 		<![CDATA[
-			insert into user values(null, #{role}, #{name}, #{password}, #{phone}, #{email}, null, now(), now(), 0, null, null)
+			insert into user values(null, #{role}, #{name}, #{password}, #{phone}, #{email}, "", now(), now(), 0, null, null)
 		]]>
 	</insert>
 
@@ -39,9 +39,9 @@
 		</choose>
 	</update>
 	
-	<update id="updateProfile" parameterType="String">
+	<update id="updateProfile" parameterType="map">
 		<![CDATA[
-		 update user set profile=#{url} where no=1; 		
+		 update user set email=#{email}, phone=#{phone} where no=#{no}; 		
 		]]>
 	</update>
 	
@@ -55,7 +55,7 @@
 	
 	<select id="info" parameterType="long" resultType="user">
 	 	<![CDATA[	
-	 		SELECT status 
+	 		SELECT * 
 	 		FROM user 
 	 		WHERE no=#{no}
 	 	]]>

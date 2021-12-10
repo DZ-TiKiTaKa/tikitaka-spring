@@ -84,12 +84,16 @@ public class UserController {
 
 	@PostMapping("/updateProfile")
 	public void updateProfile(@RequestBody HashMap<String, Object> result) {
+		
+		userService.updateProfile(result);
 		System.out.println(result);
 	}
 	
-	@PostMapping("/updateImage")
-	public String updateImage(@RequestParam(value="file", required=false) MultipartFile image) throws Exception {
-		String url = userService.restore(image);
+	@PostMapping("/updateImage/{token}")
+	public String updateImage(@RequestParam(value="file", required=false) MultipartFile image,
+								@PathVariable("token") Long no) throws Exception {
+		System.out.println(no);
+		String url = userService.restore(image, no);
 		return url;
 	}
 	
@@ -102,7 +106,9 @@ public class UserController {
 	@GetMapping("/getInfo/{no}")
 	public User getInfo(@PathVariable("no") Long no){
 		User info = new User();
-		//info = userService.getInfo(no);
-		return null;
+		info = userService.getInfo(no);
+		return info;
 	}
+	
+	
 }
