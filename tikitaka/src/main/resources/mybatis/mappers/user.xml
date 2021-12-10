@@ -53,4 +53,12 @@
 	 	]]>
 	</select>
 	
+	<select id="info" parameterType="long" resultType="user">
+	 	<![CDATA[	
+	 		SELECT status 
+	 		FROM user 
+	 		WHERE no=#{no}
+	 	]]>
+	</select>
+	
 </mapper>

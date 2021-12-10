@@ -3,6 +3,7 @@ package com.tikitaka.service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,11 @@ public class UserService {
 			System.out.println("error:" + e);
 		}
 		return null;
+	}
+
+	public User getInfo(Long no) {
+		return userRepository.getInfo(no);
+		
 	}
 
 	

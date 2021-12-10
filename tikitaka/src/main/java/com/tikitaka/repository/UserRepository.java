@@ -1,6 +1,7 @@
 package com.tikitaka.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -47,6 +48,10 @@ public class UserRepository {
 
 	public String findUrl(Long no) {
 		return sqlSession.selectOne("user.findUrl", no);
+	}
+
+	public User getInfo(Long no) {
+		return sqlSession.selectOne("user.info", no);
 	}
 
 

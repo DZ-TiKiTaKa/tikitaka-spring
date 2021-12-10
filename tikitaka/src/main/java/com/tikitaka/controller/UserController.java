@@ -2,9 +2,6 @@ package com.tikitaka.controller;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,5 +82,12 @@ public class UserController {
 	public String getImage(@PathVariable("no") Long no) {
 		String result = userService.getIamge(no);
 		return result;
+	}
+	
+	@GetMapping("/getInfo/{no}")
+	public User getInfo(@PathVariable("no") Long no){
+		User info = new User();
+		//info = userService.getInfo(no);
+		return null;
 	}
 }
