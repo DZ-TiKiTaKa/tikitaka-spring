@@ -19,7 +19,6 @@ public class NoticeService{
 	private NoticeRepository noticeRepository;
 	
 	public List<Notice> getNotice(String no) {
-		System.out.println("222222222222222");
 		return noticeRepository.getNotice(no);
 	}
 	

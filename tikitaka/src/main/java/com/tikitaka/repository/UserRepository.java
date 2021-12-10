@@ -30,9 +30,11 @@ public class UserRepository {
 		return 1 == sqlSession.insert("user.insertUser", user);
 	}
 
-	public User findLogStatus(Long no) {
-		return sqlSession.selectOne("user.findLogStatus", no);
+	// 친구 목록 (no, role, name, status, profile 가져오기)	
+	public List<User> findLogStatus(String no) {
+		return sqlSession.selectList("user.findLogStatus", no);
 	}
+	
 	public boolean UpdateUserState(Long no, int status) {
 		Map map  = new HashMap<String, Integer>();
 		map.put("no", no);
