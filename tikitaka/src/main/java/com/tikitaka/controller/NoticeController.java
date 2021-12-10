@@ -21,22 +21,22 @@ import com.tikitaka.service.NoticeService;
 @RestController
 public class NoticeController {
 	
-	@Autowired
-	private NoticeService alertService;
-
-	@RequestMapping("/main")
-	public JsonResult getNoticeInfo(@RequestBody HashMap<String, String> data) {
-
-		System.out.println("notice 가져오기 메소드");
-		System.out.println(data.get("userno"));
-		String no = data.get("userno");
-		System.out.println("1111111");
-		
-		System.out.println(no);
-		
-		List<Notice> list= alertService.getNotice(no);
-		System.out.println(list);
-		
-		return JsonResult.success(list);
-	}
+//	@Autowired
+//	private NoticeService alertService;
+//
+//	@RequestMapping("/main")
+//	public JsonResult getNoticeInfo(@RequestBody HashMap<String, String> data) {
+//
+//		System.out.println("notice 가져오기 메소드");
+//		System.out.println(data.get("userno"));
+//		String no = data.get("userno");
+//		System.out.println("1111111");
+//		
+//		System.out.println(no);
+//		
+//		List<Notice> list= alertService.getNotice(no);
+//		System.out.println(list);
+//		
+//		return JsonResult.success(list);
+//	}
 }

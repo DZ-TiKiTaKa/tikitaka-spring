@@ -45,6 +45,10 @@ public class UserRepository {
 		
 	}
 
+	public String findUrl(Long no) {
+		return sqlSession.selectOne("user.findUrl", no);
+	}
+
 
 
 }

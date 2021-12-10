@@ -45,4 +45,12 @@
 		]]>
 	</update>
 	
+	<select id="findUrl"  resultType="string" parameterType="long">
+	 	<![CDATA[	
+	 		SELECT profile 
+	 		FROM user 
+	 		WHERE no=#{no}
+	 	]]>
+	</select>
+	
 </mapper>
