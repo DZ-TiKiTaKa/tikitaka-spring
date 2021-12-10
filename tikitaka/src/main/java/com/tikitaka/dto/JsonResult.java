@@ -1,5 +1,7 @@
 package com.tikitaka.dto;
 
+import com.tikitaka.model.User;
+
 public class JsonResult {
 	private String result;  /* "success" or "fail" */
 	private Object data;    /* if success, set */
@@ -11,6 +13,12 @@ public class JsonResult {
 		this.data = data;
 		message = null;
 	}
+	private JsonResult(User data) {
+		result = "success";
+		this.data = data;
+		message = null;
+	}
+	
 	private JsonResult(String message) {
 		result = "fail";
 		data = null;
@@ -21,12 +29,18 @@ public class JsonResult {
 		return new JsonResult(data);
 	}
 	
+	public static JsonResult success(User data) {
+		return new JsonResult(data);
+	}
+	
 	public static JsonResult fail(String message) {
 		return new JsonResult(message);
 	}
+	
 	public String getResult() {
 		return result;
 	}
+	
 	public Object getData() {
 		return data;
 	}

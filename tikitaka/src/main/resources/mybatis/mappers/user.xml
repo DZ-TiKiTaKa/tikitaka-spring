@@ -16,6 +16,13 @@
 		]]>
 	</insert>
 	
+	<select id="findLogStatus" parameterType="int" resultType="user">
+	 	<![CDATA[	
+	 		SELECT status 
+	 		FROM user 
+	 		WHERE no=#{no}
+	 	]]>
+	</select>
 	
 	<update id="UpdateUserState" parameterType="map">
 		<choose>
