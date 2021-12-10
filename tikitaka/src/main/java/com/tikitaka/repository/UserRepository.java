@@ -43,13 +43,22 @@ public class UserRepository {
 		return 1 == sqlSession.update("user.UpdateUserState",map);
 	}
 
-	public boolean updateProfile(String url) {
-		return 1 == sqlSession.update("user.updateProfile", url);
+	public boolean updateProfile(User user) {
+		return 1 == sqlSession.update("user.updateProfile", user);
 		
 	}
 
 	public String findUrl(Long no) {
 		return sqlSession.selectOne("user.findUrl", no);
+	}
+
+	public User getInfo(Long no) {
+		return sqlSession.selectOne("user.info", no);
+	}
+
+	public boolean updateProfile(HashMap<String, Object> result) {
+		return 1 == sqlSession.update("user.updateProfile", result);
+		
 	}
 
 

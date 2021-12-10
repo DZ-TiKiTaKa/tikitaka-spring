@@ -1,11 +1,13 @@
 package com.tikitaka.service;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -47,7 +49,7 @@ public class UserService {
 		return userRepository.findUrl(no);
 	}
 	
-	public String restore(MultipartFile image) throws Exception{
+	public String restore(MultipartFile image, Long no) throws Exception{
 		System.out.println("");
 		try {
 			if(image.isEmpty()) {
@@ -66,13 +68,25 @@ public class UserService {
 			os.close();
 		
 			String url = URL_BASE + "/" + saveName;
-			userRepository.updateProfile(url);
+			User user = new User();
+			user.setNo(no);
+			user.setProfile(url);
+			userRepository.updateProfile(user);
 			return url;
 			
 		} catch (IOException e) {
 			System.out.println("error:" + e);
 		}
 		return null;
+	}
+
+	public User getInfo(Long no) {
+		return userRepository.getInfo(no);
+		
+	}
+
+	public void updateProfile(HashMap<String, Object> result) {
+		userRepository.updateProfile(result);
 	}
 
 	
