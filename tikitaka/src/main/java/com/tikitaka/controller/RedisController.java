@@ -3,7 +3,6 @@ package com.tikitaka.controller;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +14,6 @@ import com.tikitaka.service.ChatService;
 
 @RestController
 public class RedisController {
-
-	@Autowired
-	private RedisTemplate<String,String> redisTemplate;
 	
 	@Autowired
 	private ChatService chatService;
@@ -34,17 +30,8 @@ public class RedisController {
 		data.setReadCount((Integer)result.get("readCount"));
 		
 		chatService.insertMessage(data);
-//		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//		String key = chat.getNo().toString();
-//		// when
-//		valueOperations.set(key, chat.getContents());
-//		
-//		// then
-//		String value = valueOperations.get(key);
-//		Boolean expire = redisTemplate.expire(key, 5, TimeUnit.SECONDS);
-		
-		
 	
 	}
+	
 	
 }

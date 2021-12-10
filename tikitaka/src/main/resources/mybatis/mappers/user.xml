@@ -39,4 +39,18 @@
 		</choose>
 	</update>
 	
+	<update id="updateProfile" parameterType="String">
+		<![CDATA[
+		 update user set profile=#{url} where no=1; 		
+		]]>
+	</update>
+	
+	<select id="findUrl"  resultType="string" parameterType="long">
+	 	<![CDATA[	
+	 		SELECT profile 
+	 		FROM user 
+	 		WHERE no=#{no}
+	 	]]>
+	</select>
+	
 </mapper>

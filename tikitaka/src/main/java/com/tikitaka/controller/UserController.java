@@ -4,10 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.User;
@@ -19,9 +31,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	
 	@RequestMapping("/login")
 	public JsonResult userlogin(@RequestBody User user) {
-		System.out.println(user.toString());
+		//System.out.println(user.toString());
 		System.out.println("userlogin 메서드 실행");
 
 		User uservo = userService.getUser(user.getEmail(), user.getPassword());
@@ -38,8 +51,16 @@ public class UserController {
 		// 채팅 view 제작하기
 		// 프로필 창에서 vaule값 dB에서 받아오기
 		// 창현이 형이 말해준 password 암호화 설정해야함
+
+		System.out.println(uservo);
+		if(uservo == null) {
+			return JsonResult.fail("loginfail");
+		}
+		return JsonResult.userSuccess(uservo);
 	}
 
+
+	
 	@PostMapping("/join")
 	public String join(@RequestBody User user) {
 
@@ -68,4 +89,20 @@ public class UserController {
 
 	}
 
+	@PostMapping("/updateProfile")
+	public void updateProfile(@RequestBody HashMap<String, Object> result) {
+		System.out.println(result);
+	}
+	
+	@PostMapping("/updateImage")
+	public String updateImage(@RequestParam(value="file", required=false) MultipartFile image) throws Exception {
+		String url = userService.restore(image);
+		return url;
+	}
+	
+	@GetMapping("/getImage/{no}")
+	public String getImage(@PathVariable("no") Long no) {
+		String result = userService.getIamge(no);
+		return result;
+	}
 }
