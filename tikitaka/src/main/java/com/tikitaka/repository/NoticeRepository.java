@@ -16,8 +16,8 @@ public class NoticeRepository {
 	@Autowired
 	private SqlSession sqlSession;
 
-//	public List<Notice> getNotice(String no) {
-// 		
-//	return sqlSession.selectList("notice.getNotice", no);	
-//	}
+	public List<Notice> getNotice(String no) {
+ 		
+	return sqlSession.selectList("notice.getNotice", no);	
+	}
 }

@@ -6,11 +6,11 @@
 		<typeAlias type="com.tikitaka.model.Chat" alias="chat"/>
 		<typeAlias type="com.tikitaka.model.User" alias="user"/>
 		<typeAlias type="com.tikitaka.model.ChatMessage" alias="chatmessage"/>
-		<!-- <typeAlias type="com.tikitaka.model.Notice" alias="notice"/> -->
+		<typeAlias type="com.tikitaka.model.Notice" alias="notice"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/chatmessage.xml" />
 		<mapper resource="mybatis/mappers/user.xml" />
-		<!-- <mapper resource="mybatis/mappers/notice.xml" /> -->
+		<mapper resource="mybatis/mappers/notice.xml" />
 	</mappers>
 </configuration>
