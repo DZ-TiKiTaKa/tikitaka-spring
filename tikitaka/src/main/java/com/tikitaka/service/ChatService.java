@@ -1,6 +1,7 @@
 package com.tikitaka.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tikitaka.model.ChatMessage;
@@ -8,12 +9,25 @@ import com.tikitaka.repository.ChatRepository;
 
 @Service
 public class ChatService {
+	
+	@Autowired
+	private RedisTemplate<String,String> redisTemplate;
 
 	@Autowired
 	private ChatRepository chatRepository;
 
 	public void insertMessage(ChatMessage data) {
-		chatRepository.insert(data);
+		
+//		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+//		String key = chat.getNo().toString();
+//		// when
+//		valueOperations.set(key, chat.getContents());
+//		
+//		// then
+//		String value = valueOperations.get(key);
+//		Boolean expire = redisTemplate.expire(key, 5, TimeUnit.SECONDS);
+		
+		//chatRepository.insert(data);
 	}
 	
 	

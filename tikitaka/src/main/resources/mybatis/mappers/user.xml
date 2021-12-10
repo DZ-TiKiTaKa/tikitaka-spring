@@ -39,4 +39,10 @@
 		</choose>
 	</update>
 	
+	<update id="updateProfile" parameterType="String">
+		<![CDATA[
+		 update user set profile=#{url} where no=1; 		
+		]]>
+	</update>
+	
 </mapper>
