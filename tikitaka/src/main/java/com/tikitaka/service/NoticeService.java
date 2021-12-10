@@ -18,10 +18,10 @@ public class NoticeService{
 	@Autowired
 	private NoticeRepository noticeRepository;
 	
-	public List<Notice> getNotice(String no) {
-		System.out.println("222222222222222");
-		return noticeRepository.getNotice(no);
-	}
+//	public List<Notice> getNotice(String no) {
+//		System.out.println("222222222222222");
+//		return noticeRepository.getNotice(no);
+//	}
 	
 
 	

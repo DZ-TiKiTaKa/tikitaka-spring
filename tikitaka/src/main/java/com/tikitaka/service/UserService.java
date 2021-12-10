@@ -38,6 +38,10 @@ public class UserService {
 		return userRepository.UpdateUserState(no,status);
 	}
 
+	public String getIamge(Long no) {
+		return userRepository.findUrl(no);
+	}
+	
 	public String restore(MultipartFile image) throws Exception{
 		System.out.println("");
 		try {
@@ -57,7 +61,7 @@ public class UserService {
 			os.close();
 		
 			String url = URL_BASE + "/" + saveName;
-			//userRepository.updateProfile(url);
+			userRepository.updateProfile(url);
 			return url;
 			
 		} catch (IOException e) {
@@ -65,6 +69,8 @@ public class UserService {
 		}
 		return null;
 	}
+
+	
 		
-	}
+}
 
