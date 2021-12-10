@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+	<select id="getNotice" parameterType="string" resultType="map">
+		<![CDATA[
+			select a.no as no , a.title, a.contents, a.reg_date, b.title chatTitle 
+			from notice a join chat b on a.chat_no = b.no where user_no = #{no} and important = 1 	and reg_date > (select logout_time from user where no = #{no}) order by reg_date desc;		
+		]]>
+	</select>
+</mapper>
