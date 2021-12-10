@@ -35,8 +35,8 @@ public class UserRepository {
 		return sqlSession.selectList("user.findLogStatus", no);
 	}
 	
-	public boolean UpdateUserState(Long no, int status) {
-		Map map  = new HashMap<String, Long>();
+	public boolean UpdateUserState(String no, int status) {
+		Map map  = new HashMap<String, String>();
 		map.put("no", no);
 		map.put("status", status);
 		
