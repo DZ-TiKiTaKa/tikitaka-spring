@@ -55,13 +55,13 @@ public class UserController {
 	
 	
 	@RequestMapping("/logout")
-	public JsonResult userlogout(@RequestBody HashMap<String, Object> map) {
+	public JsonResult userlogout(@RequestBody HashMap<String, String> map) {
 		System.out.println("C: userlogout ");
 		int status = 1;
 		
 		System.out.println(	map.get("token"));
 		
-		long no = (long) map.get("token");
+		String no = map.get("token");
 		
 		userService.UpdateUserState(no, status);
 		
