@@ -38,12 +38,7 @@ public class UserController {
 		System.out.println("userlogin 메서드 실행");
 
 		User uservo = userService.getUser(user.getEmail(), user.getPassword());
-		if (uservo == null) {
-
-			return JsonResult.fail("loginfail");
-		}
-
-		return JsonResult.success(uservo != null);
+		
 
 		// react에서 아이디 비번 받아와서 db의 값과 동일하면
 		// DB의 status를 로그인으로 바꿔주고 react 화면에서는 메인으로
@@ -53,6 +48,7 @@ public class UserController {
 		// 창현이 형이 말해준 password 암호화 설정해야함
 
 		System.out.println(uservo);
+		
 		if(uservo == null) {
 			return JsonResult.fail("loginfail");
 		}
