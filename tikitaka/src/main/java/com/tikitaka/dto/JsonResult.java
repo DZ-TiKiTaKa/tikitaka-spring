@@ -9,7 +9,7 @@ public class JsonResult {
 	
 	private JsonResult() {}
 	private JsonResult(Object data) {
-		result = "success";
+		result = "success2";
 		this.data = data;
 		message = null;
 	}
@@ -29,7 +29,7 @@ public class JsonResult {
 		return new JsonResult(data);
 	}
 	
-	public static JsonResult success(User data) {
+	public static JsonResult userSuccess(User data) {
 		return new JsonResult(data);
 	}
 	

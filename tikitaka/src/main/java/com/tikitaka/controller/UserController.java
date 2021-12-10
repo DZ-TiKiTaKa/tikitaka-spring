@@ -36,7 +36,7 @@ public class UserController {
 		if(uservo == null) {
 			return JsonResult.fail("loginfail");
 		}
-		return JsonResult.success(uservo);
+		return JsonResult.userSuccess(uservo);
 	}
 
 
