@@ -40,6 +40,11 @@ public class UserRepository {
 		return 1 == sqlSession.update("user.UpdateUserState",map);
 	}
 
+	public boolean updateProfile(String url) {
+		return 1 == sqlSession.update("user.updateProfile", url);
+		
+	}
+
 
 
 }
