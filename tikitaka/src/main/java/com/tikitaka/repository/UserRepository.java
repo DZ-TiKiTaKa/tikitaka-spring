@@ -32,7 +32,7 @@ public class UserRepository {
 	public User findLogStatus(Long no) {
 		return sqlSession.selectOne("user.findLogStatus", no);
 	}
-	public boolean UpdateUserState(Long no, int status) {
+	public boolean UpdateUserState(int no, int status) {
 		Map map  = new HashMap<String, Integer>();
 		map.put("no", no);
 		map.put("status", status);
