@@ -1,6 +1,7 @@
 package com.tikitaka.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,11 +30,13 @@ public class UserRepository {
 		return 1 == sqlSession.insert("user.insertUser", user);
 	}
 
-	public User findLogStatus(Long no) {
-		return sqlSession.selectOne("user.findLogStatus", no);
+	// 친구 목록 (no, role, name, status, profile 가져오기)	
+	public List<User> findLogStatus(String no) {
+		return sqlSession.selectList("user.findLogStatus", no);
 	}
-	public boolean UpdateUserState(int no, int status) {
-		Map map  = new HashMap<String, Integer>();
+	
+	public boolean UpdateUserState(Long no, int status) {
+		Map map  = new HashMap<String, Long>();
 		map.put("no", no);
 		map.put("status", status);
 		
@@ -43,6 +46,10 @@ public class UserRepository {
 	public boolean updateProfile(String url) {
 		return 1 == sqlSession.update("user.updateProfile", url);
 		
+	}
+
+	public String findUrl(Long no) {
+		return sqlSession.selectOne("user.findUrl", no);
 	}
 
 
