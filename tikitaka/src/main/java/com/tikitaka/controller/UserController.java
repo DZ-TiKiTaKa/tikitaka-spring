@@ -34,7 +34,6 @@ public class UserController {
 	public JsonResult userlogin(@RequestBody User user) {
 		//System.out.println(user.toString());
 		System.out.println("userlogin 메서드 실행");
-
 		User uservo = userService.getUser(user.getEmail(), user.getPassword());
 		
 
@@ -49,8 +48,14 @@ public class UserController {
 		
 		if(uservo == null) {
 			return JsonResult.fail("loginfail");
+		}else {
+			//status 상태 값 변경 및 now()를 통한 타임기록
+			if(uservo.getStatus() == 0) {
+				userService.UpdateUserState(uservo.getNo(), uservo.getStatus());
+			}		
+			return JsonResult.userSuccess(uservo);
 		}
-		return JsonResult.userSuccess(uservo);
+		
 	}
 	
 	
@@ -61,7 +66,7 @@ public class UserController {
 		
 		System.out.println(	map.get("token"));
 		
-		String no = map.get("token");
+		Long no = Long.parseLong((String)map.get("token"));
 		
 		userService.UpdateUserState(no, status);
 		

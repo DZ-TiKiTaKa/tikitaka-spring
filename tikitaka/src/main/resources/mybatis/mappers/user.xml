@@ -28,12 +28,12 @@
 		<choose>
 		<when test="status == 1">
 		<![CDATA[
-		 update user set status='0' where no=${no}; 		
+		 update user set status='0', logout_time=now() where no=#{no}; 		
 		]]>
 		</when>
 		<otherwise>
 		<![CDATA[
-		 update user set status='1' where no=${no}; 		
+		 update user set status='1', login_time=now() where no=#{no}; 		
 		]]>
 		</otherwise>
 		</choose>
