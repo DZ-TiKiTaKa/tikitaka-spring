@@ -66,7 +66,7 @@ public class UserController {
 		
 		System.out.println(	map.get("token"));
 		
-		String no = map.get("token");
+		Long no = Long.parseLong((String)map.get("token"));
 		
 		userService.UpdateUserState(no, status);
 		
