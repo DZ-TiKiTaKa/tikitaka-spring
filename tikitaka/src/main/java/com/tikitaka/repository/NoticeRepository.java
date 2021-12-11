@@ -20,4 +20,11 @@ public class NoticeRepository {
  		
 	return sqlSession.selectList("notice.getNotice", no);	
 	}
+
+	public List<Notice> getAlert(Long no) {
+		
+		List<Notice> list = sqlSession.selectList("notice.getAlert", no);
+		System.out.println("repo: " + list);
+		return list;
+	}
 }
