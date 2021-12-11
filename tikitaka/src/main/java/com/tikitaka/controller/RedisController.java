@@ -20,7 +20,7 @@ public class RedisController {
 	
 	@PostMapping("/send")
 	public void send(@RequestBody HashMap<String, Object> result) {
-		//System.out.println("result:" + result);
+		System.out.println("result:" + result);
 		
 		ChatMessage data = new ChatMessage();
 		data.setUserNo(Long.parseLong((String) result.get("userNo")));

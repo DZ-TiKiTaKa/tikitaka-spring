@@ -34,9 +34,8 @@ public class UserRepository {
 	public List<User> findLogStatus(String no) {
 		return sqlSession.selectList("user.findLogStatus", no);
 	}
-	
-	public boolean UpdateUserState(Long no, int status) {
-		Map<String,Object> map  = new HashMap<String, Object>();
+	public boolean UpdateUserState(Long no, Integer status) {
+		Map<String, Object> map  = new HashMap<>();
 		map.put("no", no);
 		map.put("status", status);
 		
@@ -61,7 +60,14 @@ public class UserRepository {
 		
 	}
 
+	public boolean updateImage(Long no, String url) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("no", no);
+		map.put("profile", url);
+		return 1 == sqlSession.update("user.updateImage", map);
+		
+	}
+
 
 
 }
-
