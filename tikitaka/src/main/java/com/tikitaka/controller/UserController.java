@@ -92,7 +92,9 @@ public class UserController {
 	@PostMapping("/updateImage/{token}")
 	public String updateImage(@RequestParam(value="file", required=false) MultipartFile image,
 								@PathVariable("token") Long no) throws Exception {
-		System.out.println(no);
+		if(no == null || image == null) {
+			return null;
+		}
 		String url = userService.restore(image, no);
 		return url;
 	}

@@ -61,4 +61,10 @@
 	 	]]>
 	</select>
 	
+	<update id="updateImage" parameterType="map">
+		<![CDATA[
+		 update user set profile=#{profile} where no=#{no}; 		
+		]]>
+	</update>
+	
 </mapper>
