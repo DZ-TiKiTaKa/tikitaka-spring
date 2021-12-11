@@ -26,4 +26,11 @@
 
 		]]>
 	</select>
+	
+	<select id="getNewchat" parameterType="long" resultType="map">
+	<![CDATA[
+		select a.no, a.title, a.create_time from chat a join (select chat_no from chat_member where user_no = #{no}) b
+		on a.no = b.chat_no where a.create_time > (select logout_time from user where no = #{no});
+	]]>
+	</select>
 </mapper>
