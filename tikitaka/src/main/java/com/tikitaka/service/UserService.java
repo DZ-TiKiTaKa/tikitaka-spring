@@ -68,10 +68,8 @@ public class UserService {
 			os.close();
 		
 			String url = URL_BASE + "/" + saveName;
-			User user = new User();
-			user.setNo(no);
-			user.setProfile(url);
-			userRepository.updateProfile(user);
+			
+			userRepository.updateImage(no, url);
 			return url;
 			
 		} catch (IOException e) {
