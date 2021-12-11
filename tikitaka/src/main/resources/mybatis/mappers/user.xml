@@ -67,4 +67,26 @@
 		]]>
 	</update>
 	
+	<select id="findNoByEmail" parameterType="string" resultType="long">
+	 	<![CDATA[	
+	 		SELECT no 
+	 		FROM user 
+	 		WHERE email=#{email}
+	 	]]>
+	</select>
+	
+	<select id="findByEmail" parameterType="string" resultType="string">
+	 	<![CDATA[	
+	 		SELECT * 
+	 		FROM user 
+	 		WHERE email=#{email}
+	 	]]>
+	</select>
+	
+	<insert id="setCode" parameterType="map">
+		<![CDATA[
+			insert into manage values(#{userNo}, #{codeNo})
+		]]>
+	</insert>
+	
 </mapper>
