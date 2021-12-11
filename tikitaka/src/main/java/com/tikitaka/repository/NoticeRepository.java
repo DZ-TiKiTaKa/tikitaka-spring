@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tikitaka.model.Chat;
 import com.tikitaka.model.Notice;
 
 @Repository
@@ -27,4 +28,11 @@ public class NoticeRepository {
 		System.out.println("repo: " + list);
 		return list;
 	}
+
+	public List<Chat> getNewchat(Long no) {
+		
+		return sqlSession.selectList("notice.getNewchat", no);
+	}
+
+	
 }
