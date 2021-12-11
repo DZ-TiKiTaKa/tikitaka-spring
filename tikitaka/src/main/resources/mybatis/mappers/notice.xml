@@ -4,8 +4,13 @@
 <mapper namespace="notice">
 	<select id="getNotice" parameterType="string" resultType="map">
 		<![CDATA[
-			select a.no as no , a.title, a.contents, a.reg_date, b.title chatTitle 
-			from notice a join chat b on a.chat_no = b.no where user_no = #{no} and important = 1 	and reg_date > (select logout_time from user where no = #{no}) order by reg_date desc;		
+		select a.title n_title, a.contents n_contents,a.reg_date n_reg_date, a.user_no n_writer, a.chat_no, c.title c_title , d.name w_name
+		from notice a
+		join (select a.no, a.title from chat a join 
+		(select chat_no from chat_member where user_no = #{no}) b 
+		on a.no = b.chat_no) c  on c.no = a.chat_no 
+		join user d on a.user_no = d.no
+		where a.important = 1  and a.reg_date > (select logout_time from user where no = #{no});
 		]]>
 	</select>
 </mapper>

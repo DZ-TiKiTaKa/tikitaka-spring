@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +52,22 @@ public class UserController {
 		}
 		return JsonResult.userSuccess(uservo);
 	}
+	
+	
+	@RequestMapping("/logout")
+	public JsonResult userlogout(@RequestBody HashMap<String, String> map) {
+		System.out.println("C: userlogout ");
+		int status = 1;
+		
+		System.out.println(	map.get("token"));
+		
+		String no = map.get("token");
+		
+		userService.UpdateUserState(no, status);
+		
+		return JsonResult.success("ok");
+	}
+	
 
 
 	
