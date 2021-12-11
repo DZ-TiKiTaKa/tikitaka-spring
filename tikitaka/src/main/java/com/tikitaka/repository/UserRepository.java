@@ -36,7 +36,7 @@ public class UserRepository {
 	}
 	
 	public boolean UpdateUserState(String no, int status) {
-		Map map  = new HashMap<String, String>();
+		Map<String,Object> map  = new HashMap<String, Object>();
 		map.put("no", no);
 		map.put("status", status);
 		
