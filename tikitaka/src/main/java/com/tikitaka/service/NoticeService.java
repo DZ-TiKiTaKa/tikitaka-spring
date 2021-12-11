@@ -21,6 +21,11 @@ public class NoticeService{
 	public List<Notice> getNotice(String no) {
 		return noticeRepository.getNotice(no);
 	}
+
+	public List<Notice> getAlert(Long no) {
+		return  noticeRepository.getAlert(no);
+		
+	}
 	
 
 	

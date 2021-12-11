@@ -13,4 +13,17 @@
 		where a.important = 1  and a.reg_date > (select logout_time from user where no = #{no});
 		]]>
 	</select>
+	
+	<select id="getAlert" parameterType="long" resultType="map">
+		<![CDATA[
+			select  a.reg_date createdAt , a.chat_no , c.title c_title , d.name writer
+			from notice a
+			join (select a.no, a.title from chat a join 
+			(select chat_no from chat_member where user_no = #{no}) b 
+			on a.no = b.chat_no) c  on c.no = a.chat_no 
+			join user d on a.user_no = d.no
+			where a.reg_date > (select logout_time from user where no = #{no}) ;
+
+		]]>
+	</select>
 </mapper>

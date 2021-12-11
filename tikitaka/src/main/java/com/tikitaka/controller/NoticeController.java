@@ -20,7 +20,7 @@ import com.tikitaka.service.NoticeService;
 
 @RestController
 public class NoticeController {
-	
+
 	@Autowired
 	private NoticeService alertService;
 
@@ -30,12 +30,25 @@ public class NoticeController {
 		System.out.println("notice 가져오기 메소드");
 		System.out.println(data.get("token"));
 		String no = data.get("token");
-		
+
 		System.out.println(no);
-		
-		List<Notice> list= alertService.getNotice(no);
+
+		List<Notice> list = alertService.getNotice(no);
 		System.out.println(list);
-		
+
 		return JsonResult.success(list);
 	}
+
+	@RequestMapping("/getData")
+	public JsonResult getData(@RequestBody HashMap<String, String> map) {
+
+		System.out.println("C : getData");
+
+		Long no = Long.parseLong((String) map.get("token"));
+		System.out.println(no.getClass().getTypeName());
+		List<Notice> list = alertService.getAlert(no);
+		System.out.println("getData : " + list);
+		return JsonResult.success(list);
+	}
+
 }
