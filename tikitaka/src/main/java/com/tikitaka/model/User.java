@@ -19,6 +19,17 @@ public class User {
 	private int status;
 	private Long careNo;
 	private String proName;
+	private String userNo;
+	
+	
+
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
 
 	public String getRole() {
 		return role;
@@ -124,7 +135,8 @@ public class User {
 	public String toString() {
 		return "User [No=" + No + ", role=" + role + ", name=" + name + ", password=" + password + ", phone=" + phone
 				+ ", email=" + email + ", profile=" + profile + ", loginTime=" + loginTime + ", logoutTime="
-				+ logoutTime + ", status=" + status + ", careNo=" + careNo + ", proName=" + proName + "]";
+				+ logoutTime + ", status=" + status + ", careNo=" + careNo + ", proName=" + proName + ", userNo="
+				+ userNo + "]";
 	};
 
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tikitaka.model.User;
 
@@ -67,6 +68,24 @@ public class UserRepository {
 		map.put("profile", url);
 		return 1 == sqlSession.update("user.updateImage", map);
 		
+	}
+
+	public boolean insertCode(Map<String, Object> map) {
+		return 1 == sqlSession.insert("user.setCode", map);
+		
+	}
+
+	public Long findNoByEmail(String email) {
+		return sqlSession.selectOne("user.findNoByEmail", email);
+	}
+
+	public boolean findByEmail(String email) {
+		String result = sqlSession.selectOne("user.findByEmail", email);
+		if(result == null) {
+			return true;
+		}
+		
+		return false;
 	}
 
 
