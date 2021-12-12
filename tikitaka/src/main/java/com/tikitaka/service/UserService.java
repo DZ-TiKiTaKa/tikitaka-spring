@@ -3,7 +3,7 @@ package com.tikitaka.service;
 
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -85,6 +85,24 @@ public class UserService {
 
 	public void updateProfile(HashMap<String, Object> result) {
 		userRepository.updateProfile(result);
+	}
+
+	public void setCode(String[] userNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		for(int i=0; i<userNo.length-1; i++) {
+			map.put("userNo",userNo[userNo.length-1]);
+			map.put("codeNo", userNo[i]);
+			userRepository.insertCode(map);
+		}
+		
+	}
+
+	public Long findNoByEmail(String email) {
+		return userRepository.findNoByEmail(email);
+	}
+
+	public boolean findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	
