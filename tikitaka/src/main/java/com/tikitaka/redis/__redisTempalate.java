@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.tikitaka.model.Chat;
 
 @Component
-public class redisTempalate {
+public class __redisTempalate {
 
 //	@Autowired
 //	private RedisTemplate<String,String> redisTemplate;
