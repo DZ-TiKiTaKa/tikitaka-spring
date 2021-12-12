@@ -1,5 +1,6 @@
 package com.tikitaka.controller;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,10 +25,10 @@ import com.tikitaka.service.ChatService;
 import com.tikitaka.service.SpringRedisService;
 
 
-
 @RestController
 @RequestMapping("/talk")
 public class RedisController {
+
 	// topic 메시지 응답 대기하는 listener
 	@Autowired
 	private RedisMessageListenerContainer redisMessageListenerContainer;
@@ -110,6 +111,5 @@ public class RedisController {
 //		chatService.insertMessage(data);
 //	
 //	}
-	
 	
 }
