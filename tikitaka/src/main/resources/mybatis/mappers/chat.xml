@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chat">
+<!-- useGeneratedKeys = "true"(기본값 false), keyColumn = [PK 컬럼명], keyProperty = [매핑할 변수명] -->
+	<insert id="insert" parameterType="chat" useGeneratedKeys="true" 
+			keyProperty="no">
+		<![CDATA[
+			insert into chat
+			values(null,#{title},#{contents},#{join_count},now())
+		]]>
+	</insert>
+	
+</mapper>
