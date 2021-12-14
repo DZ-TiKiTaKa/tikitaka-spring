@@ -35,6 +35,8 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
     
+    
+    //channel의 메세지를 받는데 사용하는 컨테이너
     @Bean
     public RedisTemplate<String, Object> redisTemplate(){
     	RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
