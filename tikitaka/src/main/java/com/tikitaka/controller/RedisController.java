@@ -1,13 +1,18 @@
 package com.tikitaka.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.message.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -20,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.tikitaka.model.ChatMessage;
+import com.tikitaka.model.Chat;
 import com.tikitaka.model.MessageModel;
+import com.tikitaka.redis.RedisMessageSubscriber;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
@@ -76,14 +83,12 @@ public class RedisController {
 		redisMessageListenerContainer.addMessageListener(messageListener, topic);
 		// topic map에 저장
 		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
-		System.out.println(channel);
+		System.out.println("channel:"+channel);
 	}
-	
 	@PutMapping("/topic/{userNo}")
 	public void createChat(@PathVariable String userNo, @RequestBody String authNo) {
 		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 		System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
-		
 //		//채팅방 개설
 //		Chat chat = new Chat();
 //		chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
