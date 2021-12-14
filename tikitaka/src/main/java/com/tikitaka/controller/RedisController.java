@@ -84,11 +84,11 @@ public class RedisController {
 		// topic map에 저장
 		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
 		System.out.println(channel);
+	}
 	@PutMapping("/topic/{userNo}")
 	public void createChat(@PathVariable String userNo, @RequestBody String authNo) {
 		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 		System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
-		
 //		//채팅방 개설
 //		Chat chat = new Chat();
 //		chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
