@@ -22,7 +22,7 @@ public class RedisMessagePublisher implements MessagePublisher{
     }
 
 	public void publish(MessageModel model) {
-		redisTemplate.convertAndSend(topic.getTopic(), model);
+		redisTemplate.convertAndSend(topic.getTopic(), model.getContents());
 		//convertAndSend()는 목적지채널에 메시지를 전달하는 역할
 		
 	}

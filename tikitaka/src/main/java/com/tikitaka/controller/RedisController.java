@@ -83,7 +83,7 @@ public class RedisController {
 		redisMessageListenerContainer.addMessageListener(messageListener, topic);
 		// topic map에 저장
 		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
-		System.out.println(channel);
+		System.out.println("channel:"+channel);
 	}
 	@PutMapping("/topic/{userNo}")
 	public void createChat(@PathVariable String userNo, @RequestBody String authNo) {
