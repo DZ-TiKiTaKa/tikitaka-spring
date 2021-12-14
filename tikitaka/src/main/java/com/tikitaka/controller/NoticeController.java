@@ -28,16 +28,12 @@ public class NoticeController {
 
 	@RequestMapping("/main")
 	public JsonResult getNoticeInfo(@RequestBody HashMap<String, String> data) {
-
-		System.out.println("notice 가져오기 메소드");
-		System.out.println(data.get("token"));
+		//notice 정보 가져오기 메소드
+		System.out.println("C: getnoticeInfo");
+		
 		String no = data.get("token");
-
-		System.out.println(no);
-
 		List<Notice> list = alertService.getNotice(no);
 		System.out.println(list);
-
 		return JsonResult.success(list);
 	}
 
