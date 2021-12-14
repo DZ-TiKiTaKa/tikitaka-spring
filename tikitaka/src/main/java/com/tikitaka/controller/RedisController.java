@@ -49,6 +49,7 @@ public class RedisController {
 	//subscriber
 	@Autowired
 	private MessageListenerAdapter messageListener;
+	
 	//DB에 chatroom 관련 데이터 관리하는 service
 	@Autowired
 	private ChatService chatService;
@@ -79,21 +80,6 @@ public class RedisController {
 	public Set<String> findAllRoom(){
 		System.out.println("채팅리스트 출력!"+channel.keySet());
 		return channel.keySet();
-	}
-	
-	
-	//User.js 에서 쓰는 메소드
-	@PutMapping("/topic/{chatNo}")
-	public void createChat(@PathVariable String chatNo) {
-		System.out.println("들어와랏");
-		// 신규 topic 생성
-		ChannelTopic topic = new ChannelTopic(chatNo);
-		// Listener에 등록 onmessage 출력
-		redisMessageListenerContainer.addMessageListener(messageListener, topic);
-		// topic map에 저장
-		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
-		System.out.println(channel);
-		
 	}
 	
 	
@@ -181,23 +167,14 @@ public class RedisController {
 //    	
 //    }
 //    
+////	
 //	
-	
-	@PostMapping("/send")
-	public void send(@RequestBody HashMap<String, Object> result) {
-//		System.out.println("result:" + result);
-//		
-//		ChatMessage data = new ChatMessage();
-//		data.setUserNo(Long.parseLong((String) result.get("userNo")));
-//		data.setChatNo(Long.parseLong((String) result.get("chatNo")));
-//		data.setType((String)result.get("type"));
-//		data.setContents((String)result.get("contents"));
-//		data.setReadCount((Integer)result.get("readCount"));
-//		
-//		chatService.insertMessage(data);
-		simpMessagingTemplate.convertAndSend("/sub/greetings", "hi hi");
-	
-	}
+//	@PostMapping("/send")
+//	public void send(@RequestBody HashMap<String, Object> result) {
+//
+//	messagingTemplate.convertAndSend("/topic" + message.getChannel() , message)
+//	
+//	}
 
 	
 
