@@ -1,52 +1,48 @@
 package com.tikitaka.model;
 
-import org.springframework.data.redis.core.RedisHash;
-
-
 public class Chat {
 
 	private Long no;
 	private String title;
 	private String contents;
-	private String createTime;
-	private int joinCount;
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	private int join_count;
+	private String create_time;
 	public Long getNo() {
 		return no;
 	}
 	public void setNo(Long no) {
 		this.no = no;
 	}
-	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getContents() {
 		return contents;
 	}
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	
-	public String getCreateTime() {
-		return createTime;
+	public int getJoin_count() {
+		return join_count;
 	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setJoin_count(int join_count) {
+		this.join_count = join_count;
 	}
-	public int getJoinCount() {
-		return joinCount;
+	public String getCreate_time() {
+		return create_time;
 	}
-	public void setJoinCount(int joinCount) {
-		this.joinCount = joinCount;
+	public void setCreate_time(String create_time) {
+		this.create_time = create_time;
 	}
 	@Override
 	public String toString() {
-		return "Chat [no=" + no + ", title=" + title + ", contents=" + contents + ", createTime=" + createTime
-				+ ", joinCount=" + joinCount + "]";
+		return "Chat [no=" + no + ", title=" + title + ", contents=" + contents + ", join_count=" + join_count
+				+ ", create_time=" + create_time + "]";
 	}
 	
+
 	
 }
