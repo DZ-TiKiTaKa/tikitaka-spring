@@ -1,13 +1,18 @@
 package com.tikitaka.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.message.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -20,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.MessageModel;
+import com.tikitaka.redis.RedisMessageSubscriber;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.SpringRedisService;
 
@@ -44,12 +51,12 @@ public class RedisController {
 	
 	// topic 으로 메시지 전송할 수 있게 map으로 생성
 	private Map<String, ChannelTopic> channel;
-	
 	@PostConstruct
 	public void init() {
 		// topic에 담을 map 초기화
 		channel = new HashMap<>();
 	}
+	
 	
 	//토픽 리스트
 	//다만 스프링 부트서버를 재실행할때마다 init()에 의해 hashMap은 초기화되기 때문에 DB애서 채널(topic)리스트를 받아와야된다.
@@ -64,7 +71,7 @@ public class RedisController {
 	public void createChat(@PathVariable String chatNo) {
 		// 신규 topic 생성
 		ChannelTopic topic = new ChannelTopic(chatNo);
-		// Listener에 등록
+		// Listener에 등록 onmessage 출력
 		redisMessageListenerContainer.addMessageListener(messageListener, topic);
 		// topic map에 저장
 		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
@@ -94,7 +101,18 @@ public class RedisController {
         redisMessageListenerContainer.removeMessageListener(messageListener, topic);
         channel.remove(chatNo);
     }
-	
+
+    
+    @PostMapping("/getmsg")
+	public void onMessage(@RequestBody Map<String, Object> map) {
+    	System.out.println("오나용??");
+    	System.out.println(map);
+    	String chatNo = (String)map.get("chatNo");
+//    	ChannelTopic topic = channel.get(chatNo);
+//    	System.out.println(topic.getTopic());
+    	
+    }
+    
 	
 	
 //	@PostMapping("/send")
@@ -111,5 +129,8 @@ public class RedisController {
 //		chatService.insertMessage(data);
 //	
 //	}
+
 	
+
+    
 }
