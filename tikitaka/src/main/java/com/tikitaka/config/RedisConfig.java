@@ -1,5 +1,6 @@
 package com.tikitaka.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +12,9 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.tikitaka.redis.MessagePublisher;
 import com.tikitaka.redis.RedisMessagePublisher;
@@ -29,6 +30,8 @@ public class RedisConfig {
     @Value("${spring.redis.host}")
     private String host;
 
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
     //Redis server와 연결
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
@@ -58,7 +61,7 @@ public class RedisConfig {
     //subscriber역할을 수행
     @Bean
     MessageListenerAdapter messageListener() { 
-        return new MessageListenerAdapter(new RedisMessageSubscriber());
+        return new MessageListenerAdapter(new RedisMessageSubscriber(simpMessagingTemplate));
     }
     
     //채널의 메시지를 받는데 사용되는 컨테이너
