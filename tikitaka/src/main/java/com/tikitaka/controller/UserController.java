@@ -77,7 +77,7 @@ public class UserController {
 		String[] userNo = user.getUserNo().split("-"); // 사용자가 입력한 코드
 		boolean emailCheck = userService.findByEmail(user.getEmail());
 		if(emailCheck == false) {
-			return "fail";
+			return null;
 		}
 		for(int i=0; i<codeNo.length; i++) {
 			codeNo[i][0] = userNo[i];
