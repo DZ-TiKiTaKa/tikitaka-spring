@@ -77,14 +77,15 @@ public class RedisController {
 	
 	
 	@PutMapping("/topic/{userNo}")
-	public Map<String, String> createChat(@PathVariable String userNo, @RequestBody String authNo) {
+	public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
+		String authNo = (String)auth.get("token").toString();
 		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 		System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
 		//채팅방 개설
 		Chat chat = new Chat();
 		chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
 		chat.setContents("컨텐츠-> 불필요한 column이라고 생각해서 나중에 제거하기");
-		chat.setJoin_count(1);//현재 임의로 2설정, 그룹채팅시 인원수 체크해서 값 설정
+		chat.setJoin_count(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
 		chatService.insertChatRoom(chat);
 		
 		Long chatNo = chat.getNo();
@@ -100,6 +101,9 @@ public class RedisController {
 		System.out.println("방만든 사람-> authNo: "+ authNo + " 과 chatno: " + chatNo + "을 가진 chat_member데이터 생성완료!");
 		System.out.println("참가자-> userno: "+ userNo + " 과 chatno: " + chatNo + "을 가진 chat_member데이터 생성완료!");
 		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("chatNo", chatNo.toString());
+		
 		// Redis
 		// 신규 topic 생성
 		ChannelTopic topic = new ChannelTopic(chatNo.toString());
@@ -108,8 +112,7 @@ public class RedisController {
 		// topic map에 저장
 		channel.put(chatNo.toString(), topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
 		System.out.println(channel);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("chatNo", chatNo.toString());
+
 		return map;
 	}
 	
@@ -119,9 +122,14 @@ public class RedisController {
 		String chatNo = (String) result.get("chatNo").toString();  
 		String name = (String) result.get("name").toString();
 		String contents = (String) result.get("message").toString();
-		
-		ChannelTopic topic = channel.get(chatNo); //챗넘버로 원하는 채널 탐색
+		System.out.println(chatNo);
+
+		ChannelTopic topic = new ChannelTopic(chatNo);
+		//ChannelTopic topic = channel.get(chatNo);
+		//챗넘버로 원하는 채널 탐색
+
 		System.out.println("토픽확인 "+topic);
+		
 		MessageModel model = new MessageModel(chatNo, name, contents); 		
 //		System.out.println(model);
 //		System.out.println(topic);
