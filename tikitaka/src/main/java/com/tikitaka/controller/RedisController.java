@@ -71,9 +71,9 @@ public class RedisController {
 	//토픽 생성
 	@PutMapping("/topic/{userNo}")
 	public void createChat(@PathVariable String userNo, @RequestBody String authNo) {
-		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
-		System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
-		
+//		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
+//		System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
+//		
 //		//채팅방 개설
 //		Chat chat = new Chat();
 //		chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
@@ -82,18 +82,21 @@ public class RedisController {
 //		chatService.insertChatRoom(chat);
 //		
 //		//mybatis useGeneratedKeys옵션을 통해 insert할때 auto_increment된 no값이 chat객체에 들어가게된다.
-//		System.out.println("방금 생긴 채팅방의 no: " + chat.getNo());
+//		Long chatNo = chat.getNo();
+//		System.out.println("방금 생긴 채팅방의 no: " + chatNo);
 //
 //		//chat_member테이블의 insert 작업
 //		//대화를 하기 위해 방을 생성한 authno과 초대받은 userno 이 chat_member에서 관리된다.
 //		//지금은 in_time과 out_time을 now()로 설정함, 추후 수정
-//		chatmemberService.insertMember(Long.parseLong(authNo), chat.getNo(), "CREATER");
-//		chatmemberService.insertMember(Long.parseLong(userNo), chat.getNo(), "MEMBER");
+//		chatmemberService.insertMember(Long.parseLong(authNo), chatNo, "CREATER");
+//		chatmemberService.insertMember(Long.parseLong(userNo), chatNo, "MEMBER");
 //		
-//		System.out.println("방만든 사람-> authNo: "+ authNo + " 과 chatno: " + chat.getNo() + "을 가진 chat_member데이터 생성완료!");
-//		System.out.println("참가자-> userno: "+ userNo + " 과 chatno: " + chat.getNo() + "을 가진 chat_member데이터 생성완료!");
+//		System.out.println("방만든 사람-> authNo: "+ authNo + " 과 chatno: " + chatNo + "을 가진 chat_member데이터 생성완료!");
+//		System.out.println("참가자-> userno: "+ userNo + " 과 chatno: " + chatNo + "을 가진 chat_member데이터 생성완료!");
 		
-		//Redis
+		
+		//이거는 메시지 send할때 listner에 add
+//		//Redis
 //		// 신규 topic 생성
 //		ChannelTopic topic = new ChannelTopic(chatNo);
 //		// Listener에 등록
