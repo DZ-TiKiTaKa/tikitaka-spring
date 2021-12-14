@@ -1,6 +1,8 @@
 package com.tikitaka.controller;
 
 
+import java.net.Socket;
+import java.net.http.WebSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
 
 import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Chat;
@@ -58,6 +62,8 @@ public class RedisController {
 	@Autowired
 	private SpringRedisService springredisService;
 	
+	@Autowired
+	private SimpMessagingTemplate simpMessagingTemplate;
 	// topic 으로 메시지 전송할 수 있게 map으로 생성
 	private Map<String, ChannelTopic> channel;
 	@PostConstruct
@@ -75,8 +81,11 @@ public class RedisController {
 		return channel.keySet();
 	}
 	
+	
+	//User.js 에서 쓰는 메소드
 	@PutMapping("/topic/{chatNo}")
 	public void createChat(@PathVariable String chatNo) {
+		System.out.println("들어와랏");
 		// 신규 topic 생성
 		ChannelTopic topic = new ChannelTopic(chatNo);
 		// Listener에 등록 onmessage 출력
@@ -84,7 +93,10 @@ public class RedisController {
 		// topic map에 저장
 		channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
 		System.out.println(channel);
+		
 	}
+	
+	
 	@PutMapping("/topic/{userNo}")
 	public void createChat(@PathVariable String userNo, @RequestBody String authNo) {
 		System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
@@ -118,6 +130,7 @@ public class RedisController {
 //		System.out.println(channel);
 	}
 	
+	//ChatRoom.js에서 사용
 	//메시지 Send (토픽을 생성(createChat())해야만 메시지 send가능)
 	@PostMapping("/topic")
 	public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
@@ -142,23 +155,31 @@ public class RedisController {
         System.out.println("리스너컨테이너에서 채널삭제-> " + topic);
         channel.remove(chatNo);
         System.out.println("채널Map에서 remove성공");
+        
+        
+        
+        //
+        
+        
+        
+        
     }
 
     
-    @PostMapping("/getmsg")
-	public void onMessage(@RequestBody Map<String, Object> map) {
-    	System.out.println("오나용??");
-    	System.out.println(map);
-    	String chatNo = (String)map.get("chatNo");
-//    	ChannelTopic topic = channel.get(chatNo);
-//    	System.out.println(topic.getTopic());
-    	
-    }
-    
+//    @PostMapping("/getmsg")
+//	public void onMessage(@RequestBody Map<String, Object> map) {
+//    	System.out.println("오나용??");
+//    	System.out.println(map);
+//    	String chatNo = (String)map.get("chatNo");
+////    	ChannelTopic topic = channel.get(chatNo);
+////    	System.out.println(topic.getTopic());
+//    	
+//    }
+//    
+//	
 	
-	
-//	@PostMapping("/send")
-//	public void send(@RequestBody HashMap<String, Object> result) {
+	@PostMapping("/send")
+	public void send(@RequestBody HashMap<String, Object> result) {
 //		System.out.println("result:" + result);
 //		
 //		ChatMessage data = new ChatMessage();
@@ -169,8 +190,9 @@ public class RedisController {
 //		data.setReadCount((Integer)result.get("readCount"));
 //		
 //		chatService.insertMessage(data);
-//	
-//	}
+		simpMessagingTemplate.convertAndSend("/sub/greetings", "hi hi");
+	
+	}
 
 	
 
