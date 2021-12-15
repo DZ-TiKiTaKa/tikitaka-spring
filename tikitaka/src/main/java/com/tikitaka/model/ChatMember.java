@@ -2,34 +2,34 @@ package com.tikitaka.model;
 
 public class ChatMember {
 	
-	private Long userno;
-	private Long chatno;
-	private String in_time;
-	private String out_time;
+	private Long userNo;
+	private Long chatNo;
+	private String inTime;
+	private String outTime;
 	private String role;
-	public Long getUserno() {
-		return userno;
+	public Long getUserNo() {
+		return userNo;
 	}
-	public void setUserno(Long userno) {
-		this.userno = userno;
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
 	}
-	public Long getChatno() {
-		return chatno;
+	public Long getChatNo() {
+		return chatNo;
 	}
-	public void setChatno(Long chatno) {
-		this.chatno = chatno;
+	public void setChatNo(Long chatNo) {
+		this.chatNo = chatNo;
 	}
-	public String getIn_time() {
-		return in_time;
+	public String getInTime() {
+		return inTime;
 	}
-	public void setIn_time(String in_time) {
-		this.in_time = in_time;
+	public void setInTime(String inTime) {
+		this.inTime = inTime;
 	}
-	public String getOut_time() {
-		return out_time;
+	public String getOutTime() {
+		return outTime;
 	}
-	public void setOut_time(String out_time) {
-		this.out_time = out_time;
+	public void setOutTime(String outTime) {
+		this.outTime = outTime;
 	}
 	public String getRole() {
 		return role;
@@ -39,9 +39,11 @@ public class ChatMember {
 	}
 	@Override
 	public String toString() {
-		return "ChatMember [userno=" + userno + ", chatno=" + chatno + ", in_time=" + in_time + ", out_time=" + out_time
+		return "ChatMember [userNo=" + userNo + ", chatNo=" + chatNo + ", inTime=" + inTime + ", outTime=" + outTime
 				+ ", role=" + role + "]";
 	}
+	
+	
 	
 	
 

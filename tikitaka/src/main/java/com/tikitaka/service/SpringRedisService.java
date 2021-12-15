@@ -2,9 +2,8 @@ package com.tikitaka.service;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +11,14 @@ import com.tikitaka.config.RedisConfig;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.redis.RedisMessagePublisher;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SpringRedisService {
 	public void pub(ChannelTopic topic, MessageModel model) {
 		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(RedisConfig.class);
+		
 		
 		try {
 			RedisTemplate<String, Object> redisTemplate = (RedisTemplate<String, Object>)ctx.getBean("redisTemplate");
