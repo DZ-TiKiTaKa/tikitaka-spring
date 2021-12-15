@@ -78,7 +78,7 @@ public class UserService {
 		return null;
 	}
 
-	public User getInfo(Long no) {
+	public List<String> getInfo(Long no) {
 		return userRepository.getInfo(no);
 		
 	}

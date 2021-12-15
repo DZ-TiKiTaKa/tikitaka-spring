@@ -1,9 +1,6 @@
 package com.tikitaka.controller;
 
 
-import java.net.Socket;
-import java.net.http.WebSocket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +8,11 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.logging.log4j.message.Message;
-import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.socket.sockjs.client.SockJsClient;
 
-import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Chat;
+import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.MessageModel;
-import com.tikitaka.redis.RedisMessageSubscriber;
-import com.tikitaka.service.ChatService;
 import com.tikitaka.service.ChatMemberService;
-import com.tikitaka.service.ChatMessageService;
+import com.tikitaka.service.ChatService;
 import com.tikitaka.service.SpringRedisService;
 
 
@@ -51,6 +43,8 @@ public class RedisController {
    @Autowired
    private MessageListenerAdapter messageListener;
    
+   @Autowired
+   private RedisTemplate<String, Object> redisTemplate;
    //DB에 chatroom 관련 데이터 관리하는 service
    @Autowired
    private ChatService chatService;
@@ -58,8 +52,7 @@ public class RedisController {
    @Autowired
    private ChatMemberService chatmemberService;
    //DB에 message값들을 저장하는 service
-   @Autowired
-   private ChatMessageService chatmessageService;
+
    // publisher를 해주는 service
    @Autowired
    private SpringRedisService springredisService;
@@ -117,6 +110,7 @@ public class RedisController {
       ChannelTopic topic = new ChannelTopic(chatNo.toString());
       // Listener에 등록
       redisMessageListenerContainer.addMessageListener(messageListener, topic);
+     
       // topic map에 저장
       channel.put(chatNo.toString(), topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
       System.out.println(channel);
@@ -143,8 +137,10 @@ public class RedisController {
       MessageModel model = new MessageModel(chatNo, name, contents);       
       System.out.println(model);
       System.out.println(topic);
-   
+      
+      
       springredisService.pub(topic, model);
+      //redisMessageListenerContainer.setSubscriptionExecutor((Executor) messageListener);
    }
    
    //채팅방 나가기
@@ -178,7 +174,16 @@ public class RedisController {
 //   
 //   }
 
-   
+//    @GetMapping("/chatList/{chatNo}")
+//    public String chatList(@PathVariable String chatNo, @RequestParam("userNo") String userNo,ChatMember chatMember) {
+//    	
+//    	chatMember.setChatNo(Long.parseLong(chatNo));
+//    	chatMember.setUserNo(Long.parseLong(userNo.toString()));
+//    	System.out.println(chatMember);
+//    	//Long anotherUserNo = chatService.findByChatNo(chatMember);
+//    	//System.out.println("another::::" + anotherUserNo);
+//    	return "";//anotherUserNo.toString();
+//    }
 
     
 }

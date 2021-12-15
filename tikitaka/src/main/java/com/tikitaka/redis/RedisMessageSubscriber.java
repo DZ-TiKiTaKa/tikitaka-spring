@@ -3,17 +3,12 @@ package com.tikitaka.redis;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 //RedisMessageListenerContainer는 redis를 경청하고 있다가 메시지 발행(publish)이 오면 Listener가 처리한다.  
 public class RedisMessageSubscriber implements MessageListener {
@@ -25,7 +20,7 @@ public class RedisMessageSubscriber implements MessageListener {
 //	private final SimpMessagingTemplate simpMessagingTemplate;
 
 	@Autowired
-	private RedisTemplate redisTemplate;
+	private RedisTemplate<String, Object> redisTemplate;
 	
 //	public RedisMessageSubscriber(SimpMessagingTemplate simpMessagingTemplate) {
 //		super();
@@ -52,14 +47,19 @@ public class RedisMessageSubscriber implements MessageListener {
 		messageList.add(message.toString());
 		
 		System.out.println("Message received: " + message.toString());
+		
+		System.out.println(redisTemplate);
 		//String messages = message.toString();
 		
 //		simpMessagingTemplate.convertAndSend("/topic" + message.getChannel() , message);
 		
 		
-		redisTemplate.convertAndSend("/topic", message);
+		redisTemplate.convertAndSend("/topic/" + chatNo , message);
+		
+		
 	}
 
+	
 
 
 }
