@@ -21,9 +21,11 @@ public class RedisMessageSubscriber implements MessageListener {
 	// Redis에서 제공하는거임)
 	public static List<String> messageList = new ArrayList<String>();
 	
+//	@Autowired
+//	private final SimpMessagingTemplate simpMessagingTemplate;
+
 	@Autowired
-	private final SimpMessagingTemplate simpMessagingTemplate;
-		
+	private RedisTemplate redisTemplate;
 	
 //	public RedisMessageSubscriber(SimpMessagingTemplate simpMessagingTemplate) {
 //		super();
@@ -31,11 +33,11 @@ public class RedisMessageSubscriber implements MessageListener {
 //	}
 
 	
-	public RedisMessageSubscriber(SimpMessagingTemplate simpMessagingTemplate) {
-		super();
-		this.simpMessagingTemplate = simpMessagingTemplate;
-		System.out.println(simpMessagingTemplate);
-	}
+//	public RedisMessageSubscriber(SimpMessagingTemplate simpMessagingTemplate) {
+//		super();
+//		this.simpMessagingTemplate = simpMessagingTemplate;
+//		System.out.println(simpMessagingTemplate);
+//	}
 
 	
 
@@ -52,9 +54,10 @@ public class RedisMessageSubscriber implements MessageListener {
 		System.out.println("Message received: " + message.toString());
 		//String messages = message.toString();
 		
-		simpMessagingTemplate.convertAndSend("/topic" + message.getChannel() , message);
+//		simpMessagingTemplate.convertAndSend("/topic" + message.getChannel() , message);
 		
 		
+		redisTemplate.convertAndSend("/topic", message);
 	}
 
 
