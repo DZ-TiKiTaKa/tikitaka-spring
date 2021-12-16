@@ -9,6 +9,14 @@ public class MessageModel implements Serializable{
 	private String chatNo;
 	private String name;
 	private String contents;
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getChatNo() {
 		return chatNo;
 	}
@@ -34,16 +42,17 @@ public class MessageModel implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "MessageModel [chatNo=" + chatNo + ", name=" + name + ", contents=" + contents + "]";
+		return "MessageModel [chatNo=" + chatNo + ", name=" + name + ", contents=" + contents + ", type=" + type + "]";
 	}
 	public MessageModel() {}
 	
 	
-	public MessageModel(String chatNo, String name, String contents) {
+	public MessageModel(String chatNo, String name, String contents, String type) {
 		super();
 		this.chatNo = chatNo;
 		this.name = name;
 		this.contents = contents;
+		this.type = type;
 	}
 	
 	
@@ -55,17 +64,19 @@ public class MessageModel implements Serializable{
 		private String chatNo;
 		private String name;
 		private String contents;
+		private String type;
 		
 		public Builder chatNo(String chatNo) {
 			this.chatNo = chatNo;
 			return this;
 		}
 		
-		public Builder(String chatNo, String name, String contents) {
+		public Builder(String chatNo, String name, String contents, String type) {
 			super();
 			this.chatNo = chatNo;
 			this.name = name;
 			this.contents = contents;
+			this.type = type;
 		}
 
 		public Builder name(String name) {
@@ -75,6 +86,11 @@ public class MessageModel implements Serializable{
 		
 		public Builder contents(String contents) {
 			this.contents = contents;
+			return this;
+		}
+		
+		public Builder type(String type) {
+			this.type = type;
 			return this;
 		}
 		
