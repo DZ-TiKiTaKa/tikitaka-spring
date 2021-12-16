@@ -28,6 +28,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer{
 		//topic 주소가 있는 사람들에게 보낸다.
 		registry.enableSimpleBroker("/topic");
 		registry.setApplicationDestinationPrefixes("/pub");
+		
 		 
 		System.out.println("WebsocketConfig!");
 	}
