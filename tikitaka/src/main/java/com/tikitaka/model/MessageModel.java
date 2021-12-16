@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class MessageModel implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2082503192322391880L;
 	private String chatNo;
 	private String name;
 	private String contents;
@@ -45,6 +45,8 @@ public class MessageModel implements Serializable{
 		this.name = name;
 		this.contents = contents;
 	}
+	
+	
 	MessageModel(Builder builder){
 		
 	}
@@ -80,4 +82,5 @@ public class MessageModel implements Serializable{
 			return new MessageModel(this);
 		}
 	}
+
 }
