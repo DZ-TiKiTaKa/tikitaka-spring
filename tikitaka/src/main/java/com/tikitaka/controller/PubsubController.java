@@ -67,6 +67,7 @@ public class PubsubController {
 	    public Set<String> findAllRoom() {
 	        System.out.println("채팅 리스트 출력 : " + channel.keySet());
 	    	return channel.keySet();
+	    	
 	    }
 
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장

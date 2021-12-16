@@ -29,12 +29,6 @@ public class RedisSubscriber implements MessageListener {
     private SimpMessagingTemplate messagingTemplate;
     
 
-    
-//    public RedisSubscriber() {
-//		this.objectMapper = new ObjectMapper();
-//		this.redisTemplate = new RedisTemplate();
-//	}
-
     public RedisSubscriber(ObjectMapper objectMapper, RedisTemplate redisTemplate, SimpMessagingTemplate messagingTemplate) {
 		super();
 		this.objectMapper = objectMapper;

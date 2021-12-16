@@ -25,7 +25,6 @@ public class RedisConfig {
 	    @Value("${spring.redis.host}")
 	    private String host;
 	
-	
 	@Bean
 	public RedisMessageListenerContainer RedisMessageListener(RedisConnectionFactory connectionFactory) {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();

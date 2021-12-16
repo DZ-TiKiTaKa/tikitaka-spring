@@ -10,6 +10,7 @@ import com.tikitaka.model.MessageModel;
 @Service
 public class RedisPublisher {
 
+	
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
