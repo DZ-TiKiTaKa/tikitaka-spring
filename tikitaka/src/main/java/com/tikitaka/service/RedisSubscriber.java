@@ -15,8 +15,6 @@ import com.tikitaka.model.PubSubModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@RequiredArgsConstructor
 @Service
 public class RedisSubscriber implements MessageListener {
 
