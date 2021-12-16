@@ -53,8 +53,9 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findUrl", no);
 	}
 
-	public User getInfo(Long no) {
-		return sqlSession.selectOne("user.info", no);
+	public List<String> getInfo(Long no) {
+		List<String>pro = sqlSession.selectList("user.info", no);
+		return pro;
 	}
 
 	public boolean updateProfile(HashMap<String, Object> result) {

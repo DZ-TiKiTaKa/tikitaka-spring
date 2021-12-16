@@ -149,8 +149,9 @@ public class PubsubController {
 	    @GetMapping("/chatList/{userNo}&{chatNo}")
 	    public Long chatList(@PathVariable String userNo, @PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
-	    	member.setChatno(Long.parseLong(chatNo));
-	    	member.setUserno(Long.parseLong(userNo));
+
+	    	member.setChatNo(Long.parseLong(chatNo));
+	    	member.setUserNo(Long.parseLong(userNo));
 	    	Long anotherUserNo = chatService.findByChatNo(member);
 	    	return anotherUserNo;
 	    }

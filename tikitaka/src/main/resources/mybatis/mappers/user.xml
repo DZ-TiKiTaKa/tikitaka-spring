@@ -53,11 +53,14 @@
 	 	]]>
 	</select>
 	
-	<select id="info" parameterType="long" resultType="user">
+	<select id="info" parameterType="long" resultType="String">
 	 	<![CDATA[	
-	 		SELECT * 
-	 		FROM user 
-	 		WHERE no=#{no}
+	 		select value 
+	 		from manage m, code_info c, user u 
+	 		where m.user_no = u.no 
+	 		and c.no = m.code_no
+			and u.no = #{userNo}
+			order by m.code_no
 	 	]]>
 	</select>
 	

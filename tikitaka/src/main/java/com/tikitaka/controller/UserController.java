@@ -1,11 +1,10 @@
 package com.tikitaka.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tikitaka.dto.JsonResult;
-import com.tikitaka.model.Manage;
 import com.tikitaka.model.User;
 import com.tikitaka.service.UserService;
 
@@ -130,10 +128,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/getInfo/{no}")
-	public User getInfo(@PathVariable("no") Long no){
-		User info = new User();
-		info = userService.getInfo(no);
-		return info;
+	public List<String> getInfo(@PathVariable("no") Long no){
+		List<String> list = new ArrayList<String>();
+		list = userService.getInfo(no);
+		return list;
 	}
 	
 	
