@@ -12,6 +12,7 @@ public class Messagemodel implements Serializable{
 	private String contents;
 	private String type;
 	private String readCount;
+	private String regTime;
 	
 	
 	public String getUserNo() {
@@ -73,13 +74,20 @@ public class Messagemodel implements Serializable{
 		this.readCount = readCount;
 	}
 
+	public String getRegTime() {
+		return regTime;
+	}
 
+
+	public void setRegTime(String regTime) {
+		this.regTime = regTime;
+	}
 
 
 	public Messagemodel() {}
 	
 	
-	public Messagemodel(String userNo,String chatNo, String name, String contents, String type,String readCount) {
+	public Messagemodel(String userNo,String chatNo, String name, String contents, String type,String readCount,String regTime) {
 		super();
 		this.userNo = userNo;
 		this.chatNo = chatNo;
@@ -87,6 +95,7 @@ public class Messagemodel implements Serializable{
 		this.contents = contents;
 		this.type = type;
 		this.readCount = readCount;
+		this.regTime = regTime;
 	}
 	
 	
