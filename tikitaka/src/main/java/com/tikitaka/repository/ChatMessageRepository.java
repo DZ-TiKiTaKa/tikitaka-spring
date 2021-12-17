@@ -1,9 +1,12 @@
 package com.tikitaka.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
 
 @Repository
@@ -19,6 +22,8 @@ public class ChatMessageRepository {
 
 	}
 	
-	
+	public List<ChatMember> findByChatNo(ChatMember chatMember) {
+		return sqlSession.selectList("chatmessage.findByChatNo", chatMember);
+	}
 
 }

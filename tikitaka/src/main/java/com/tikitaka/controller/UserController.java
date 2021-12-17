@@ -72,7 +72,7 @@ public class UserController {
 		for(int i=0; i<codeNo.length; i++) {
 			codeNo[i][0] = userNo[i];
 		}
-		if(Integer.parseInt(codeNo[userNo.length-2][0].substring(0,1)) == 3) {
+		if(Integer.parseInt(codeNo[userNo.length-2][0]) <= 16) {
 			user.setRole("CP");
 		} else {
 			user.setRole("CS");

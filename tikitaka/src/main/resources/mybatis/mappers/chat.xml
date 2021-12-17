@@ -7,7 +7,7 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
-			values(null,#{title},#{contents},#{join_count},now())
+			values(null,#{title},#{contents},#{join_count},now(),"PERSONAL")
 		]]>
 	</insert>
 	

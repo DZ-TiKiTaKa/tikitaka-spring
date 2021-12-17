@@ -1,5 +1,6 @@
 package com.tikitaka.controller;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.service.ChatMemberService;
+import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
 import com.tikitaka.service.RedisSubscriber;
@@ -54,7 +56,8 @@ public class PubsubController {
 	    private ChatService chatService;
 	    @Autowired
 	    private ChatMemberService chatmemberService;
-	    
+	    @Autowired
+	    private ChatMessageService chatMessageService;
 
 	    @PostConstruct
 	    public void init() {
@@ -116,9 +119,9 @@ public class PubsubController {
 	    @PostMapping("/topic")
 	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
-	        String chatNo = result.get("chatNo").toString();  
-	        String name = (String) result.get("name").toString();
-	        String contents = (String) result.get("message").toString();
+	        String chatNo = (String)result.get("chatNo");  
+	        String name = (String) result.get("name");
+	        String contents = (String) result.get("message");
 	        String type = (String) result.get("type").toString();
 	        System.out.println(chatNo);
 
@@ -146,12 +149,14 @@ public class PubsubController {
 	       // channel.remove(roomId);
 	    }
 	    
-	    @GetMapping("/chatList/{userNo}&{chatNo}")
-	    public Long chatList(@PathVariable String userNo, @PathVariable String chatNo) {
+	    @GetMapping("/chatList/{chatNo}")
+	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
 	    	member.setChatNo(Long.parseLong(chatNo));
-	    	member.setUserNo(Long.parseLong(userNo));
-	    	Long anotherUserNo = chatService.findByChatNo(member);
-	    	return anotherUserNo;
+	    	List<ChatMember> list = chatMessageService.findByChatNo(member);
+	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
+	    	map.put("list", list);
+	    	System.out.println(map);
+	    	return map;
 	    }
 	}

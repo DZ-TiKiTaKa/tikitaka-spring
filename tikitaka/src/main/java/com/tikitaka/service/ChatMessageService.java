@@ -1,9 +1,12 @@
 package com.tikitaka.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
 import com.tikitaka.repository.ChatRepository;
 import com.tikitaka.repository.ChatMessageRepository;
@@ -19,17 +22,11 @@ public class ChatMessageService {
 
 	public void insertMessage(ChatMessage data) {
 		
-//		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//		String key = chat.getNo().toString();
-//		// when
-//		valueOperations.set(key, chat.getContents());
-//		
-//		// then
-//		String value = valueOperations.get(key);
-//		Boolean expire = redisTemplate.expire(key, 5, TimeUnit.SECONDS);
-		
-		//chatmessageRepository.insert(data);
+
 	}
 	
+	public List<ChatMember> findByChatNo(ChatMember chatMember) {
+		return chatmessageRepository.findByChatNo(chatMember);
+	}
 	
 }

@@ -18,10 +18,5 @@ public class ChatService {
 	public void insertChatRoom(Chat chatroom) {
 		chatRepository.insert(chatroom);
 	}
-
-	public Long findByChatNo(ChatMember chatMember) {
-		return chatRepository.findByChatNo(chatMember);
-	}
-	
 	
 }
