@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
-import com.tikitaka.model.Messagemodel;
-import com.tikitaka.model.Messagemodel;
 
 @Repository
 public class ChatMessageRepository {

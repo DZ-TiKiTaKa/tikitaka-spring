@@ -15,4 +15,5 @@
 			where chat_no = 668
 		]]>
 	</select>
+	
 </mapper>
