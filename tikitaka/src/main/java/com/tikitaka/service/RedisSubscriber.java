@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class RedisSubscriber implements MessageListener {
+	
 
     private final ObjectMapper objectMapper;
     
