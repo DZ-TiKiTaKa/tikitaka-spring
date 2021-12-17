@@ -15,10 +15,10 @@ import com.tikitaka.model.PubSubModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@RequiredArgsConstructor
+
 @Service
 public class RedisSubscriber implements MessageListener {
+	
 
     private final ObjectMapper objectMapper;
     
@@ -28,7 +28,7 @@ public class RedisSubscriber implements MessageListener {
     //react로 전달할 template
     private SimpMessagingTemplate messagingTemplate;
     
-
+    
     public RedisSubscriber(ObjectMapper objectMapper, RedisTemplate redisTemplate, SimpMessagingTemplate messagingTemplate) {
 		super();
 		this.objectMapper = objectMapper;
