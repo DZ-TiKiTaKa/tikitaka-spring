@@ -7,18 +7,18 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
-			values(null,#{title},#{contents},#{joinCount},now(), "PERSONAL")
+
+			values(null,#{title},#{contents},#{joinCount},now(), "group")
 		]]>
 	</insert>
-	
-	<!-- chatNo에 해당하는 채팅방의 공지 리스트 -->
-	<select id="findByChatNo" parameterType="string" resultType="map">
-	 	<![CDATA[	
-	 		SELECT a.important important, a.no, a.title title, a.contents contents,  b.name name, a.reg_date regDate
-			FROM notice a, user b
-			WHERE a.user_no = b.no
-			AND a.chat_no = 890;
-	 	]]>
+
+	<select id="SearchByChatNo" resultType="String">
+		<![CDATA[
+		  	select ifnull(( select a.no from tikitaka.chat a 
+			join (select d.no from tikitaka.chat d join tikitaka.chat_member e on d.no = e.chat_no where e.user_no = #{userNo}) b
+			on b.no = a.no join (select f.no from tikitaka.chat f join tikitaka.chat_member g on f.no = g.chat_no where g.user_no = #{authNo}) c
+			on  c.no = b.no), '0');
+		]]>	
 	</select>
-	
+
 </mapper>

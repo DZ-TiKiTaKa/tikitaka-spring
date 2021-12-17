@@ -17,9 +17,9 @@
 	</insert>
 
 	<!-- 친구 목록 가져오기 -->
-	<select id="findLogStatus" parameterType="map" resultType="user">
+	<select id="findfriendlistByauthNo" parameterType="String" resultType="user">
 	 	<![CDATA[	
-	 		SELECT no, role, name, status, profile
+	 		SELECT *
 			FROM user 
 			WHERE no!=#{no}
 	 	]]>
@@ -92,5 +92,13 @@
 			insert into manage values(#{userNo}, #{codeNo})
 		]]>
 	</insert>
+	
+	<select id="getNameByNo" parameterType="long" resultType="string">
+	 	<![CDATA[	
+	 		SELECT name 
+	 		FROM user 
+	 		WHERE no = #{userNo}
+	 	]]>
+	</select>
 	
 </mapper>

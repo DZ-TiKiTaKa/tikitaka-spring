@@ -35,9 +35,9 @@ public class UserService {
 		userRepository.insertUser(user);
 	}
 
-	// 친구 목록 (no, role, name, status, profile 가져오기)	
-	public List<User> getLogStatus(String no) {
-		return userRepository.findLogStatus(no);
+	// 친구 목록
+	public List<User> getFriendlistbyNo(String no) {
+		return userRepository.findFriendlistbyNo(no);
 	}
 
 	// 회원 로그인/로그아웃 상태 업데이트 메소드
@@ -103,6 +103,10 @@ public class UserService {
 
 	public boolean findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	public String getNameByNo(Long userNo) {
+		return userRepository.getNameByNo(userNo);
 	}
 
 	

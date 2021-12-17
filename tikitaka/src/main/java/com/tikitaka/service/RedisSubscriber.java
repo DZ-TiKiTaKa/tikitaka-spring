@@ -7,13 +7,13 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tikitaka.model.MessageModel;
-import com.tikitaka.model.PubSubModel;
+import com.tikitaka.model.Messagemodel;
 
 
 
 @Service
 public class RedisSubscriber implements MessageListener {
+	
 
     private final ObjectMapper objectMapper;
     
@@ -44,31 +44,16 @@ public class RedisSubscriber implements MessageListener {
         	System.out.println("Redis Sub 호출");
 
         	String pubMsg = (String)redisTemplate.getStringSerializer().deserialize(message.getBody());
-        
-        	System.out.println("그대로 나오는겨??" + message.toString());
-        	 MessageModel messageModel = objectMapper.readValue(pubMsg, MessageModel.class);
-        	 
-        	  String json = objectMapper.writeValueAsString(pubMsg);
-        	  System.out.println(json);
-        	 
-        	 System.out.println("모오오델" + messageModel);
-        	 System.out.println(messageModel.getChatNo());
-        	 
-        	 PubSubModel model = new PubSubModel();
-        	 model.setChatNo(messageModel.getChatNo());
-        	 model.setContents(messageModel.getContents());
-        	 model.setName(messageModel.getName());
-        	 System.out.println(model);
-        	 
+        	 Messagemodel messageModel = objectMapper.readValue(pubMsg, Messagemodel.class);
+
         	 //channel 방번호
      		String chatNo = new String(message.getChannel());
         	 
-     		//messagingTemplate.convertAndSend("/topic/"+ chatNo, messageModel);
-     		messagingTemplate.convertAndSend("/topic/"+ chatNo, model);
-     
-        	 
-           
-        	 
+     		
+     		//sub한 채널에 데이터 전송
+     		System.out.println("전송 데이터 : " + messageModel);
+     		messagingTemplate.convertAndSend("/topic/"+ chatNo, messageModel);
+     		
         } catch (Exception e) {
             System.out.println("error : " + e);
         }

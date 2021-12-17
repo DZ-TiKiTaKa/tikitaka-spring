@@ -1,4 +1,5 @@
 package com.tikitaka.controller;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Chat;
@@ -24,10 +27,14 @@ import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.model.Notice;
 import com.tikitaka.model.User;
+import com.tikitaka.model.ChatMessage;
+
 import com.tikitaka.service.ChatMemberService;
+import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
 import com.tikitaka.service.RedisSubscriber;
+import com.tikitaka.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,7 +62,10 @@ public class PubsubController {
 	    private ChatService chatService;
 	    @Autowired
 	    private ChatMemberService chatmemberService;
-	    
+	    @Autowired
+	    private ChatMessageService chatMessageService;
+	    @Autowired
+	    private UserService userService;
 
 	    @PostConstruct
 	    public void init() {
@@ -69,7 +79,46 @@ public class PubsubController {
 	        System.out.println("채팅 리스트 출력 : " + channel.keySet());
 	    	return channel.keySet();
 	    }
-
+	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
+	    @PutMapping("/searchchat/{userNo}")
+	    public String searchchat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
+	    	
+	    	System.out.println("C : enterChat");
+	    	String authNo = auth.get("token").toString();
+	    	System.out.println(authNo);
+	    	System.out.println("대화 신청 user : " + authNo);
+	    	System.out.println("대화 받는 user : " + userNo);
+	    	
+	    	//true일경우 채팅방 이미 존재,false는 없음
+	    	String chatNo =  chatService.SearchByChatNo(authNo,userNo);
+	    	System.out.println("type은 무엇인가요." + chatNo );
+	    	
+	    	ChannelTopic topic = new ChannelTopic(chatNo);
+	    	System.out.println("redis topic 다시 생성하기 init 데이터 전송");
+	    	Messagemodel model = new Messagemodel(userNo,chatNo, "name", "contents", "type","readCount","regTime");       
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        redisPublisher.publish(topic,model);
+	    	
+	        
+	        if(chatNo == "0") {
+	        // 신규 topic 생성
+	       System.out.println("토픽생성 해볼께요..");
+	        // Listener에 등록
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        // topic map에 저장
+	        channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
+	        System.out.println(channel);
+	        }
+	        
+	        Map<String, String> map = new HashMap<String, String>();
+	        map.put("chatNo", chatNo.toString());
+		        
+	    	return chatNo;
+	    }
+	    
+	    
+	    
+	    
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장
 	    @PutMapping("/topic/{userNo}")
 	    public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
@@ -119,23 +168,43 @@ public class PubsubController {
 	    @PostMapping("/topic")
 	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
+
+	    	String userNo = result.get("userNo").toString();
+	    	String name = result.get("name").toString();
 	        String chatNo = result.get("chatNo").toString();  
-	        String name = (String) result.get("name").toString();
-	        String contents = (String) result.get("message").toString();
-	        String type = (String) result.get("type").toString();
-	        System.out.println(chatNo);
-
+	        String contents = result.get("message").toString();
+	        String type =  result.get("type").toString();
+	        String readCount = result.get("readCount").toString();
+	        String regTime = result.get("regTime").toString();
+	        
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
-	        
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
-
-	        System.out.println("토픽 나와줘 : " + topic);
+	        System.out.println(chatNoo);
+	        System.out.println("topic은?" + topic);
 	        
-	        MessageModel model = new MessageModel(chatNo, name, contents, type);       
-	        System.out.println(model);
-	        System.out.println(topic.getTopic());
+	        
+	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
+	        
+	        
+	        //chat 메시지 DB 저장 메소드
+	        ChatMessage chatmessage = new ChatMessage(
+	        		Long.parseLong(userNo),
+	        		Long.parseLong(chatNoo),
+	        		type,
+	        		contents,
+	        		Integer.parseInt(readCount));
+	        System.out.println("넣을 데이터!" + chatmessage);
+	        
+	        System.out.println("type =" + type);
+	        switch(type) {
+	        case "TEXT" : 
+	        	chatMessageService.insertMessage(chatmessage);
+	        	break;
+	        }
+	        System.out.println("Cast test 완료");
+	        
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
-
 	     }
 	    
 
@@ -147,18 +216,22 @@ public class PubsubController {
 	       // channel.remove(roomId);
 	    }
 	    
-	    @GetMapping("/chatList/{userNo}&{chatNo}")
-	    public Long chatList(@PathVariable String userNo, @PathVariable String chatNo) {
+	    @GetMapping("/chatList/{chatNo}")
+	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
+
 	    	member.setChatNo(Long.parseLong(chatNo));
-	    	member.setUserNo(Long.parseLong(userNo));
-	    	Long anotherUserNo = chatService.findByChatNo(member);
-	    	return anotherUserNo;
+	    	List<ChatMember> list = chatMessageService.findByChatNo(member);
+	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
+	    	map.put("list", list);
+	    	System.out.println(map);
+	    	return map;
 	    }
 	    
+
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
-	    @RequestMapping("/topic/890")
+	    @RequestMapping("/topic/890") // 임시로 지정 ...
 	    public JsonResult chatNoticeList(@RequestBody HashMap<String, String> data) {
 	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
 	    	
@@ -171,6 +244,23 @@ public class PubsubController {
 			return JsonResult.success(list);
 
 		}
+
+	    @PostMapping("/sendimage/{chatNo}&{userNo}")
+	    public void sendImage(@PathVariable String chatNo, @PathVariable Long userNo, @RequestParam(value="file", required=false) MultipartFile image) throws Exception {
+	        ChatMessage chatMessage = new ChatMessage();
+	        chatMessage.setChatNo(Long.parseLong(chatNo));
+	        chatMessage.setUserNo(userNo);
+	        chatMessage.setType("IMAGE");
+	        chatMessage.setReadCount(1);
+	        // image url까지들어간 chatMessage
+	        String imgurl = chatMessageService.sendImage(image, chatMessage);
+	        chatMessage.setContents(imgurl);
+	        
+	        String name = userService.getNameByNo(userNo);
+	        String chatNoo =  chatNo.replaceAll("\\\"", "");
+	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	    
-	    
+	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString(), chatMessage.getRegTime().toString());
+	        redisPublisher.publish(topic,model);
+	     }
 	}
