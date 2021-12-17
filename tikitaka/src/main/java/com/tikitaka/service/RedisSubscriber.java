@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tikitaka.model.MessageModel;
+import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.PubSubModel;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class RedisSubscriber implements MessageListener {
         	String pubMsg = (String)redisTemplate.getStringSerializer().deserialize(message.getBody());
         
         	System.out.println("그대로 나오는겨??" + message.toString());
-        	 MessageModel messageModel = objectMapper.readValue(pubMsg, MessageModel.class);
+        	Messagemodel messageModel = objectMapper.readValue(pubMsg, Messagemodel.class);
         	 
         	  String json = objectMapper.writeValueAsString(pubMsg);
         	  System.out.println(json);

@@ -5,8 +5,10 @@ public class Chat {
 	private Long no;
 	private String title;
 	private String contents;
-	private int join_count;
-	private String create_time;
+	private int joinCount;
+	private String createTime;
+	private int type;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -25,24 +27,24 @@ public class Chat {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public int getJoin_count() {
-		return join_count;
+	public int getJoinCount() {
+		return joinCount;
 	}
-	public void setJoin_count(int join_count) {
-		this.join_count = join_count;
+	public void setJoinCount(int joinCount) {
+		this.joinCount = joinCount;
 	}
-	public String getCreate_time() {
-		return create_time;
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
-	@Override
-	public String toString() {
-		return "Chat [no=" + no + ", title=" + title + ", contents=" + contents + ", join_count=" + join_count
-				+ ", create_time=" + create_time + "]";
+	public int getType() {
+		return type;
 	}
-	
+	public void setType(int type) {
+		this.type = type;
+	}
 
 	
 }
