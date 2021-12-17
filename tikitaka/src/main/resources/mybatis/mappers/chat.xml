@@ -14,10 +14,14 @@
 
 	<select id="SearchByChatNo" resultType="String">
 		<![CDATA[
-		  	select ifnull(( select a.no from tikitaka.chat a 
-			join (select d.no from tikitaka.chat d join tikitaka.chat_member e on d.no = e.chat_no where e.user_no = #{userNo}) b
-			on b.no = a.no join (select f.no from tikitaka.chat f join tikitaka.chat_member g on f.no = g.chat_no where g.user_no = #{authNo}) c
-			on  c.no = b.no), '0');
+		    select ifnull ((
+            select a.no from chat a join (select d.no  from chat d join chat_member e on d.no = e.chat_no where e.user_no = #{userNo}) b
+            on a.no = b.no 
+            join (select f.no from tikitaka.chat f join tikitaka.chat_member g on f.no = g.chat_no where g.user_no = #{authNo}) c
+			on  c.no = b.no 
+			where a.type = "PERSONAL")
+			, '0');
+             
 		]]>	
 	</select>
 
