@@ -25,6 +25,7 @@ public class ChatRepository {
 	}
 
 
+
 	public Long findByChatNo(ChatMember chatMember) {
 		return sqlSession.selectOne("chatmember.findByChatNo", chatMember);
 	}
@@ -37,3 +38,4 @@ public class ChatRepository {
 	
 
 }
+

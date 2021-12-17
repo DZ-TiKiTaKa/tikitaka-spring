@@ -21,6 +21,7 @@ public class ChatService {
 		chatRepository.insert(chatroom);
 	}
 
+
 	public Long findByChatNo(ChatMember chatMember) {
 		return chatRepository.findByChatNo(chatMember);
 	}
@@ -33,5 +34,6 @@ public class ChatService {
 		return chatRepository.SearchByChatNo(map);
 	}
 	
+
 	
 }
