@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
-import com.tikitaka.model.MessageModel;
+import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
 import com.tikitaka.model.User;
 import com.tikitaka.model.ChatMessage;
