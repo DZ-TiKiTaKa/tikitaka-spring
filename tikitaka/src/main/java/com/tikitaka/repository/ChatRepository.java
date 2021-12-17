@@ -21,7 +21,6 @@ public class ChatRepository {
 	public boolean insert(Chat chatRoom) {
 		return 1 == sqlSession.insert("chat.insert", chatRoom);
 		
-
 	}
 
 
@@ -32,8 +31,7 @@ public class ChatRepository {
 	
 	public String SearchByChatNo(Map map) {
 		return sqlSession.selectOne("chat.SearchByChatNo", map);
-	}
-	
-	
+	}	
 
 }
+

@@ -1,12 +1,13 @@
 package com.tikitaka.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
-import com.tikitaka.model.Messagemodel;
-import com.tikitaka.model.Messagemodel;
 
 @Repository
 public class ChatMessageRepository {
@@ -19,6 +20,14 @@ public class ChatMessageRepository {
 		return 1 == sqlSession.insert("chatmessage.insert", chatMessage);
 	}
 	
-	
+	public List<ChatMember> findByChatNo(ChatMember chatMember) {
+		return sqlSession.selectList("chatmessage.findByChatNo", chatMember);
+	}
+
+	public boolean sendImage(ChatMessage chatMessage) {
+		System.out.println("sendImage DB!!!!!" + chatMessage);
+		return 1 == sqlSession.insert("chatmessage.sendImage", chatMessage);
+		
+	}
 
 }
