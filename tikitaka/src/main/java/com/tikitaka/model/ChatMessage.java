@@ -7,7 +7,6 @@ public class ChatMessage {
 
 	private Long userNo;
 	private Long chatNo;
-	@Id
 	private Long no;
 	private String type;
 	private String contents;
@@ -55,10 +54,20 @@ public class ChatMessage {
 	public void setRegTime(String regTime) {
 		this.regTime = regTime;
 	}
+
+	
 	@Override
 	public String toString() {
 		return "ChatMessage [userNo=" + userNo + ", chatNo=" + chatNo + ", no=" + no + ", type=" + type + ", contents="
 				+ contents + ", readCount=" + readCount + ", regTime=" + regTime + "]";
+	}
+	public ChatMessage(Long userNo,Long chatNo,String type,String contents,Integer readCount) {
+		super();
+		this.userNo = userNo;
+		this.chatNo = chatNo;
+		this.contents = contents;
+		this.type = type;
+		this.readCount = readCount;
 	}
 	
 	
