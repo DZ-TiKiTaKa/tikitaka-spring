@@ -5,7 +5,7 @@
 	<insert id="insert" parameterType="chatmessage">
 		<![CDATA[
 			insert into chat_message 
-			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now())
+			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now());
 		]]>
 	</insert>
 	
