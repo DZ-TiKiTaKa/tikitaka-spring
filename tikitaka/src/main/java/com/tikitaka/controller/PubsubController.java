@@ -1,4 +1,5 @@
 package com.tikitaka.controller;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,13 +163,15 @@ public class PubsubController {
 	        String contents = result.get("message").toString();
 	        String type =  result.get("type").toString();
 	        String readCount = result.get("readCount").toString();
+	        String regTime = result.get("regTime").toString();
 	        
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	        System.out.println(chatNoo);
 	        System.out.println("topic은?" + topic);
 	        
-	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount);       
+	        
+	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
 	        
 	        //chat 메시지 DB 저장 메소드
@@ -188,7 +191,7 @@ public class PubsubController {
 	        }
 	        System.out.println("Cast test 완료");
 	        
-	        
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
 	     }
 	    
@@ -203,12 +206,11 @@ public class PubsubController {
 	       // channel.remove(roomId);
 	    }
 	    
-	    @GetMapping("/chatList/{userNo}&{chatNo}")
-	    public Long chatList(@PathVariable String userNo, @PathVariable String chatNo) {
+	    @GetMapping("/chatList/{chatNo}")
+	    public Long chatList(@PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
 
 	    	member.setChatNo(Long.parseLong(chatNo));
-	    	member.setUserNo(Long.parseLong(userNo));
 	    	Long anotherUserNo = chatService.findByChatNo(member);
 	    	return anotherUserNo;
 	    }
