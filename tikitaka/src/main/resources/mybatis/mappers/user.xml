@@ -21,6 +21,7 @@
 	 	<![CDATA[	
 	 		SELECT *
 			FROM user 
+			WHERE no!=#{no}
 	 	]]>
 	</select>
 	

@@ -46,5 +46,5 @@ public class Chat {
 		this.type = type;
 	}
 
-	
+   
 }
