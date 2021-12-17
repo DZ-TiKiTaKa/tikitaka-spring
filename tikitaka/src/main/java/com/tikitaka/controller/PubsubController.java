@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
-import com.tikitaka.model.MessageModel;
+import com.tikitaka.model.ChatMessage;
+import com.tikitaka.model.Messagemodel;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
@@ -59,6 +60,7 @@ public class PubsubController {
 	    @Autowired
 	    private ChatMessageService chatMessageService;
 
+
 	    @PostConstruct
 	    public void init() {
 	        // topic 정보를 담을 Map을 초기화
@@ -72,7 +74,42 @@ public class PubsubController {
 	    	return channel.keySet();
 	    	
 	    }
-
+	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
+	    @PutMapping("/searchchat/{userNo}")
+	    public String searchchat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
+	    	
+	    	System.out.println("C : enterChat");
+	    	String authNo = auth.get("token").toString();
+	    	System.out.println(authNo);
+	    	System.out.println("대화 신청 user : " + authNo);
+	    	System.out.println("대화 받는 user : " + userNo);
+	    	
+	    	//true일경우 채팅방 이미 존재,false는 없음
+	    	String chatNo =  chatService.SearchByChatNo(authNo,userNo);
+	    	System.out.println("type은 무엇인가요." + chatNo );
+	    	
+	        
+	        if(chatNo == "0") {
+	        // Redis
+	        // 신규 topic 생성
+	       System.out.println("토픽생성 해볼께요..");
+	        ChannelTopic topic = new ChannelTopic(chatNo);
+	        // Listener에 등록
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        // topic map에 저장
+	        channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
+	        System.out.println(channel);
+	        }
+	        
+	        Map<String, String> map = new HashMap<String, String>();
+	        map.put("chatNo", chatNo.toString());
+		        
+	    	return chatNo;
+	    }
+	    
+	    
+	    
+	    
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장
 	    @PutMapping("/topic/{userNo}")
 	    public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
@@ -84,7 +121,7 @@ public class PubsubController {
 	        Chat chat = new Chat();
 	        chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
 	        chat.setContents("컨텐츠-> 불필요한 column이라고 생각해서 나중에 제거하기");
-	        chat.setJoin_count(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
+	        chat.setJoinCount(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
 	        chatService.insertChatRoom(chat);
 	        
 	        Long chatNo = chat.getNo();
@@ -119,23 +156,41 @@ public class PubsubController {
 	    @PostMapping("/topic")
 	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
-	        String chatNo = (String)result.get("chatNo");  
-	        String name = (String) result.get("name");
-	        String contents = (String) result.get("message");
-	        String type = (String) result.get("type").toString();
-	        System.out.println(chatNo);
 
+	    	String userNo = result.get("userNo").toString();
+	    	String name = result.get("name").toString();
+	        String chatNo = result.get("chatNo").toString();  
+	        String contents = result.get("message").toString();
+	        String type =  result.get("type").toString();
+	        String readCount = result.get("readCount").toString();
+	        
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
-	        
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
-
-	        System.out.println("토픽 나와줘 : " + topic);
+	        System.out.println(chatNoo);
+	        System.out.println("topic은?" + topic);
 	        
-	        MessageModel model = new MessageModel(chatNo, name, contents, type);       
-	        System.out.println(model);
-	        System.out.println(topic.getTopic());
+	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount);       
+	        
+	        
+	        //chat 메시지 DB 저장 메소드
+	        ChatMessage chatmessage = new ChatMessage(
+	        		Long.parseLong(userNo),
+	        		Long.parseLong(chatNoo),
+	        		type,
+	        		contents,
+	        		Integer.parseInt(readCount));
+	        System.out.println("넣을 데이터!" + chatmessage);
+	        
+	        System.out.println("type =" + type);
+	        switch(type) {
+	        case "TEXT" : 
+	        	chatMessageService.insertMessage(chatmessage);
+	        	break;
+	        }
+	        System.out.println("Cast test 완료");
+	        
+	        
 	        redisPublisher.publish(topic,model);
-
 	     }
 	    
 	    
@@ -152,6 +207,7 @@ public class PubsubController {
 	    @GetMapping("/chatList/{chatNo}")
 	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
+
 	    	member.setChatNo(Long.parseLong(chatNo));
 	    	List<ChatMember> list = chatMessageService.findByChatNo(member);
 	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();

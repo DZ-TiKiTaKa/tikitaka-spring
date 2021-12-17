@@ -95,10 +95,10 @@ public class UserController {
 
 	// 친구 목록 (no, role, name, status, profile 가져오기)	
 	@RequestMapping("/user")
-	public JsonResult logStatus(@RequestBody HashMap<String, String> data) {
-
-		String no = data.get("userNo");
-		List<User> list = userService.getLogStatus(no);
+	public JsonResult logStatus(@RequestBody String authNo) {
+		//System.out.println("authno확인"+authNo);
+		//authno을 받아서 친구 관계일때 목록에 뜨게 해야함(아직 미구현)
+		List<User> list = userService.getFriendlistbyNo(authNo);
 
 		return JsonResult.success(list);
 
