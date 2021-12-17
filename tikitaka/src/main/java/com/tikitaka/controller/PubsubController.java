@@ -97,7 +97,6 @@ public class PubsubController {
 	    	
 	        
 	        if(chatNo == "0") {
-	        // Redis
 	        // 신규 topic 생성
 	       System.out.println("토픽생성 해볼께요..");
 	        // Listener에 등록
