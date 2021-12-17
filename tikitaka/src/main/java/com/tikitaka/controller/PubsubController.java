@@ -89,12 +89,17 @@ public class PubsubController {
 	    	String chatNo =  chatService.SearchByChatNo(authNo,userNo);
 	    	System.out.println("type은 무엇인가요." + chatNo );
 	    	
+	    	ChannelTopic topic = new ChannelTopic(chatNo);
+	    	System.out.println("redis topic 다시 생성하기 init 데이터 전송");
+	    	Messagemodel model = new Messagemodel(userNo,chatNo, "name", "contents", "type","readCount","regTime");       
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        redisPublisher.publish(topic,model);
+	    	
 	        
 	        if(chatNo == "0") {
 	        // Redis
 	        // 신규 topic 생성
 	       System.out.println("토픽생성 해볼께요..");
-	        ChannelTopic topic = new ChannelTopic(chatNo);
 	        // Listener에 등록
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        // topic map에 저장
