@@ -7,6 +7,7 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
+
 			values(null,#{title},#{contents},#{joinCount},now(), "group")
 		]]>
 	</insert>
@@ -23,4 +24,5 @@
              
 		]]>	
 	</select>
+
 </mapper>

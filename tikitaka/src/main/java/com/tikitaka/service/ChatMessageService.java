@@ -32,7 +32,7 @@ public class ChatMessageService {
 		return chatmessageRepository.findByChatNo(chatMember);
 	}
 
-	public String sendImage(MultipartFile image, ChatMessage chatMessage) {
+	public String sendImage(MultipartFile image) {
 		try {
 			if(image.isEmpty()) {
 				return null;
@@ -50,8 +50,6 @@ public class ChatMessageService {
 			os.close();
 		
 			String url = URL_BASE + "/" + saveName;
-			chatMessage.setContents(url);
-			chatmessageRepository.sendImage(chatMessage);
 			return url;
 			
 		} catch (IOException e) {

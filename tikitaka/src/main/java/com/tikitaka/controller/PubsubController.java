@@ -12,6 +12,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
-import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Messagemodel;
+import com.tikitaka.model.Notice;
+import com.tikitaka.model.User;
+import com.tikitaka.model.ChatMessage;
+
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
@@ -52,11 +57,8 @@ public class PubsubController {
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
 	    
-	    
-	    
-	    
+
 	    ////////////DB Service//////////////////////
-	    
 	    @Autowired
 	    private ChatService chatService;
 	    @Autowired
@@ -77,7 +79,6 @@ public class PubsubController {
 	    public Set<String> findAllRoom() {
 	        System.out.println("채팅 리스트 출력 : " + channel.keySet());
 	    	return channel.keySet();
-	    	
 	    }
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
 	    @PutMapping("/searchchat/{userNo}")
@@ -123,9 +124,12 @@ public class PubsubController {
 	    @PutMapping("/topic/{userNo}")
 	    public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
 	    	System.out.println("okkkkkkkkkkkkkkkkkkkk");
+	    	
 	        String authNo = (String)auth.get("token").toString();
+	        
 	        System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 	        System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
+	        
 	        //채팅방 개설
 	        Chat chat = new Chat();
 	        chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
@@ -204,9 +208,7 @@ public class PubsubController {
 	        redisPublisher.publish(topic,model);
 	     }
 	    
-	    
-	    
-	    
+
 	    // Topic 삭제 후 Listener 해제, Topic Map에서 삭제
 	    @DeleteMapping("/room/{roomId}")
 	    public void deleteRoom(@PathVariable String roomId) {
@@ -226,23 +228,28 @@ public class PubsubController {
 	    	System.out.println(map);
 	    	return map;
 	    }
+
+	    @PostMapping("/topic/sendimage")
+	    public String sendImage(@RequestParam("file") MultipartFile image) throws Exception {
+	        String imgurl = chatMessageService.sendImage(image);
+	        System.out.println(imgurl);
+	        return imgurl;
 	    
-	    @PostMapping("/sendimage/{chatNo}&{userNo}")
-	    public void sendImage(@PathVariable String chatNo, @PathVariable Long userNo, @RequestParam(value="file", required=false) MultipartFile image) throws Exception {
-	        ChatMessage chatMessage = new ChatMessage();
-	        chatMessage.setChatNo(Long.parseLong(chatNo));
-	        chatMessage.setUserNo(userNo);
-	        chatMessage.setType("IMAGE");
-	        chatMessage.setReadCount(1);
-	        // image url까지들어간 chatMessage
-	        String imgurl = chatMessageService.sendImage(image, chatMessage);
-	        chatMessage.setContents(imgurl);
-	        
-	        String name = userService.getNameByNo(userNo);
-	        String chatNoo =  chatNo.replaceAll("\\\"", "");
-	        ChannelTopic topic = new ChannelTopic(chatNoo);
+	    // chatNo에 해당하는 채팅방의 공지 리스트 
+	    @RequestMapping("/topic/890") // 임시로 지정 ...
+	    public JsonResult chatNoticeList(@RequestBody HashMap<String, String> data) {
+	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
+	    	
+	    	String chatNo = data.get("chatNo"); 
+
+	    	List<Notice> list = chatService.getNotice(chatNo);
+	    	System.out.println(list);
+
+
+			return JsonResult.success(list);
+
+		}
+	 
 	    
-	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString(), chatMessage.getRegTime().toString());
-	        redisPublisher.publish(topic,model);
-	     }
+	    
 	}
