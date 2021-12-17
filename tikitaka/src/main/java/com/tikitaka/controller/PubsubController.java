@@ -60,7 +60,7 @@ public class PubsubController {
 	    private ChatMemberService chatmemberService;
 	    @Autowired
 	    private ChatMessageService chatMessageService;
-	    
+
 
 	    @PostConstruct
 	    public void init() {
@@ -157,6 +157,7 @@ public class PubsubController {
 	    @PostMapping("/topic")
 	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
+
 	    	String userNo = result.get("userNo").toString();
 	    	String name = result.get("name").toString();
 	        String chatNo = result.get("chatNo").toString();  
@@ -207,11 +208,14 @@ public class PubsubController {
 	    }
 	    
 	    @GetMapping("/chatList/{chatNo}")
-	    public Long chatList(@PathVariable String chatNo) {
+	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
 	    	ChatMember member = new ChatMember();
 
 	    	member.setChatNo(Long.parseLong(chatNo));
-	    	Long anotherUserNo = chatService.findByChatNo(member);
-	    	return anotherUserNo;
+	    	List<ChatMember> list = chatMessageService.findByChatNo(member);
+	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
+	    	map.put("list", list);
+	    	System.out.println(map);
+	    	return map;
 	    }
 	}
