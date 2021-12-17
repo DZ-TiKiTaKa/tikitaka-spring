@@ -7,8 +7,18 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
-			values(null,#{title},#{contents},#{join_count},now())
+			values(null,#{title},#{contents},#{joinCount},now(), "PERSONAL")
 		]]>
 	</insert>
+	
+	<!-- chatNo에 해당하는 채팅방의 공지 리스트 -->
+	<select id="findByChatNo" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT a.important important, a.no, a.title title, a.contents contents,  b.name name, a.reg_date regDate
+			FROM notice a, user b
+			WHERE a.user_no = b.no
+			AND a.chat_no = 890;
+	 	]]>
+	</select>
 	
 </mapper>

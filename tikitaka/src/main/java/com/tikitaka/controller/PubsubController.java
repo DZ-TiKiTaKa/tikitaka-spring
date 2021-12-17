@@ -1,5 +1,6 @@
 package com.tikitaka.controller;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.MessageModel;
+import com.tikitaka.model.Notice;
+import com.tikitaka.model.User;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
@@ -45,11 +49,8 @@ public class PubsubController {
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
 	    
-	    
-	    
-	    
+
 	    ////////////DB Service//////////////////////
-	    
 	    @Autowired
 	    private ChatService chatService;
 	    @Autowired
@@ -67,21 +68,23 @@ public class PubsubController {
 	    public Set<String> findAllRoom() {
 	        System.out.println("채팅 리스트 출력 : " + channel.keySet());
 	    	return channel.keySet();
-	    	
 	    }
 
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장
 	    @PutMapping("/topic/{userNo}")
 	    public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
 	    	System.out.println("okkkkkkkkkkkkkkkkkkkk");
+	    	
 	        String authNo = (String)auth.get("token").toString();
+	        
 	        System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 	        System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
+	        
 	        //채팅방 개설
 	        Chat chat = new Chat();
 	        chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
 	        chat.setContents("컨텐츠-> 불필요한 column이라고 생각해서 나중에 제거하기");
-	        chat.setJoin_count(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
+	        chat.setJoinCount(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
 	        chatService.insertChatRoom(chat);
 	        
 	        Long chatNo = chat.getNo();
@@ -135,9 +138,7 @@ public class PubsubController {
 
 	     }
 	    
-	    
-	    
-	    
+
 	    // Topic 삭제 후 Listener 해제, Topic Map에서 삭제
 	    @DeleteMapping("/room/{roomId}")
 	    public void deleteRoom(@PathVariable String roomId) {
@@ -154,4 +155,22 @@ public class PubsubController {
 	    	Long anotherUserNo = chatService.findByChatNo(member);
 	    	return anotherUserNo;
 	    }
+	    
+	    
+	    // chatNo에 해당하는 채팅방의 공지 리스트 
+	    @RequestMapping("/topic/890")
+	    public JsonResult chatNoticeList(@RequestBody HashMap<String, String> data) {
+	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
+	    	
+	    	String chatNo = data.get("chatNo"); 
+
+	    	List<Notice> list = chatService.getNotice(chatNo);
+	    	System.out.println(list);
+
+
+			return JsonResult.success(list);
+
+		}
+	    
+	    
 	}

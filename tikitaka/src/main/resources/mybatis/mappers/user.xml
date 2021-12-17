@@ -21,6 +21,7 @@
 	 	<![CDATA[	
 	 		SELECT no, role, name, status, profile
 			FROM user 
+			WHERE no!=#{no}
 	 	]]>
 	</select>
 	

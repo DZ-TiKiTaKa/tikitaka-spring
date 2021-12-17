@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
+import com.tikitaka.model.Notice;
 
 @Repository
 public class ChatRepository {
@@ -24,6 +25,11 @@ public class ChatRepository {
 
 	public Long findByChatNo(ChatMember chatMember) {
 		return sqlSession.selectOne("chatmember.findByChatNo", chatMember);
+	}
+
+	// chatNo에 해당하는 채팅방의 공지 리스트 
+	public List<Notice> findByChatNo(String chatNo) {
+		return sqlSession.selectList("chat.findByChatNo", chatNo);
 	}
 	
 	

@@ -10,8 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.model.PubSubModel;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 
 @Service
 public class RedisSubscriber implements MessageListener {
