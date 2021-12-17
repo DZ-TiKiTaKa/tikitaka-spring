@@ -12,6 +12,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -227,8 +228,12 @@ public class PubsubController {
 	    	System.out.println(map);
 	    	return map;
 	    }
-	    
 
+	    @PostMapping("/topic/sendimage")
+	    public String sendImage(@RequestParam("file") MultipartFile image) throws Exception {
+	        String imgurl = chatMessageService.sendImage(image);
+	        System.out.println(imgurl);
+	        return imgurl;
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/890") // 임시로 지정 ...
@@ -244,23 +249,7 @@ public class PubsubController {
 			return JsonResult.success(list);
 
 		}
-
-	    @PostMapping("/sendimage/{chatNo}&{userNo}")
-	    public void sendImage(@PathVariable String chatNo, @PathVariable Long userNo, @RequestParam(value="file", required=false) MultipartFile image) throws Exception {
-	        ChatMessage chatMessage = new ChatMessage();
-	        chatMessage.setChatNo(Long.parseLong(chatNo));
-	        chatMessage.setUserNo(userNo);
-	        chatMessage.setType("IMAGE");
-	        chatMessage.setReadCount(1);
-	        // image url까지들어간 chatMessage
-	        String imgurl = chatMessageService.sendImage(image, chatMessage);
-	        chatMessage.setContents(imgurl);
-	        
-	        String name = userService.getNameByNo(userNo);
-	        String chatNoo =  chatNo.replaceAll("\\\"", "");
-	        ChannelTopic topic = new ChannelTopic(chatNoo);
+	 
 	    
-	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString(), chatMessage.getRegTime().toString());
-	        redisPublisher.publish(topic,model);
-	     }
+	    
 	}
