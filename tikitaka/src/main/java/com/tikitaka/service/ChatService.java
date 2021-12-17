@@ -20,8 +20,6 @@ public class ChatService {
 	public void insertChatRoom(Chat chatroom) {
 		chatRepository.insert(chatroom);
 	}
-<<<<<<< HEAD
-=======
 
 	public Long findByChatNo(ChatMember chatMember) {
 		return chatRepository.findByChatNo(chatMember);
@@ -35,6 +33,5 @@ public class ChatService {
 		return chatRepository.SearchByChatNo(map);
 	}
 	
->>>>>>> branch 'developer' of https://github.com/DZ-TiKiTaKa/tikitaka-spring.git
 	
 }
