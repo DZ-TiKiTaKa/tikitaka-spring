@@ -29,7 +29,7 @@ public class ChatService {
 	// chatNo에 해당하는 채팅방의 공지 리스트 
 	public List<Notice> getNotice(String chatNo) {
 		return chatRepository.findByChatNo(chatNo);
-
+	}
 
 	public String  SearchByChatNo(String authNo, String userNo) {
 		Map<String, String> map = new HashMap<String, String>();
