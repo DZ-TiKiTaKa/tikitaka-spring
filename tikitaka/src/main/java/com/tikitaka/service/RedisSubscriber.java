@@ -1,6 +1,5 @@
 package com.tikitaka.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,13 +7,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.model.PubSubModel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Service
 public class RedisSubscriber implements MessageListener {
@@ -28,6 +25,11 @@ public class RedisSubscriber implements MessageListener {
     //react로 전달할 template
     private SimpMessagingTemplate messagingTemplate;
     
+//    public RedisSubscriber() {
+//		this.objectMapper = new ObjectMapper();
+//		this.redisTemplate = new RedisTemplate();
+//		this.messagingTemplate = messagingTemplate;
+//		};
     
     public RedisSubscriber(ObjectMapper objectMapper, RedisTemplate redisTemplate, SimpMessagingTemplate messagingTemplate) {
 		super();

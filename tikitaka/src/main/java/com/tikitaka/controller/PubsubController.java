@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tikitaka.model.Chat;
+import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.MessageModel;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatService;
@@ -119,6 +119,7 @@ public class PubsubController {
 	        String chatNo = result.get("chatNo").toString();  
 	        String name = (String) result.get("name").toString();
 	        String contents = (String) result.get("message").toString();
+	        String type = (String) result.get("type").toString();
 	        System.out.println(chatNo);
 
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
@@ -127,7 +128,7 @@ public class PubsubController {
 
 	        System.out.println("토픽 나와줘 : " + topic);
 	        
-	        MessageModel model = new MessageModel(chatNo, name, contents);       
+	        MessageModel model = new MessageModel(chatNo, name, contents, type);       
 	        System.out.println(model);
 	        System.out.println(topic.getTopic());
 	        redisPublisher.publish(topic,model);
@@ -143,5 +144,15 @@ public class PubsubController {
 	        ///ChannelTopic channel = channel.get(roomId);
 	      //  redisMessageListenerContainer.removeMessageListener(redisSubscriber, channel);
 	       // channel.remove(roomId);
+	    }
+	    
+	    @GetMapping("/chatList/{userNo}&{chatNo}")
+	    public Long chatList(@PathVariable String userNo, @PathVariable String chatNo) {
+	    	ChatMember member = new ChatMember();
+
+	    	member.setChatNo(Long.parseLong(chatNo));
+	    	member.setUserNo(Long.parseLong(userNo));
+	    	Long anotherUserNo = chatService.findByChatNo(member);
+	    	return anotherUserNo;
 	    }
 	}

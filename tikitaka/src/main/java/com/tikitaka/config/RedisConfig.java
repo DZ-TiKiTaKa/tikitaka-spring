@@ -12,7 +12,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.tikitaka.model.MessageModel;
-import com.tikitaka.service.RedisSubscriber;
 
 @Configuration
 @EnableCaching
@@ -35,8 +34,7 @@ public class RedisConfig {
 	
 	
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory){
-		System.out.println("N redisConfig!!");
+	public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory connectionFactory){
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(connectionFactory);
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
