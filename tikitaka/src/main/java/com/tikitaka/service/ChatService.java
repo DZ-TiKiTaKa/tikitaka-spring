@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
+import com.tikitaka.model.Notice;
 import com.tikitaka.repository.ChatRepository;
 
 @Service
@@ -25,12 +26,17 @@ public class ChatService {
 		return chatRepository.findByChatNo(chatMember);
 	}
 
+	// chatNo에 해당하는 채팅방의 공지 리스트 
+	public List<Notice> getNotice(String chatNo) {
+		return chatRepository.findByChatNo(chatNo);
+
 
 	public String  SearchByChatNo(String authNo, String userNo) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("authNo", authNo);
 		map.put("userNo", userNo);
 		return chatRepository.SearchByChatNo(map);
+
 	}
 	
 	
