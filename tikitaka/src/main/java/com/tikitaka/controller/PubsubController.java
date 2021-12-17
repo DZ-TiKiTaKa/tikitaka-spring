@@ -234,6 +234,7 @@ public class PubsubController {
 	        String imgurl = chatMessageService.sendImage(image);
 	        System.out.println(imgurl);
 	        return imgurl;
+	    }
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/890") // 임시로 지정 ...
