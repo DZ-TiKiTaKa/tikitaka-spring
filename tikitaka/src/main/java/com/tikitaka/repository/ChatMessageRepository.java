@@ -24,4 +24,10 @@ public class ChatMessageRepository {
 		return sqlSession.selectList("chatmessage.findByChatNo", chatMember);
 	}
 
+	public boolean sendImage(ChatMessage chatMessage) {
+		System.out.println("sendImage DB!!!!!" + chatMessage);
+		return 1 == sqlSession.insert("chatmessage.sendImage", chatMessage);
+		
+	}
+
 }

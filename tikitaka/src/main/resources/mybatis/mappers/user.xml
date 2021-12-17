@@ -92,4 +92,12 @@
 		]]>
 	</insert>
 	
+	<select id="getNameByNo" parameterType="long" resultType="string">
+	 	<![CDATA[	
+	 		SELECT name 
+	 		FROM user 
+	 		WHERE no = #{userNo}
+	 	]]>
+	</select>
+	
 </mapper>

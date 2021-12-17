@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
@@ -28,6 +30,7 @@ import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
 import com.tikitaka.service.RedisSubscriber;
+import com.tikitaka.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,7 +63,8 @@ public class PubsubController {
 	    private ChatMemberService chatmemberService;
 	    @Autowired
 	    private ChatMessageService chatMessageService;
-
+	    @Autowired
+	    private UserService userService;
 
 	    @PostConstruct
 	    public void init() {
@@ -218,4 +222,22 @@ public class PubsubController {
 	    	System.out.println(map);
 	    	return map;
 	    }
+	    
+	    @PostMapping("/sendimage/{chatNo}&{userNo}")
+	    public void sendImage(@PathVariable String chatNo, @PathVariable Long userNo, @RequestParam(value="file", required=false) MultipartFile image) throws Exception {
+	        ChatMessage chatMessage = new ChatMessage();
+	        chatMessage.setChatNo(Long.parseLong(chatNo));
+	        chatMessage.setUserNo(userNo);
+	        chatMessage.setType("IMAGE");
+	        chatMessage.setReadCount(1);
+	        // image url까지들어간 chatMessage
+	        String imgurl = chatMessageService.sendImage(image, chatMessage);
+	        chatMessage.setContents(imgurl);
+	        
+	        String name = userService.getNameByNo(userNo);
+	        String chatNoo =  chatNo.replaceAll("\\\"", "");
+	        ChannelTopic topic = new ChannelTopic(chatNoo);
+	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString());
+	        redisPublisher.publish(topic,model);
+	     }
 	}

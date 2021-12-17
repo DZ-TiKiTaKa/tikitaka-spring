@@ -16,4 +16,10 @@
 		]]>
 	</select>
 	
+	<insert id="sendImage" parameterType="chatmessage">
+		<![CDATA[
+			insert into chat_message 
+			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now());
+		]]>
+	</insert>
 </mapper>
