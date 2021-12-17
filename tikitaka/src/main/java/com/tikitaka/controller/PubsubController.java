@@ -241,7 +241,8 @@ public class PubsubController {
 	        String name = userService.getNameByNo(userNo);
 	        String chatNoo =  chatNo.replaceAll("\\\"", "");
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
-	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString());
+	    
+	        Messagemodel model = new Messagemodel(userNo.toString(),chatNo, name, chatMessage.getContents(), chatMessage.getType(),chatMessage.getReadCount().toString(), chatMessage.getRegTime().toString());
 	        redisPublisher.publish(topic,model);
 	     }
 	}
