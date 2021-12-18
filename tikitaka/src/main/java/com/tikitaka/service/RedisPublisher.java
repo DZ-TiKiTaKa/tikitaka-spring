@@ -17,6 +17,7 @@ public class RedisPublisher {
 	public void publish(ChannelTopic topic, Messagemodel message) {
 		System.out.println("Redis Pub 호출");
 		System.out.println(topic.getTopic());
+		
 		redisTemplate.convertAndSend(topic.getTopic(), message);
 	}
 }

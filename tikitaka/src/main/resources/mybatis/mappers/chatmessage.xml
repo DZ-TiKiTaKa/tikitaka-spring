@@ -5,8 +5,15 @@
 	<insert id="insert" parameterType="chatmessage">
 		<![CDATA[
 			insert into chat_message 
-			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now())
+			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now());
 		]]>
 	</insert>
+	
+	<select id="findByChatNo" parameterType="chatmessage" resultType="map">
+		<![CDATA[
+			select no, user_no, reg_time, read_count, type, contents from tikitaka.chat_message 
+			where chat_no = 668
+		]]>
+	</select>
 	
 </mapper>
