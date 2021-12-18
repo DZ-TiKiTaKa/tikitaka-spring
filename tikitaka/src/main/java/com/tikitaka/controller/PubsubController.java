@@ -81,23 +81,31 @@ public class PubsubController {
 	    	return channel.keySet();
 	    }
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
-	    @PutMapping("/searchchat/{userNo}")
-	    public String searchchat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
+	    @PutMapping("/searchchat/{userNo}/{type}")
+	    public String searchchat(@PathVariable String userNo, @PathVariable String type,@RequestBody HashMap<String, Object> auth) {
 	    	
 	    	System.out.println("C : SearchChat");
 	    	String authNo = auth.get("token").toString();
-	    	System.out.println("채팅방 No : " + auth );
 	    	System.out.println("대화 신청 user : " + authNo);
 	    	System.out.println("대화 받는 user : " + userNo);
-	    	
+	    	System.out.println("대화 신청" + authNo + "와 대화 제의" + userNo + "의 채팅방 검색");
+	    	System.out.println("TYPE :" + type);
+	    	String chatNo = null;
+	    	if(type.equals("PERSONAL")){ 
+	    	//개인 톡방일경우
 	    	//true일경우 채팅방 이미 존재,false는 없음
-	    	String chatNo =  chatService.SearchByChatNo(authNo,userNo);
+	    	
+	    	System.out.println("개인 톡방 search");
+	    	chatNo =  chatService.SearchByChatNo(authNo,userNo,type);
 	    	System.out.println("type은 무엇인가요." + chatNo );
 	    	
-	        if(chatNo.equals("0")) {
-	        	//creatChat으로 채팅방 생성
-	        	createChat(userNo, auth);
-	        }else {
+	    	}else if(type.equals("group")) {
+	    		System.out.println("그룹 톡방 search");
+	    		
+	    	}
+	    	
+	    	
+	        if(!chatNo.equals("0")) {
 	        	//chatNo로 redis에 다시 channel 생성하기
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
@@ -115,10 +123,10 @@ public class PubsubController {
 	    
 	    
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장
-	    @PutMapping("/topic/{userNo}")
-	    public Map<String, String> createChat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
-	    	System.out.println("okkkkkkkkkkkkkkkkkkkk");
-	    	
+	    @PutMapping("/topic/{userNo}/{type}")
+	    public Map<String, String> createChat(@PathVariable String userNo, @PathVariable String type ,@RequestBody HashMap<String, Object> auth) {
+	    	System.out.println("C : createChat");
+	    	System.out.println(type);
 	        String authNo = (String)auth.get("token").toString();
 	        
 	        System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
@@ -129,7 +137,9 @@ public class PubsubController {
 	        chat.setTitle("그룹채팅일경우 방장 마음대로, 1대1일경우 서로상대의 이름 표시");
 	        chat.setContents("컨텐츠-> 불필요한 column이라고 생각해서 나중에 제거하기");
 	        chat.setJoinCount(1);//현재 임의로 1설정, 그룹채팅시 인원수 체크해서 값 설정
+	        chat.setType(type);
 	        chatService.insertChatRoom(chat);
+	        
 	        
 	        Long chatNo = chat.getNo();
 	        //mybatis useGeneratedKeys옵션을 통해 insert할때 auto_increment된 no값이 chat객체에 들어가게된다.
