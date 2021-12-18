@@ -31,10 +31,11 @@ public class ChatService {
 		return chatRepository.findByChatNo(chatNo);
 	}
 
-	public String  SearchByChatNo(String authNo, String userNo) {
+	public String  SearchByChatNo(String authNo, String userNo,String type) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("authNo", authNo);
 		map.put("userNo", userNo);
+		map.put("type", type);
 		return chatRepository.SearchByChatNo(map);
 
 	}
