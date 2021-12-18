@@ -7,7 +7,7 @@ public class Chat {
 	private String contents;
 	private int joinCount;
 	private String createTime;
-	private int type;
+	private String type;
 	
 	public Long getNo() {
 		return no;
@@ -39,12 +39,12 @@ public class Chat {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-
+	
    
 }
