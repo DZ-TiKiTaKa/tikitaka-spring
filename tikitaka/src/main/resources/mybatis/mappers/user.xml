@@ -21,6 +21,7 @@
 	 	<![CDATA[	
 	 		SELECT *
 			FROM user 
+			WHERE no!=#{no}
 	 	]]>
 	</select>
 	
@@ -91,5 +92,13 @@
 			insert into manage values(#{userNo}, #{codeNo})
 		]]>
 	</insert>
+	
+	<select id="getNameByNo" parameterType="long" resultType="string">
+	 	<![CDATA[	
+	 		SELECT name 
+	 		FROM user 
+	 		WHERE no = #{userNo}
+	 	]]>
+	</select>
 	
 </mapper>

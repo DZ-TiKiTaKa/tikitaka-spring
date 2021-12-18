@@ -89,6 +89,10 @@ public class UserRepository {
 		return false;
 	}
 
+	public String getNameByNo(Long userNo) {
+		return sqlSession.selectOne("user.getNameByNo", userNo);
+	}
+
 
 
 }

@@ -105,6 +105,10 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 
+	public String getNameByNo(Long userNo) {
+		return userRepository.getNameByNo(userNo);
+	}
+
 	
 		
 }

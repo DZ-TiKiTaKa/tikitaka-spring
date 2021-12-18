@@ -70,6 +70,7 @@ public class ChatMessage {
 		this.readCount = readCount;
 	}
 	
+	public ChatMessage() {}
 	
 	
 }
