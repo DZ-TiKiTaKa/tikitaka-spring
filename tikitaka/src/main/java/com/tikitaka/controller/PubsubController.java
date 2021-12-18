@@ -84,9 +84,9 @@ public class PubsubController {
 	    @PutMapping("/searchchat/{userNo}")
 	    public String searchchat(@PathVariable String userNo, @RequestBody HashMap<String, Object> auth) {
 	    	
-	    	System.out.println("C : enterChat");
+	    	System.out.println("C : SearchChat");
 	    	String authNo = auth.get("token").toString();
-	    	System.out.println(authNo);
+	    	System.out.println("채팅방 No : " + auth );
 	    	System.out.println("대화 신청 user : " + authNo);
 	    	System.out.println("대화 받는 user : " + userNo);
 	    	
@@ -94,28 +94,22 @@ public class PubsubController {
 	    	String chatNo =  chatService.SearchByChatNo(authNo,userNo);
 	    	System.out.println("type은 무엇인가요." + chatNo );
 	    	
-	    	ChannelTopic topic = new ChannelTopic(chatNo);
-	    	System.out.println("redis topic 다시 생성하기 init 데이터 전송");
-	    	Messagemodel model = new Messagemodel(userNo,chatNo, "name", "contents", "type","readCount","regTime");       
-	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-	        redisPublisher.publish(topic,model);
-	    	
-	        
-	        if(chatNo == "0") {
-	        // 신규 topic 생성
-	       System.out.println("토픽생성 해볼께요..");
-	        // Listener에 등록
-	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-	        // topic map에 저장
-	        channel.put(chatNo, topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
-	        System.out.println(channel);
+	        if(chatNo.equals("0")) {
+	        	//creatChat으로 채팅방 생성
+	        	createChat(userNo, auth);
+	        }else {
+	        	//chatNo로 redis에 다시 channel 생성하기
+	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
+	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
+		    	Messagemodel model = new Messagemodel(userNo,chatNo, "name", "contents", "type","readCount","regTime");       
+		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+		        redisPublisher.publish(topic,model);
 	        }
-	        
-	        Map<String, String> map = new HashMap<String, String>();
-	        map.put("chatNo", chatNo.toString());
-		        
+	    	
+	
 	    	return chatNo;
 	    }
+	    
 	    
 	    
 	    
@@ -234,6 +228,7 @@ public class PubsubController {
 	        String imgurl = chatMessageService.sendImage(image);
 	        System.out.println(imgurl);
 	        return imgurl;
+	    }
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/890") // 임시로 지정 ...
