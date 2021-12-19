@@ -109,7 +109,7 @@ public class PubsubController {
 	        	//chatNo로 redis에 다시 channel 생성하기
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
-		    	Messagemodel model = new Messagemodel(userNo,chatNo, "name", "contents", "type","readCount","regTime");       
+		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 		        redisPublisher.publish(topic,model);
 	        }
