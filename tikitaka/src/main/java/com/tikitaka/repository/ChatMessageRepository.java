@@ -26,8 +26,8 @@ public class ChatMessageRepository {
 		
 	}
 
-	public List<ChatMember> finbyChatNo(ChatMessage chatList) {
-		return sqlSession.selectList("chatmessage.findByChatList", chatList);
+	public List<ChatMember> finbyChatNo(Long chatNo) {
+		return sqlSession.selectList("chatmessage.findByChatList", chatNo);
 	}
 
 }
