@@ -33,6 +33,7 @@
 			WHERE a.user_no = b.no
 			AND a.chat_no = #{chatNo};
 	 	]]>
+	</select>
 
 	
 		
