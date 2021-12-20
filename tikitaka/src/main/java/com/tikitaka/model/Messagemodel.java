@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Messagemodel implements Serializable{
 
 	private static final long serialVersionUID = 2082503192322391880L;
-	private String userNo;
+	private Long userNo;
 	private String name;
 	private String chatNo;
 	private String contents;
@@ -15,12 +15,14 @@ public class Messagemodel implements Serializable{
 	private String regTime;
 	
 	
-	public String getUserNo() {
+
+
+	public Long getUserNo() {
 		return userNo;
 	}
 
 
-	public void setUserNo(String userNo) {
+	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
 
@@ -87,7 +89,7 @@ public class Messagemodel implements Serializable{
 	public Messagemodel() {}
 	
 	
-	public Messagemodel(String userNo,String chatNo, String name, String contents, String type,String readCount,String regTime) {
+	public Messagemodel(Long userNo,String chatNo, String name, String contents, String type,String readCount,String regTime) {
 		super();
 		this.userNo = userNo;
 		this.chatNo = chatNo;
@@ -104,7 +106,7 @@ public class Messagemodel implements Serializable{
 	}
 	
 	public static class Builder{
-		private String userNo;
+		private Long userNo;
 		private String chatNo;
 		private String name;
 		private String contents;
@@ -116,7 +118,7 @@ public class Messagemodel implements Serializable{
 			return this;
 		}
 		
-		public Builder(String userNo,String chatNo, String name, String contents, String type,String readCount) {
+		public Builder(Long userNo,String chatNo, String name, String contents, String type,String readCount) {
 			super();
 			this.userNo = userNo;
 			this.chatNo = chatNo;

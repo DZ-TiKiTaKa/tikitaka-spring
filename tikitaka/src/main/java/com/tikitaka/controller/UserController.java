@@ -3,6 +3,7 @@ package com.tikitaka.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -133,6 +134,17 @@ public class UserController {
 		list = userService.getInfo(no);
 		return list;
 	}
+	
+//	   
+//    @PostMapping("/searchinfo/{userNo}")
+//    public Map<String,Object> searchInfo(@PathVariable String userNo){
+//    	
+//    	userService.searchInfoByNo(userNo);
+//    	Map<String, Object> map = new HashMap<String, Object>();
+//    	
+//    	return map;
+//    }
+//    
 	
 	
 }

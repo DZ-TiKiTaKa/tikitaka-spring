@@ -31,8 +31,8 @@ public class ChatService {
 		return chatRepository.findByChatNo(chatNo);
 	}
 
-	public String  SearchByChatNo(String authNo, String userNo,String type) {
-		Map<String, String> map = new HashMap<String, String>();
+	public String  SearchByChatNo(String authNo, Long userNo,String type) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("authNo", authNo);
 		map.put("userNo", userNo);
 		map.put("type", type);
