@@ -1,4 +1,5 @@
 package com.tikitaka.controller;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +12,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +28,6 @@ import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
-import com.tikitaka.model.User;
 import com.tikitaka.model.ChatMessage;
 
 import com.tikitaka.service.ChatMemberService;
@@ -256,11 +252,10 @@ public class PubsubController {
 	    }
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
-	    @RequestMapping("/topic/890") // 임시로 지정 ...
-	    public JsonResult chatNoticeList(@RequestBody HashMap<String, String> data) {
+	    @RequestMapping("/topic/noticeList/{chatNo}") 
+	    public JsonResult chatNoticeList(@PathVariable String chatNo, @RequestBody HashMap<String, String> data) {
 	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
 	    	
-	    	String chatNo = data.get("chatNo"); 
 
 	    	List<Notice> list = chatService.getNotice(chatNo);
 	    	System.out.println(list);

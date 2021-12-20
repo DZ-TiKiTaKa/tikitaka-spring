@@ -24,6 +24,16 @@
 		]]>	
 	</select>
 	
+
+	<!-- chatNo에 해당하는 채팅방의 공지 리스트 -->
+	<select id="findByChatNo" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT a.important important, a.no, a.title title, a.contents contents,  b.name name, a.reg_date
+			FROM notice a, user b
+			WHERE a.user_no = b.no
+			AND a.chat_no = #{chatNo};
+	 	]]>
+
 	
 		
 	<select id="findChatroom" parameterType="long" resultType="chat">
