@@ -33,4 +33,12 @@
 		on a.no = b.chat_no where a.create_time > (select logout_time from user where no = #{no});
 	]]>
 	</select>
+	
+	<!-- chatNo에 해당하는 채팅방의 공지 작성 -->
+	<insert id="insertNotice" parameterType="notice" >
+		<![CDATA[
+			INSERT INTO notice
+			VALUES (null, #{userNo}, #{chatNo}, #{title}, #{contents}, #{important}, now());
+		]]>
+	</insert>
 </mapper>
