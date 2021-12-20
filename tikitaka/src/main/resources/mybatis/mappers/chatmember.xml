@@ -16,4 +16,5 @@
 			where user_no != #{userNo} and chat_no = #{chatNo}
 		]]>
 	</select>
+
 </mapper>

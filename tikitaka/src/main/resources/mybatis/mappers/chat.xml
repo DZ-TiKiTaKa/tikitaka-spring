@@ -7,7 +7,7 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
-			values(null,#{title},#{contents},#{joinCount},now(), "group")
+			values(null,#{title},#{contents},#{joinCount},now(), #{type})
 		]]>
 	</insert>
 
@@ -18,10 +18,18 @@
             on a.no = b.no 
             join (select f.no from tikitaka.chat f join tikitaka.chat_member g on f.no = g.chat_no where g.user_no = #{authNo}) c
 			on  c.no = b.no 
-			where a.type = "PERSONAL")
+			where a.type = #{type})
 			, '0');
              
 		]]>	
+	</select>
+	
+	
+		
+	<select id="findChatroom" parameterType="long" resultType="chat">
+		<![CDATA[
+			select * from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
+		]]>
 	</select>
 
 </mapper>

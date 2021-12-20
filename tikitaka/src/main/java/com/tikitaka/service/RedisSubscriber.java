@@ -45,6 +45,7 @@ public class RedisSubscriber implements MessageListener {
         	String pubMsg = (String)redisTemplate.getStringSerializer().deserialize(message.getBody());
         	 Messagemodel messageModel = objectMapper.readValue(pubMsg, Messagemodel.class);
 
+        	 
         	 //channel 방번호
      		String chatNo = new String(message.getChannel());
         	 
