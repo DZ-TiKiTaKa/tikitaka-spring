@@ -43,5 +43,10 @@ public class ChatRepository {
 	public List<Chat> findChatRoom(Long userNo) {
 		return sqlSession.selectList("chat.findChatroom", userNo);
 	}
+
+	// chatNo에 해당하는 채팅방의 최근 공지 가져와서 채팅방 상단에 띄우기
+	public List<Notice> findByRecentNotice(String chatNo) {
+		return sqlSession.selectList("chat.findByRecentNotice", chatNo);
+	}
 }
 

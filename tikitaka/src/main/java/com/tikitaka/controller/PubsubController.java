@@ -262,6 +262,16 @@ public class PubsubController {
 
 		}
 	 
+		// chatNo에 해당하는 채팅방의 최근 공지 가져와서 채팅방 상단에 띄우기
+	    @PostMapping("/topic/recentNotice/{chatNo}")
+	    public JsonResult recentNotice(@PathVariable String chatNo) {
+	    	
+	    	List<Notice> list = chatService.getRecentNotice(chatNo);
+	    	System.out.println("recentNotice" + list);
+	    	
+			return JsonResult.success(list);
+	    	
+	    }
 	    
 	    
 	}
