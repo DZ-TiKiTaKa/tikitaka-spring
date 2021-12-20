@@ -7,7 +7,6 @@
 			keyProperty="no">
 		<![CDATA[
 			insert into chat
-
 			values(null,#{title},#{contents},#{joinCount},now(), #{type})
 		]]>
 	</insert>
@@ -23,6 +22,25 @@
 			, '0');
              
 		]]>	
+	</select>
+	
+
+	<!-- chatNo에 해당하는 채팅방의 공지 리스트 -->
+	<select id="findByChatNo" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT a.important important, a.no, a.title title, a.contents contents,  b.name name, a.reg_date
+			FROM notice a, user b
+			WHERE a.user_no = b.no
+			AND a.chat_no = #{chatNo};
+	 	]]>
+	</select>
+
+	
+		
+	<select id="findChatroom" parameterType="long" resultType="chat">
+		<![CDATA[
+			select * from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
+		]]>
 	</select>
 
 </mapper>

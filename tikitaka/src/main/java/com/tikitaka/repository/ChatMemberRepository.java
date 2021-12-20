@@ -8,7 +8,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tikitaka.model.Chat;
+import com.tikitaka.model.Notice;
 import com.tikitaka.model.ChatMember;
+
 
 @Repository
 public class ChatMemberRepository {
@@ -23,9 +26,9 @@ public class ChatMemberRepository {
 		map.put("role", role);
 		
 		return 1 == sqlSession.insert("chatmember.insert", map);
+	}
 		
 
-	}
 	
 
 
