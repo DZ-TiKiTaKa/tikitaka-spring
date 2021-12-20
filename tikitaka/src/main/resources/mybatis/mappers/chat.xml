@@ -34,6 +34,7 @@
 			AND a.chat_no = #{chatNo};
 	 	]]>
 	</select>
+
 	
 		
 	<select id="findChatroom" parameterType="long" resultType="chat">
