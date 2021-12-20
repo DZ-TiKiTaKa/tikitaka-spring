@@ -231,17 +231,14 @@ public class PubsubController {
 	    }
 	    
 	    @GetMapping("/chatList/{chatNo}")
-	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
-	    	ChatMessage chatList = new ChatMessage();
+	    public List<ChatMember> chatList(@PathVariable String chatNo) {
 	    	System.out.println("ChatList called ..........!!");
 	    	System.out.println("chatNo" + chatNo);
-	    	chatList.setChatNo(Long.parseLong(chatNo));
-	    	List<ChatMember> list = chatMessageService.findByChatNo(chatList);
+
+	    	List<ChatMember> list = chatMessageService.findByChatNo(Long.parseLong(chatNo));
 	    	System.out.println("list!!" + list);
-//	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
-//	    	map.put("list", list);
-//	    	System.out.println("map!!!" + map);
-	    	return null;
+	    	
+	    	return list;
 	    }
 
 	    @PostMapping("/topic/sendimage")
