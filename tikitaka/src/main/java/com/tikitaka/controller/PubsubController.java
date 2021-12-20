@@ -207,13 +207,7 @@ public class PubsubController {
 	        		contents,
 	        		Integer.parseInt(readCount));
 	        System.out.println("넣을 데이터!" + chatmessage);
-	        
-	        System.out.println("type =" + type);
-	        switch(type) {
-	        case "TEXT" : 
-	        	chatMessageService.insertMessage(chatmessage);
-	        	break;
-	        }
+	        chatMessageService.insertMessage(chatmessage);
 	        System.out.println("Cast test 완료");
 	        
 	        System.out.println(model);
@@ -232,14 +226,16 @@ public class PubsubController {
 	    
 	    @GetMapping("/chatList/{chatNo}")
 	    public Map<String, List<ChatMember>> chatList(@PathVariable String chatNo) {
-	    	ChatMember member = new ChatMember();
-
-	    	member.setChatNo(Long.parseLong(chatNo));
-	    	List<ChatMember> list = chatMessageService.findByChatNo(member);
-	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
-	    	map.put("list", list);
-	    	System.out.println(map);
-	    	return map;
+	    	ChatMessage chatList = new ChatMessage();
+	    	System.out.println("ChatList called ..........!!");
+	    	System.out.println("chatNo" + chatNo);
+	    	chatList.setChatNo(Long.parseLong(chatNo));
+	    	List<ChatMember> list = chatMessageService.findByChatNo(chatList);
+	    	System.out.println("list!!" + list);
+//	    	Map<String, List<ChatMember>> map = new HashMap<String, List<ChatMember>>();
+//	    	map.put("list", list);
+//	    	System.out.println("map!!!" + map);
+	    	return null;
 	    }
 
 	    @PostMapping("/topic/sendimage")
