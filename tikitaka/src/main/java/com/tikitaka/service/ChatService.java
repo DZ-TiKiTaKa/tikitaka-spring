@@ -40,5 +40,9 @@ public class ChatService {
 
 	}
 	
+	public List<Chat> findChatRoom(Long userNo){
+		return chatRepository.findChatRoom(userNo);
+	}
+	
 	
 }

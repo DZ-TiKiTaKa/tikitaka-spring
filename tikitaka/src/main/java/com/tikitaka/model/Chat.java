@@ -45,6 +45,11 @@ public class Chat {
 	public void setType(String type) {
 		this.type = type;
 	}
+	@Override
+	public String toString() {
+		return "Chat [no=" + no + ", title=" + title + ", contents=" + contents + ", joinCount=" + joinCount
+				+ ", createTime=" + createTime + ", type=" + type + "]";
+	}
+
 	
-   
 }
