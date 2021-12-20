@@ -134,16 +134,15 @@ public class UserController {
 		return list;
 	}
 	
-//	   
-//    @PostMapping("/searchinfo/{userNo}")
-//    public Map<String,Object> searchInfo(@PathVariable String userNo){
-//    	
-//    	userService.searchInfoByNo(userNo);
-//    	Map<String, Object> map = new HashMap<String, Object>();
-//    	
-//    	return map;
-//    }
-//    
+	
+    @PostMapping("/searchinfo/{userNo}")
+    public List<User> searchInfo(@PathVariable Long userNo){
+    	System.out.println("SEARCH INFO");
+    	List<User> list = userService.searchInfoByNo(userNo);
+    	System.out.println(list);
+    	return list;
+   }
+    
 	
 	
 }

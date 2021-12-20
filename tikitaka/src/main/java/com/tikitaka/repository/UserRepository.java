@@ -93,6 +93,11 @@ public class UserRepository {
 		return sqlSession.selectOne("user.getNameByNo", userNo);
 	}
 
+	public List searchInfoByNo(Long userNo) {
+		
+		return sqlSession.selectList("user.searchInfoByNo", userNo);
+	}
+
 
 
 }
