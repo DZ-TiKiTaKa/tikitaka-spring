@@ -39,5 +39,9 @@ public class ChatRepository {
 		return sqlSession.selectOne("chat.SearchByChatNo", map);
 	}	
 
+	
+	public List<Chat> findChatRoom(Long userNo) {
+		return sqlSession.selectList("chat.findChatroom", userNo);
+	}
 }
 
