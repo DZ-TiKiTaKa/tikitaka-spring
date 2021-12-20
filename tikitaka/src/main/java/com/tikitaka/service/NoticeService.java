@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.Notice;
-import com.tikitaka.model.User;
 import com.tikitaka.repository.NoticeRepository;
-import com.tikitaka.repository.UserRepository;
 
 @Service
 public class NoticeService{
@@ -32,6 +30,10 @@ public class NoticeService{
 		return noticeRepository.getNewchat(no);
 	}
 	
+	// chatNo에 해당하는 채팅방의 공지 작성
+	public boolean noticeWrite(Notice notice) {
+		return noticeRepository.insertNotice(notice);
 
+	}
 	
 }

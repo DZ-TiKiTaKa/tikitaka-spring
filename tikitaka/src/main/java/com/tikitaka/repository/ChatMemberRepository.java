@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.Notice;
+import com.tikitaka.model.ChatMember;
+
 
 @Repository
 public class ChatMemberRepository {
@@ -28,6 +30,6 @@ public class ChatMemberRepository {
 		
 
 	
-	
+
 
 }
