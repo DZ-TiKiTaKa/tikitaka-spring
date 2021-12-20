@@ -10,6 +10,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -80,9 +83,12 @@ public class PubsubController {
 	        System.out.println("채팅 리스트 출력 : " + channel.keySet());
 	    	return channel.keySet();
 	    }
+	 
+	    
+	    
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
 	    @PutMapping("/searchchat/{userNo}/{type}")
-	    public String searchchat(@PathVariable String userNo, @PathVariable String type,@RequestBody HashMap<String, Object> auth) {
+	    public String searchchat(@PathVariable Long userNo, @PathVariable String type,@RequestBody HashMap<String, Object> auth) {
 	    	
 	    	System.out.println("C : SearchChat");
 	    	String authNo = auth.get("token").toString();
@@ -109,7 +115,7 @@ public class PubsubController {
 	        	//chatNo로 redis에 다시 channel 생성하기
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
-		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
+		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "연결 되었습니다!", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 		        redisPublisher.publish(topic,model);
 	        }
@@ -119,12 +125,9 @@ public class PubsubController {
 	    }
 	    
 	    
-	    
-	    
-	    
 	    // 신규 Topic을 생성하고 Listener등록 및 Topic Map에 저장
 	    @PutMapping("/topic/{userNo}/{type}")
-	    public Map<String, String> createChat(@PathVariable String userNo, @PathVariable String type ,@RequestBody HashMap<String, Object> auth) {
+	    public Long createChat(@PathVariable String userNo, @PathVariable String type ,@RequestBody HashMap<String, Object> auth) {
 	    	System.out.println("C : createChat");
 	    	System.out.println(type);
 	        String authNo = (String)auth.get("token").toString();
@@ -166,15 +169,20 @@ public class PubsubController {
 	        channel.put(chatNo.toString(), topic); // channel<String,ChannelTopuc> 으로 Map값이 삽입
 	        System.out.println(channel);
 
-	        return map;
+	        return chatNo;
 	     }
+	    
+//	    @PostMapping("/topic")
+//	    public void welcomeMessage() {
+//	    	
+//	    }
 	    
 	    
 	    @PostMapping("/topic")
 	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
 
-	    	String userNo = result.get("userNo").toString();
+	    	Long userNo = Long.parseLong(result.get("userNo").toString().replaceAll("\\\"", ""));
 	    	String name = result.get("name").toString();
 	        String chatNo = result.get("chatNo").toString();  
 	        String contents = result.get("message").toString();
@@ -184,8 +192,8 @@ public class PubsubController {
 	        
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
-	        System.out.println(chatNoo);
 	        System.out.println("topic은?" + topic);
+	        System.out.println("전달 컨텐츠" + contents);
 	        
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
@@ -193,7 +201,7 @@ public class PubsubController {
 	        
 	        //chat 메시지 DB 저장 메소드
 	        ChatMessage chatmessage = new ChatMessage(
-	        		Long.parseLong(userNo),
+	        		userNo,
 	        		Long.parseLong(chatNoo),
 	        		type,
 	        		contents,
@@ -208,8 +216,9 @@ public class PubsubController {
 	        }
 	        System.out.println("Cast test 완료");
 	        
-	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        System.out.println(model);
 	        redisPublisher.publish(topic,model);
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	     }
 	    
 

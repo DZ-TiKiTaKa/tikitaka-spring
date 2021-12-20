@@ -109,6 +109,11 @@ public class UserService {
 		return userRepository.getNameByNo(userNo);
 	}
 
+//	public Map<String, String> searchInfoByNo(String userNo) {
+////		return userRepository.searchInfoByNo(userNo)
+//		
+//	}
+
 	
 		
 }
