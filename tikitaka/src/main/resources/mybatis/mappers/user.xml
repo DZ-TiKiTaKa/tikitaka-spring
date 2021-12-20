@@ -101,4 +101,11 @@
 	 	]]>
 	</select>
 	
+	<select id="searchInfoByNo" parameterType="Long" resultType="map">
+		<![CDATA[
+			select no,role,name,phone,email,profile,login_time,logout_time,status,care_no,pro_name from user
+			where no = #{userNo}
+		]]>
+	</select>
+	
 </mapper>
