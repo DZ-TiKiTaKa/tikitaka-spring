@@ -2,15 +2,15 @@ package com.tikitaka.model;
 
 import org.springframework.data.annotation.Id;
 
-
 public class ChatMessage {
 
 	private Long userNo;
 	private Long chatNo;
+	@Id
 	private Long no;
 	private String type;
 	private String contents;
-	private Integer readCount;
+	private int readCount;
 	private String regTime;
 	public Long getUserNo() {
 		return userNo;
@@ -42,10 +42,10 @@ public class ChatMessage {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public Integer getReadCount() {
+	public int getReadCount() {
 		return readCount;
 	}
-	public void setReadCount(Integer readCount) {
+	public void setReadCount(int readCount) {
 		this.readCount = readCount;
 	}
 	public String getRegTime() {
@@ -61,7 +61,7 @@ public class ChatMessage {
 		return "ChatMessage [userNo=" + userNo + ", chatNo=" + chatNo + ", no=" + no + ", type=" + type + ", contents="
 				+ contents + ", readCount=" + readCount + ", regTime=" + regTime + "]";
 	}
-	public ChatMessage(Long userNo,Long chatNo,String type,String contents,Integer readCount) {
+	public ChatMessage(Long userNo,Long chatNo,String type,String contents,int readCount) {
 		super();
 		this.userNo = userNo;
 		this.chatNo = chatNo;

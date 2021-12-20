@@ -59,8 +59,8 @@ public class ChatMessageService {
 
 
 
-	public List<ChatMember> findByChatNo(ChatMessage chatList) {
-		return chatmessageRepository.finbyChatNo(chatList);
+	public List<ChatMember> findByChatNo(Long chatNo) {
+		return chatmessageRepository.finbyChatNo(chatNo);
 	}
 	
 	

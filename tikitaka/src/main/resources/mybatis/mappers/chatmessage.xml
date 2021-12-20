@@ -16,11 +16,12 @@
 		]]>
 	</insert>
 	
-	<select id="findByChatList" parameterType="chatmessage" resultType="chatmessage">
+	<select id="findByChatList" parameterType="long" resultType="map">
 		<![CDATA[
-			select * 
-			from chat_message
-			where chat_no = #{chatNo}
+			select u.name, cm.user_no, cm.chat_no, cm.no, cm.type, cm.contents, cm.read_count, cm.reg_time 
+			from chat_message cm, user u
+			where cm.user_no = u.no
+			and cm.chat_no = #{chatNo}
 		]]>
 	</select>
 	
