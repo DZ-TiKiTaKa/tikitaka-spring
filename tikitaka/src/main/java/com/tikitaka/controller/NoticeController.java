@@ -4,20 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.loading.PrivateClassLoader;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.Notice;
-import com.tikitaka.model.User;
 import com.tikitaka.service.NoticeService;
 
 @RestController
@@ -58,5 +54,31 @@ public class NoticeController {
 		
 		return JsonResult.success(alist);
 	}
+	
+	// chatNo에 해당하는 채팅방의 공지 작성
+	@PostMapping("/talk/topic/noticeWrite")
+    public String noticeWrite(@RequestBody HashMap<String, Object> map) {	
+    	
+    	System.out.println("noticeWrite 값 들어옴" + map);
+    	
+    	Long userNo = Long.parseLong(String.valueOf(map.get("userNo")));
+    	Long chatNo = Long.parseLong(String.valueOf(map.get("chatNo")));
+    	String title = map.get("title").toString();
+    	int important = Integer.parseInt(String.valueOf(map.get("important")));
+
+    	String contents = map.get("contents").toString();
+    	
+    	Notice notice = new Notice();
+    	
+    	notice.setUserNo(userNo);
+    	notice.setChatNo(chatNo);
+    	notice.setTitle(title);
+    	notice.setContents(contents);
+    	notice.setImportant(important);
+    	
+    	alertService.noticeWrite(notice);
+    	
+    	return "success";
+    }
 
 }

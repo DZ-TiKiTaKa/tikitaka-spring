@@ -1,8 +1,6 @@
 package com.tikitaka.repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,12 @@ public class NoticeRepository {
 	public List<Chat> getNewchat(Long no) {
 		
 		return sqlSession.selectList("notice.getNewchat", no);
+	}
+	
+	// chatNo에 해당하는 채팅방의 공지 작성
+	public boolean insertNotice(Notice notice) {
+		int count = sqlSession.insert("notice.insertNotice", notice);
+		return count == 1;
 	}
 
 	
