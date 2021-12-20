@@ -244,7 +244,6 @@ public class PubsubController {
 	    @PostMapping("/topic/sendimage")
 	    public String sendImage(@RequestParam("file") MultipartFile image) throws Exception {
 	        String imgurl = chatMessageService.sendImage(image);
-	        System.out.println(imgurl);
 	        return imgurl;
 	    }
 	    
@@ -253,10 +252,7 @@ public class PubsubController {
 	    public JsonResult chatNoticeList(@PathVariable String chatNo, @RequestBody HashMap<String, String> data) {
 	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
 	    	
-
 	    	List<Notice> list = chatService.getNotice(chatNo);
-	    	System.out.println(list);
-
 
 			return JsonResult.success(list);
 
