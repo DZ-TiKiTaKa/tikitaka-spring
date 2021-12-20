@@ -9,17 +9,19 @@
 		]]>
 	</insert>
 	
-	<select id="findByChatNo" parameterType="chatmessage" resultType="map">
-		<![CDATA[
-			select no, user_no, reg_time, read_count, type, contents from tikitaka.chat_message 
-			where chat_no = 668
-		]]>
-	</select>
-	
 	<insert id="sendImage" parameterType="chatmessage">
 		<![CDATA[
 			insert into chat_message 
 			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now());
 		]]>
 	</insert>
+	
+	<select id="findByChatList" parameterType="chatmessage" resultType="chatmessage">
+		<![CDATA[
+			select * 
+			from chat_message
+			where chat_no = #{chatNo}
+		]]>
+	</select>
+	
 </mapper>

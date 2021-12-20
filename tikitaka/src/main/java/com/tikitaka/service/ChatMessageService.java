@@ -28,9 +28,7 @@ public class ChatMessageService {
 		return chatmessageRepository.insert(chatMessage);
 	}
 
-	public List<ChatMember> findByChatNo(ChatMember chatMember) {
-		return chatmessageRepository.findByChatNo(chatMember);
-	}
+	
 
 	public String sendImage(MultipartFile image) {
 		try {
@@ -57,6 +55,12 @@ public class ChatMessageService {
 		}
 		return null;
 		
+	}
+
+
+
+	public List<ChatMember> findByChatNo(ChatMessage chatList) {
+		return chatmessageRepository.finbyChatNo(chatList);
 	}
 	
 	

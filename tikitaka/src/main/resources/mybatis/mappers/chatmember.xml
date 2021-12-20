@@ -9,11 +9,4 @@
 		]]>
 	</insert>
 	
-	<select id="findByChatNo" parameterType="chatmember" resultType="long">
-		<![CDATA[
-			select user_no 
-			from tikitaka.chat_member 
-			where user_no != #{userNo} and chat_no = #{chatNo}
-		]]>
-	</select>
 </mapper>

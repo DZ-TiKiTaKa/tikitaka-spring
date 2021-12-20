@@ -20,14 +20,14 @@ public class ChatMessageRepository {
 		return 1 == sqlSession.insert("chatmessage.insert", chatMessage);
 	}
 	
-	public List<ChatMember> findByChatNo(ChatMember chatMember) {
-		return sqlSession.selectList("chatmessage.findByChatNo", chatMember);
-	}
-
 	public boolean sendImage(ChatMessage chatMessage) {
 		System.out.println("sendImage DB!!!!!" + chatMessage);
 		return 1 == sqlSession.insert("chatmessage.sendImage", chatMessage);
 		
+	}
+
+	public List<ChatMember> finbyChatNo(ChatMessage chatList) {
+		return sqlSession.selectList("chatmessage.findByChatList", chatList);
 	}
 
 }
