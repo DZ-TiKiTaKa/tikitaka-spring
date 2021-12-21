@@ -42,5 +42,17 @@
 			select * from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
 		]]>
 	</select>
+	
+	<!-- chatNo에 해당하는 채팅방의 최근 공지 가져와서 채팅방 상단에 띄우기 -->
+	<select id="findByRecentNotice" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT u.name, n.no, n.title, n.contents, n.reg_date 
+			FROM user u JOIN notice n
+			ON u.no=n.user_no
+			WHERE chat_no= #{chatNo}
+			ORDER BY reg_date DESC
+			LIMIT 0, 1;
+	 	]]>
+	</select>
 
 </mapper>

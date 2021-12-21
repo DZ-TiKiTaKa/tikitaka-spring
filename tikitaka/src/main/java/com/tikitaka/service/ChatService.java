@@ -43,6 +43,12 @@ public class ChatService {
 	public List<Chat> findChatRoom(Long userNo){
 		return chatRepository.findChatRoom(userNo);
 	}
+
+	// chatNo에 해당하는 채팅방의 최근 공지 가져와서 채팅방 상단에 띄우기
+	public List<Notice> getRecentNotice(String chatNo) {
+		
+		return chatRepository.findByRecentNotice(chatNo);
+	}
 	
 	
 }
