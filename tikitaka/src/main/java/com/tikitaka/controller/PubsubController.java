@@ -244,15 +244,24 @@ public class PubsubController {
 	    }
 
 	    @PostMapping("/topic/sendimage")
-	    public String sendImage(@RequestParam("file") MultipartFile image) throws Exception {
+	    public String sendImage(@RequestParam("image") MultipartFile image) throws Exception {
 	        String imgurl = chatMessageService.sendImage(image);
 	        return imgurl;
+	    }
+	    
+//	    // 채팅방 파일 전송
+	    @PostMapping("/topic/sendFile")
+	    public String sendFile(@RequestParam("file") MultipartFile file) throws Exception {
+	    		    	
+	    	String fileUrl = chatMessageService.sendFile(file);
+	    	System.out.println(fileUrl);
+	    	
+	    	return fileUrl;
 	    }
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/noticeList/{chatNo}") 
 	    public JsonResult chatNoticeList(@PathVariable String chatNo, @RequestBody HashMap<String, String> data) {
-	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
 	    	
 	    	List<Notice> list = chatService.getNotice(chatNo);
 
