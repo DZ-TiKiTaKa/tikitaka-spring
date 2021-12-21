@@ -9,13 +9,6 @@
 		]]>
 	</insert>
 	
-	<insert id="sendImage" parameterType="chatmessage">
-		<![CDATA[
-			insert into chat_message 
-			values(#{userNo},#{chatNo},null,#{type},#{contents},#{readCount},now());
-		]]>
-	</insert>
-	
 	<select id="findByChatList" parameterType="long" resultType="map">
 		<![CDATA[
 			select u.name, cm.user_no, cm.chat_no, cm.no, cm.type, cm.contents, cm.read_count, cm.reg_time 
