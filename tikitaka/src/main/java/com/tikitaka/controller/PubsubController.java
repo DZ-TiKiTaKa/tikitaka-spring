@@ -78,11 +78,19 @@ public class PubsubController {
 	    @RequestMapping("/topiclist/{userNo}")
 	    public List<Chat> findAllRoom(@PathVariable Long userNo) {
 	    	List<Chat> chatnoList = chatService.findChatRoom(userNo);
-	    	
-	    		    	//System.out.println(chatnoList);
 	    	return chatnoList;
 	    }
-
+    
+	    
+	    //ChatRoomlist-Message 를 불러옴
+	    @RequestMapping("/topiclistmsg/{userNo}")
+	    public List<ChatMessage>  findChatroomlistMsg(@PathVariable Long userNo) {
+	    	
+	    	List<ChatMessage> chatlistMsg = chatMessageService.findChatroomlistMsg(userNo);
+	    	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+ chatlistMsg);
+	    	
+	    	return chatlistMsg;
+	    }
 	    
 	    
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성

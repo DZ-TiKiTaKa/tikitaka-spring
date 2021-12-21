@@ -18,4 +18,11 @@
 		]]>
 	</select>
 	
+	<select id="findChatroomlistMsgByChatNo" parameterType="long" resultType="map">
+		<![CDATA[
+			select user_no, chat_no, no, type, contents, read_count, reg_time from(select * from chat_message where chat_no IN(select no from chat where no IN(select chat_no from chat_member where user_no = #{userNo})) 
+			order by chat_no,reg_time desc limit 10000)t group by t.chat_no;
+		]]>
+	</select>
+	
 </mapper>
