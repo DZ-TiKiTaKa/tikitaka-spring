@@ -250,12 +250,9 @@ public class PubsubController {
 	    }
 	    
 //	    // 채팅방 파일 전송
-//	    /TT/talk/topic/sendFile
 	    @PostMapping("/topic/sendFile")
 	    public String sendFile(@RequestParam("file") MultipartFile file) throws Exception {
-	    	
-	    	System.out.println("spring file 전송하는 곳 들어오나요?"); // 확인
-	    	
+	    		    	
 	    	String fileUrl = chatMessageService.sendFile(file);
 	    	System.out.println(fileUrl);
 	    	
@@ -265,7 +262,6 @@ public class PubsubController {
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/noticeList/{chatNo}") 
 	    public JsonResult chatNoticeList(@PathVariable String chatNo, @RequestBody HashMap<String, String> data) {
-	    	// @PathVariable String ChatNo => useContext에 있는 auth.chat.No 들고 와서 체크
 	    	
 	    	List<Notice> list = chatService.getNotice(chatNo);
 
