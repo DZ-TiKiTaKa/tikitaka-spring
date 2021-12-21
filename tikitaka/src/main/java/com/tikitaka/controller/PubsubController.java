@@ -223,11 +223,13 @@ public class PubsubController {
 	    
 
 	    // Topic 삭제 후 Listener 해제, Topic Map에서 삭제
-	    @DeleteMapping("/room/{roomId}")
-	    public void deleteRoom(@PathVariable String roomId) {
-	        ///ChannelTopic channel = channel.get(roomId);
-	      //  redisMessageListenerContainer.removeMessageListener(redisSubscriber, channel);
-	       // channel.remove(roomId);
+	    @DeleteMapping("/topic/{chatNo}")
+	    public void outRoom(@PathVariable Long chatNo) {
+//	    	System.out.println("C : OutRoom");
+//	    			 channel.get(chatNo.toString()); 
+//	    			 System.out.println(channel);
+//	        redisMessageListenerContainer.removeMessageListener(redisSubscriber, channel);
+//	        channel.remove(chatNo);
 	    }
 	    
 	    @GetMapping("/chatList/{chatNo}")
