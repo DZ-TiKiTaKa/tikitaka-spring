@@ -1,6 +1,8 @@
 package com.tikitaka.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class ChatMessageRepository {
 
 	public List<ChatMember> finbyChatNo(Long chatNo) {
 		return sqlSession.selectList("chatmessage.findByChatList", chatNo);
+	}
+	
+	public List<ChatMessage> findChatroomlistMsg(Long userNo) {
+		return sqlSession.selectList("chatmessage.findChatroomlistMsgByChatNo", userNo);
 	}
 
 }
