@@ -49,5 +49,8 @@ public class WebConfig implements WebMvcConfigurer {
 		
 		registry.addResourceHandler(env.getProperty("fileupload.resourceMapping"))
 		.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation"));
+		
+		registry.addResourceHandler(env.getProperty("fileupload.resourceMappingFile"))
+		.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocationFile"));
 	}
 }

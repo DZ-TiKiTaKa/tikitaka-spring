@@ -242,9 +242,22 @@ public class PubsubController {
 	    }
 
 	    @PostMapping("/topic/sendimage")
-	    public String sendImage(@RequestParam("file") MultipartFile image) throws Exception {
+	    public String sendImage(@RequestParam("image") MultipartFile image) throws Exception {
 	        String imgurl = chatMessageService.sendImage(image);
 	        return imgurl;
+	    }
+	    
+//	    // 채팅방 파일 전송
+//	    /TT/talk/topic/sendFile
+	    @PostMapping("/topic/sendFile")
+	    public String sendFile(@RequestParam("file") MultipartFile file) throws Exception {
+	    	
+	    	System.out.println("spring file 전송하는 곳 들어오나요?"); // 확인
+	    	
+	    	String fileUrl = chatMessageService.sendFile(file);
+	    	System.out.println(fileUrl);
+	    	
+	    	return fileUrl;
 	    }
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
