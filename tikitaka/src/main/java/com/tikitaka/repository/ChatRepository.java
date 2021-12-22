@@ -48,6 +48,13 @@ public class ChatRepository {
 	public List<Notice> findByRecentNotice(String chatNo) {
 		return sqlSession.selectList("chat.findByRecentNotice", chatNo);
 	}
-	
+
+
+
+	// 해당 유저가 속한 채팅번호만 반환
+	   public List findChatNumber(Long userNo) {
+	      return sqlSession.selectList("chat.findChatNumber", userNo);
+	   }
+
 }
 

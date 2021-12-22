@@ -1,5 +1,6 @@
 package com.tikitaka.controller;
 
+
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,7 +8,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -28,12 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tikitaka.dto.JsonResult;
+import com.tikitaka.model.Calendar;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
+import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
-import com.tikitaka.model.ChatMessage;
-
+import com.tikitaka.service.CalendarService;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
@@ -73,6 +74,8 @@ public class PubsubController {
 	    private ChatMessageService chatMessageService;
 	    @Autowired
 	    private UserService userService;
+	    @Autowired
+	    private CalendarService calendarService;
 
 	    @PostConstruct
 	    public void init() {
@@ -312,6 +315,14 @@ public class PubsubController {
 	    	
 			return JsonResult.success(list);
 	    	
+	    }
+	    
+	    @PostMapping("/topic/addCalendar")
+	    public Calendar addCalendar(@RequestBody Calendar cal) {
+	    	calendarService.addCalendar(cal);
+	    	System.out.println(cal);
+	    	System.out.println(channel.containsKey("1110"));
+	    	return cal;
 	    }
 	    
 	    

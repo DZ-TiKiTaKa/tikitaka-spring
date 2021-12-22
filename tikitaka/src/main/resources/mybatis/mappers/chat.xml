@@ -34,6 +34,12 @@
 			AND a.chat_no = #{chatNo};
 	 	]]>
 	</select>
+	
+	<select id="findChatNumber" parameterType="long" resultType="string">
+      <![CDATA[
+         select no from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
+      ]]>
+   </select>
 
 	
 		

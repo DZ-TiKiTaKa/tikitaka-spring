@@ -50,5 +50,10 @@ public class ChatService {
 		return chatRepository.findByRecentNotice(chatNo);
 	}
 
+
+	public List findChatNumber(Long userNo) {
+      return chatRepository.findChatNumber(userNo);
+   }
+
 	
 }
