@@ -60,5 +60,4 @@
 			LIMIT 0, 1;
 	 	]]>
 	</select>
-
 </mapper>

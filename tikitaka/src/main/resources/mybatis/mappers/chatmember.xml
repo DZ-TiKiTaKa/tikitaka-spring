@@ -17,4 +17,9 @@
 		]]>
 	</select>
 
+	<update id="outtimeUpdate" parameterType="map">
+		<![CDATA[
+		 update chat_member set out_time=now() where user_no=#{userNo} and chat_no = #{chatNo}; 		
+		]]>
+	</update>
 </mapper>

@@ -28,6 +28,13 @@ public class ChatMemberRepository {
 		return 1 == sqlSession.insert("chatmember.insert", map);
 	}
 		
+	public boolean UpdateOuttime(Long userno, Long chatno) {
+		Map<String, Long> map  = new HashMap<>();
+		map.put("userNo", userno);
+		map.put("chatNo", chatno);
+		
+		return 1 == sqlSession.update("chatmember.outtimeUpdate",map);
+	}
 
 	
 
