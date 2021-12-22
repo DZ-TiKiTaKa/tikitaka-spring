@@ -1,6 +1,7 @@
 package com.tikitaka.controller;
 
 
+
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Calendar;
+import com.tikitaka.model.CalendarModel;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
@@ -61,8 +62,6 @@ public class PubsubController {
 	    private RedisSubscriber redisSubscriber;
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
-	    
-	    
 	    
 
 	    ////////////DB Service//////////////////////
@@ -147,7 +146,7 @@ public class PubsubController {
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
 	        	channel.put(chatNo.toString(), topic);
-		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "연결 되었습니다!", "","","");       
+		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 		        redisPublisher.publish(topic,model);
 	        }
@@ -318,11 +317,11 @@ public class PubsubController {
 	    }
 	    
 	    @PostMapping("/topic/addCalendar")
-	    public Calendar addCalendar(@RequestBody Calendar cal) {
+	    public void addCalendar(@RequestBody Calendar cal) {
 	    	calendarService.addCalendar(cal);
-	    	System.out.println(cal);
-	    	System.out.println(channel.containsKey("1110"));
-	    	return cal;
+	    	CalendarModel calModel = new CalendarModel(cal.getUserNo(), cal.getTitle(), cal.getContents(), cal.getStartDate(), cal.getEndDate(), cal.getChatNo());
+	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
+	    	
 	    }
 	    
 	    
