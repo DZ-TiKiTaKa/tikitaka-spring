@@ -51,5 +51,6 @@ public class Chat {
 				+ ", createTime=" + createTime + ", type=" + type + "]";
 	}
 
+
 	
 }

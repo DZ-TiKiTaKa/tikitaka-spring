@@ -2,6 +2,7 @@ package com.tikitaka.controller;
 
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Calendar;
 import com.tikitaka.model.Chat;
@@ -81,7 +83,7 @@ public class PubsubController {
 	        channel = new HashMap<>();
 	    }
 
-	    // 유효한 Topic 리스트 반환(사용자의 채팅방 리스트 출력)
+	    // 사용자의 ChatRoomlist
 	    @RequestMapping("/topiclist/{userNo}")
 	    public List<Chat> findAllRoom(@PathVariable Long userNo) {
 	    	List<Chat> chatnoList = chatService.findChatRoom(userNo);
@@ -94,11 +96,29 @@ public class PubsubController {
 	    public List<ChatMessage>  findChatroomlistMsg(@PathVariable Long userNo) {
 	    	
 	    	List<ChatMessage> chatlistMsg = chatMessageService.findChatroomlistMsg(userNo);
-	    	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+ chatlistMsg);
 	    	
 	    	return chatlistMsg;
 	    }
 	    
+	    //채팅방 읽지 않은 메시지 갯수 카운트
+	    @RequestMapping("/topiclistnoread/{userNo}/{chatNo}")
+	    public String noReadmsgCount(@PathVariable Long userNo, @PathVariable Long chatNo) {
+	    	String count = chatMessageService.noReadmsgCount(userNo, chatNo);
+	    	
+	    	if(count == null) {
+	    		return "0";
+	    	}
+	    	return count;
+	    }
+	    
+	    //채팅방 나갈때 DB의 chatmember테이블의 out_time 업데이트
+	    @PostMapping("/updateouttime")
+	    public void chatExittimeupdate(@RequestBody HashMap<String,String> exittime) {
+	    	Long userNo = Long.parseLong(exittime.get("userno"));
+	    	Long chatNo = Long.parseLong(exittime.get("chatno"));
+	    	chatmemberService.UpdateOuttime(userNo, chatNo);
+	    }
+	    	    
 	    
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
 	    @PutMapping("/searchchat/{userNo}/{type}")

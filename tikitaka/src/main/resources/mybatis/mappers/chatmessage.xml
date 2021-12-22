@@ -25,4 +25,10 @@
 		]]>
 	</select>
 	
+	<select id="noReadmsgCount" parameterType="map" resultType="String">
+		<![CDATA[
+			select count(*) from chat_message where reg_time > (select out_time from chat_member where chat_no = #{chatNo} and user_no = #{userNo}) and chat_no = #{chatNo2} group by chat_no;
+		]]>
+	</select>
+	
 </mapper>
