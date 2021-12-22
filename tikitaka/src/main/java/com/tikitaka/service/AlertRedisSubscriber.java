@@ -20,19 +20,18 @@ public class AlertRedisSubscriber implements MessageListener {
     private final RedisTemplate redisTemplate;
     
     //react로 전달할 template
-    private SimpMessagingTemplate messagingTemplate;
+//    private SimpMessagingTemplate messagingTemplate;
     
-//    public RedisSubscriber() {
-//		this.objectMapper = new ObjectMapper();
-//		this.redisTemplate = new RedisTemplate();
-//		this.messagingTemplate = messagingTemplate;
-//		};
+    private SimpMessagingTemplate alertmessagingTemplate;
     
-    public AlertRedisSubscriber(ObjectMapper objectMapper, RedisTemplate redisTemplate, SimpMessagingTemplate messagingTemplate) {
+
+    
+    public AlertRedisSubscriber(ObjectMapper objectMapper, RedisTemplate redisTemplate, SimpMessagingTemplate messagingTemplate,SimpMessagingTemplate alertmessagingTemplate) {
 		super();
 		this.objectMapper = objectMapper;
 		this.redisTemplate = redisTemplate;
-		this.messagingTemplate = messagingTemplate;
+//		this.messagingTemplate = messagingTemplate;
+		this.alertmessagingTemplate = alertmessagingTemplate;
 	} 
 
 
@@ -40,7 +39,7 @@ public class AlertRedisSubscriber implements MessageListener {
 	@Override
     public void onMessage(Message message, byte[] pattern) {
         try {
-        	System.out.println("Redis Sub 호출");
+        	System.out.println("Alert Redis Sub 호출");
 
         	String pubMsg = (String)redisTemplate.getStringSerializer().deserialize(message.getBody());
         	 Messagemodel messageModel = objectMapper.readValue(pubMsg, Messagemodel.class);
@@ -51,8 +50,9 @@ public class AlertRedisSubscriber implements MessageListener {
         	 
      		
      		//sub한 채널에 데이터 전송
-     		System.out.println("전송 데이터 : " + messageModel);
-     		messagingTemplate.convertAndSend("/alert/"+ chatNo, messageModel);
+     		System.out.println("실시간 알림 전송 데이터 : " + messageModel);
+     		alertmessagingTemplate.convertAndSend("/alert/"+ chatNo, messageModel);
+     		
      		
         } catch (Exception e) {
             System.out.println("error : " + e);

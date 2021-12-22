@@ -56,7 +56,7 @@ public List<Chat> findAllRoom(@PathVariable Long userNo) {
    
 	System.out.println("C : findAllRoom");
 	List list = chatService.findChatNumber(userNo);
-   connectsocket(list,userNo);
+//   connectsocket(list,userNo);
    return chatService.findChatRoom(userNo);
 }
 
@@ -67,9 +67,9 @@ public void connectsocket(List chatnoList, Long userNo) {
 	   System.out.println("redis channel 다시 생성하기 init 데이터 전송");
       String chatNo = chatnoList.get(i).toString();
       ChannelTopic topic = new ChannelTopic(chatNo);
-      Messagemodel model = new Messagemodel(userNo,chatNo, "", "연결 되었습니다!", "","","");       
+//      Messagemodel model = new Messagemodel(userNo,chatNo, "", "연결 되었습니다!", "","","");       
       redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
-      redisPublisher.publish(topic,model);
+//      redisPublisher.publish(topic,model);
    }
 
 

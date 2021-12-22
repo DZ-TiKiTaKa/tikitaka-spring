@@ -23,7 +23,7 @@ public class WebAlertsocketConfig implements WebSocketMessageBrokerConfigurer{
       //TT로 시작하는 대상이 있는 클라이언트에서 보낸 모든 메세지는 MessageMapping이 달린 메서드로 라우팅 된다.
       //topic 주소가 있는 사람들에게 보낸다.
 
-      registry.enableSimpleBroker("/alert");
+      registry.enableSimpleBroker("/topic");
       registry.setApplicationDestinationPrefixes("/fake");
       
       System.out.println("WebAlertsocketConfig!");
