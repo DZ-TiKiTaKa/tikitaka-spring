@@ -35,6 +35,8 @@ import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
+import com.tikitaka.model.ChatMessage;
+import com.tikitaka.service.AlertRedisSubscriber;
 import com.tikitaka.service.CalendarService;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
@@ -60,6 +62,8 @@ public class PubsubController {
 	    // 구독자
 		@Autowired
 	    private RedisSubscriber redisSubscriber;
+		@Autowired 
+		private AlertRedisSubscriber alertRedisSubscriber;
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
 	    
@@ -146,9 +150,9 @@ public class PubsubController {
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
 	        	channel.put(chatNo.toString(), topic);
-		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
+//		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-		        redisPublisher.publish(topic,model);
+//		        redisPublisher.publish(topic,model);
 	        }
 	    	
 	
@@ -170,7 +174,7 @@ public class PubsubController {
 	        //채팅방 개설
 	        Chat chat = new Chat();
 	        chat.setTitle(title);
-	        chat.setContents("컨텐츠-> 불필요한 column이라고 생각해서 나중에 제거하기");
+	        chat.setContents("contents");
 	        chat.setJoinCount(arrUserNo.length + 1);
 	        chat.setType(type);
 	        chatService.insertChatRoom(chat);
@@ -246,11 +250,10 @@ public class PubsubController {
 	        		Integer.parseInt(readCount));
 	        System.out.println("넣을 데이터!" + chatmessage);
 	        chatMessageService.insertMessage(chatmessage);
-	        System.out.println("Cast test 완료");
 	        
-	        System.out.println(model);
-	        redisPublisher.publish(topic,model);
+	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        redisPublisher.publish(topic,model);
 	     }
 	    
 
