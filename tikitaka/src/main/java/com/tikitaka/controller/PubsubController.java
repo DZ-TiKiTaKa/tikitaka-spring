@@ -1,5 +1,9 @@
 package com.tikitaka.controller;
 
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +13,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +60,8 @@ public class PubsubController {
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
 	    
+	    
+	    
 
 	    ////////////DB Service//////////////////////
 	    @Autowired
@@ -78,11 +85,19 @@ public class PubsubController {
 	    @RequestMapping("/topiclist/{userNo}")
 	    public List<Chat> findAllRoom(@PathVariable Long userNo) {
 	    	List<Chat> chatnoList = chatService.findChatRoom(userNo);
-	    	
-	    		    	//System.out.println(chatnoList);
 	    	return chatnoList;
 	    }
-
+    
+	    
+	    //ChatRoomlist-Message 를 불러옴
+	    @RequestMapping("/topiclistmsg/{userNo}")
+	    public List<ChatMessage>  findChatroomlistMsg(@PathVariable Long userNo) {
+	    	
+	    	List<ChatMessage> chatlistMsg = chatMessageService.findChatroomlistMsg(userNo);
+	    	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+ chatlistMsg);
+	    	
+	    	return chatlistMsg;
+	    }
 	    
 	    
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
@@ -111,6 +126,7 @@ public class PubsubController {
 	        	//chatNo로 redis에 다시 channel 생성하기
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
+	        	channel.put(chatNo.toString(), topic);
 		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "연결 되었습니다!", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 		        redisPublisher.publish(topic,model);
@@ -178,10 +194,7 @@ public class PubsubController {
 	        return chatNo;
 	     }
 	    
-//	    @PostMapping("/topic")
-//	    public void welcomeMessage() {
-//	    	
-//	    }
+
 	    
 	    
 	    @PostMapping("/topic")
@@ -224,12 +237,16 @@ public class PubsubController {
 
 	    // Topic 삭제 후 Listener 해제, Topic Map에서 삭제
 	    @DeleteMapping("/topic/{chatNo}")
-	    public void outRoom(@PathVariable Long chatNo) {
-//	    	System.out.println("C : OutRoom");
-//	    			 channel.get(chatNo.toString()); 
-//	    			 System.out.println(channel);
-//	        redisMessageListenerContainer.removeMessageListener(redisSubscriber, channel);
-//	        channel.remove(chatNo);
+	    public void outRoom(@PathVariable String chatNo) {
+	    	System.out.println("C : OutRoom");
+	    	channel.get(chatNo.toString());
+	    	System.out.println(channel);
+	    	System.out.println(channel.get(chatNo.toString()));
+	    
+	  
+	        redisMessageListenerContainer.removeMessageListener(redisSubscriber, channel.get(chatNo.toString()));
+	        channel.remove(chatNo);
+	        
 	    }
 	    
 	    @GetMapping("/chatList/{chatNo}")
