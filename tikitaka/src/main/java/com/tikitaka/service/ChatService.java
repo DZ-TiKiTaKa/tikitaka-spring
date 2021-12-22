@@ -49,6 +49,6 @@ public class ChatService {
 		
 		return chatRepository.findByRecentNotice(chatNo);
 	}
-	
+
 	
 }

@@ -48,5 +48,6 @@ public class ChatRepository {
 	public List<Notice> findByRecentNotice(String chatNo) {
 		return sqlSession.selectList("chat.findByRecentNotice", chatNo);
 	}
+	
 }
 
