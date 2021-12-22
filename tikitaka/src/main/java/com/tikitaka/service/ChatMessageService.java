@@ -3,6 +3,7 @@ package com.tikitaka.service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -97,15 +98,14 @@ public class ChatMessageService {
 	public List<ChatMember> findByChatNo(Long chatNo) {
 		return chatmessageRepository.finbyChatNo(chatNo);
 	}
-
-
-
-	
-	
 	
 	public List<ChatMessage> findChatroomlistMsg(Long userNo) {
 		return chatmessageRepository.findChatroomlistMsg(userNo);
 	}
 	
+	
+	public String noReadmsgCount(Long userno, Long chatno) {
+		return chatmessageRepository.noReadmsgCount(userno, chatno);
+	}
 	
 }

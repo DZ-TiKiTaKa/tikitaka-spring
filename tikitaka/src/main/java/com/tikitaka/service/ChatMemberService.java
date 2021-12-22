@@ -24,4 +24,8 @@ public class ChatMemberService {
 		chatmemberRepository.insert(userno, chatno,role);
 	}
 	
+	public boolean UpdateOuttime(Long userno, Long chatno) {
+		return chatmemberRepository.UpdateOuttime(userno, chatno);
+	}
+	
 }

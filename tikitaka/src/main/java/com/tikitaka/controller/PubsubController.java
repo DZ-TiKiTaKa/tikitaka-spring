@@ -1,19 +1,20 @@
 package com.tikitaka.controller;
 
+
+
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,13 +26,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tikitaka.dto.JsonResult;
+import com.tikitaka.model.Calendar;
+import com.tikitaka.model.CalendarModel;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
+import com.tikitaka.model.ChatMessage;
 import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
 import com.tikitaka.model.ChatMessage;
 import com.tikitaka.service.AlertRedisSubscriber;
+import com.tikitaka.service.CalendarService;
 import com.tikitaka.service.ChatMemberService;
 import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
@@ -61,8 +67,6 @@ public class PubsubController {
 	    // topic 이름으로 topic정보를 가져와 메시지를 발송할 수 있도록 Map에 저장
 	    private Map<String, ChannelTopic> channel;
 	    
-	    
-	    
 
 	    ////////////DB Service//////////////////////
 	    @Autowired
@@ -73,6 +77,8 @@ public class PubsubController {
 	    private ChatMessageService chatMessageService;
 	    @Autowired
 	    private UserService userService;
+	    @Autowired
+	    private CalendarService calendarService;
 
 	    @PostConstruct
 	    public void init() {
@@ -80,7 +86,7 @@ public class PubsubController {
 	        channel = new HashMap<>();
 	    }
 
-	    // 유효한 Topic 리스트 반환(사용자의 채팅방 리스트 출력)
+	    // 사용자의 ChatRoomlist
 	    @RequestMapping("/topiclist/{userNo}")
 	    public List<Chat> findAllRoom(@PathVariable Long userNo) {
 	    	List<Chat> chatnoList = chatService.findChatRoom(userNo);
@@ -93,11 +99,29 @@ public class PubsubController {
 	    public List<ChatMessage>  findChatroomlistMsg(@PathVariable Long userNo) {
 	    	
 	    	List<ChatMessage> chatlistMsg = chatMessageService.findChatroomlistMsg(userNo);
-	    	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+ chatlistMsg);
 	    	
 	    	return chatlistMsg;
 	    }
 	    
+	    //채팅방 읽지 않은 메시지 갯수 카운트
+	    @RequestMapping("/topiclistnoread/{userNo}/{chatNo}")
+	    public String noReadmsgCount(@PathVariable Long userNo, @PathVariable Long chatNo) {
+	    	String count = chatMessageService.noReadmsgCount(userNo, chatNo);
+	    	
+	    	if(count == null) {
+	    		return "0";
+	    	}
+	    	return count;
+	    }
+	    
+	    //채팅방 나갈때 DB의 chatmember테이블의 out_time 업데이트
+	    @PostMapping("/updateouttime")
+	    public void chatExittimeupdate(@RequestBody HashMap<String,String> exittime) {
+	    	Long userNo = Long.parseLong(exittime.get("userno"));
+	    	Long chatNo = Long.parseLong(exittime.get("chatno"));
+	    	chatmemberService.UpdateOuttime(userNo, chatNo);
+	    }
+	    	    
 	    
 	    //대화를 신청할 유저와 본인의 채팅방 조회 > 없으면 topic 생성
 	    @PutMapping("/searchchat/{userNo}/{type}")
@@ -292,6 +316,14 @@ public class PubsubController {
 	    	System.out.println("recentNotice" + list);
 	    	
 			return JsonResult.success(list);
+	    	
+	    }
+	    
+	    @PostMapping("/topic/addCalendar")
+	    public void addCalendar(@RequestBody Calendar cal) {
+	    	calendarService.addCalendar(cal);
+	    	CalendarModel calModel = new CalendarModel(cal.getUserNo(), cal.getTitle(), cal.getContents(), cal.getStartDate(), cal.getEndDate(), cal.getChatNo());
+	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
 	    	
 	    }
 	    

@@ -29,5 +29,14 @@ public class ChatMessageRepository {
 	public List<ChatMessage> findChatroomlistMsg(Long userNo) {
 		return sqlSession.selectList("chatmessage.findChatroomlistMsgByChatNo", userNo);
 	}
+	
+	public String noReadmsgCount(Long userno, Long chatno) {
+		Map<String, Long> map  = new HashMap<>();
+		map.put("userNo", userno);
+		map.put("chatNo", chatno);
+		map.put("chatNo2", chatno);
+		
+		return sqlSession.selectOne("chatmessage.noReadmsgCount",map);
+	}
 
 }

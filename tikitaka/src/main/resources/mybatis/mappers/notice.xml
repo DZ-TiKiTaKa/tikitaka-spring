@@ -23,7 +23,6 @@
 			on a.no = b.chat_no) c  on c.no = a.chat_no 
 			join user d on a.user_no = d.no
 			where a.reg_date > (select logout_time from user where no = #{no}) ;
-
 		]]>
 	</select>
 	
