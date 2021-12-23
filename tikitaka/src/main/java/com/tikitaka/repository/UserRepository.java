@@ -54,8 +54,7 @@ public class UserRepository {
 	}
 
 	public List<String> getInfo(Long no) {
-		List<String>pro = sqlSession.selectList("user.info", no);
-		return pro;
+		return sqlSession.selectList("user.info", no);
 	}
 
 	public boolean updateProfile(HashMap<String, Object> result) {

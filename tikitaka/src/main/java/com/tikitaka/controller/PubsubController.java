@@ -321,7 +321,7 @@ public class PubsubController {
 	    
 	    @PostMapping("/topic/addCalendar")
 	    public void addCalendar(@RequestBody Calendar cal) {
-	    	calendarService.addCalendar(cal);
+	    	//calendarService.addCalendar(cal);
 	    	CalendarModel calModel = new CalendarModel(cal.getUserNo(), cal.getTitle(), cal.getContents(), cal.getStartDate(), cal.getEndDate(), cal.getChatNo());
 	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
 	    	

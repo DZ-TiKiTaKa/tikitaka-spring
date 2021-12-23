@@ -62,26 +62,23 @@ public class UserController {
 
 
 	@PostMapping("/join")
-	public String join(@RequestBody User user) {
-		String[][] codeNo = new String[4][2]; // 코드인포에 담길 코드
+	public void join(@RequestBody User user) {
 		String[] userNo = user.getUserNo().split("-"); // 사용자가 입력한 코드
 		boolean emailCheck = userService.findByEmail(user.getEmail());
+		System.out.println("email 중복체크" + emailCheck);
 		if(emailCheck == false) {
-			return null;
+			return;
 		}
-		for(int i=0; i<codeNo.length; i++) {
-			codeNo[i][0] = userNo[i];
-		}
-		if(Integer.parseInt(codeNo[userNo.length-2][0].substring(0,1)) == 3) {
+		
+		if(userNo.length == 4) {
 			user.setRole("CP");
 		} else {
 			user.setRole("CS");
 		}
+		
 		userService.joinUser(user);
 		userService.setCode(userNo);
 		
-
-		return "success";
 	}
 
 //	@Auth
@@ -131,6 +128,7 @@ public class UserController {
 	public List<String> getInfo(@PathVariable("no") Long no){
 		List<String> list = new ArrayList<String>();
 		list = userService.getInfo(no);
+		System.out.println(list);
 		return list;
 	}
 	
