@@ -150,9 +150,7 @@ public class PubsubController {
 	        	System.out.println("redis channel 다시 생성하기 init 데이터 전송");
 	        	ChannelTopic topic = new ChannelTopic(chatNo.toString());
 	        	channel.put(chatNo.toString(), topic);
-//		    	Messagemodel model = new Messagemodel(userNo,chatNo, "", "", "","","");       
 		        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-//		        redisPublisher.publish(topic,model);
 	        }
 	    	
 	
@@ -233,8 +231,8 @@ public class PubsubController {
 
 	    
 	    
-	    @PostMapping("/topic")
-	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
+	    @PostMapping("/topic/{opuser}")
+	    public void publishMessage(@RequestBody HashMap<String, Object> result, @PathVariable String opuser) throws Exception {
 	    	System.out.println("C : pub message");
 
 	    	Long userNo = Long.parseLong(result.get("userNo").toString().replaceAll("\\\"", ""));
@@ -249,7 +247,9 @@ public class PubsubController {
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	        System.out.println("topic은?" + topic);
 	        System.out.println("전달 컨텐츠" + contents);
+	        System.out.println("상대방 : "+ opuser);
 	        
+	        ChannelTopic opusertopic = new ChannelTopic(opuser);
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
@@ -264,9 +264,10 @@ public class PubsubController {
 	        System.out.println("넣을 데이터!" + chatmessage);
 	        chatMessageService.insertMessage(chatmessage);
 	        
-	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
+	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, opusertopic);
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
+	        redisPublisher.publish(opusertopic,model);
 	     }
 	    
 

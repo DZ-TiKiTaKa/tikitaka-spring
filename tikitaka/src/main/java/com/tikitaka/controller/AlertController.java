@@ -57,7 +57,7 @@ public List<Chat> findRoom(@PathVariable Long userNo) {
 	System.out.println("C : findRoom");
 	List list = chatService.findChatNumber(userNo);
 	System.out.println("번호 봐요 :" + list);
-//   connectsocket(list,userNo);
+   connectsocket(list,userNo);
    return list;
 }
 
