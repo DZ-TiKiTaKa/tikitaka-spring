@@ -52,12 +52,13 @@ public void init() {
 
 // 유효한 Topic 리스트 반환(사용자의 채팅방 리스트 출력)
 @RequestMapping("/alert/{userNo}")
-public List<Chat> findAllRoom(@PathVariable Long userNo) {
+public List<Chat> findRoom(@PathVariable Long userNo) {
    
-	System.out.println("C : findAllRoom");
+	System.out.println("C : findRoom");
 	List list = chatService.findChatNumber(userNo);
+	System.out.println("번호 봐요 :" + list);
 //   connectsocket(list,userNo);
-   return chatService.findChatRoom(userNo);
+   return list;
 }
 
 public void connectsocket(List chatnoList, Long userNo) {

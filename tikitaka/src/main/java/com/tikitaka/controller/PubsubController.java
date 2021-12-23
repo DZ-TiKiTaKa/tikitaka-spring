@@ -170,15 +170,28 @@ public class PubsubController {
 	        
 	        System.out.println("대화를 신청하는 유저의 authNo = "+ authNo);
 	        System.out.println("대화하고싶은 유저의 userNo = "+ userNo);
-	        
-	        //채팅방 개설
+	        System.out.println("title == userNo ??" + title);
 	        Chat chat = new Chat();
+
+	        if(userNo.equals(title)) {
+	        	System.out.println("개인 톡방 title 생성");
+	        	String name = userService.getNameByNo(Long.parseLong(userNo));
+	        	String name2 = userService.getNameByNo(Long.parseLong(authNo));
+	        	String roomname = name + " , "+ name2;
+	 	        chat.setTitle(roomname);
+	 	        chat.setContents("contents");
+	 	        chat.setJoinCount(arrUserNo.length + 1);
+	 	        chat.setType(type);
+	 	        chatService.insertChatRoom(chat);
+	        }else {
+	        System.out.println("단체 톡방 insert");
+	        //채팅방 개설
 	        chat.setTitle(title);
 	        chat.setContents("contents");
 	        chat.setJoinCount(arrUserNo.length + 1);
 	        chat.setType(type);
 	        chatService.insertChatRoom(chat);
-	        
+	        }
 	        
 	        Long chatNo = chat.getNo();
 	        //mybatis useGeneratedKeys옵션을 통해 insert할때 auto_increment된 no값이 chat객체에 들어가게된다.
