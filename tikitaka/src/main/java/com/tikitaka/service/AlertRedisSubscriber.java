@@ -45,13 +45,12 @@ public class AlertRedisSubscriber implements MessageListener {
         	 Messagemodel messageModel = objectMapper.readValue(pubMsg, Messagemodel.class);
 
         	 
-        	 //channel 방번호
-     		String chatNo = new String(message.getChannel());
-        	 
+        	 //user
+     		String opuser = new String(message.getChannel());
      		
      		//sub한 채널에 데이터 전송
-     		System.out.println("실시간 알림 전송 데이터 : " + messageModel);
-     		alertmessagingTemplate.convertAndSend("/alert/"+ chatNo, messageModel);
+     		System.out.println("실시간 알림 전송 데이터 : " + opuser );
+     		alertmessagingTemplate.convertAndSend("/topic/" + opuser , messageModel);
      		
      		
         } catch (Exception e) {

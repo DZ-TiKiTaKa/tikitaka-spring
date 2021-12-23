@@ -58,7 +58,7 @@ public class RedisSubscriber implements MessageListener {
 			} else if(messageModel.getType() != null){
 				// sub한 채널에 데이터 전송
 				messagingTemplate.convertAndSend("/topic/" + chatNo, messageModel);
-				System.out.println("전송 데이터 : " + messageModel);
+				System.out.println("전송 데이터 : " + chatNo);
 			}
 			
 		} catch (Exception e) {
