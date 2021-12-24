@@ -31,7 +31,7 @@ public class RedisPublisher {
 	// 연락처 보내기
 	public void publishCon(ChannelTopic topic, ContactModel conModel) {
 		System.out.println("publishCon 온다 !");
-		
+		System.out.println("redisPublisher " + conModel);
 		// redis pub 호출 - publish 보내줌 (topic에 model(채팅에서는 message)을 담아서)
 		redisTemplate.convertAndSend(topic.getTopic(), conModel);
 	}
