@@ -37,6 +37,7 @@ import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
 import com.tikitaka.service.RedisSubscriber;
+import com.tikitaka.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -70,6 +71,8 @@ public class PubsubController {
 	    private ChatMessageService chatMessageService;
 	    @Autowired
 	    private CalendarService calendarService;
+	    @Autowired
+	    private UserService userService;
 
 	    @PostConstruct
 	    public void init() {
