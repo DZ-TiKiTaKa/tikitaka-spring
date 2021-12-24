@@ -1,11 +1,6 @@
 package com.tikitaka.controller;
 
 
-
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.Calendar;
 import com.tikitaka.model.CalendarModel;
 import com.tikitaka.model.Chat;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
+import com.tikitaka.model.ContactModel;
 import com.tikitaka.model.Messagemodel;
 import com.tikitaka.model.Notice;
-import com.tikitaka.model.ChatMessage;
 import com.tikitaka.service.AlertRedisSubscriber;
 import com.tikitaka.service.CalendarService;
 import com.tikitaka.service.ChatMemberService;
@@ -43,7 +37,6 @@ import com.tikitaka.service.ChatMessageService;
 import com.tikitaka.service.ChatService;
 import com.tikitaka.service.RedisPublisher;
 import com.tikitaka.service.RedisSubscriber;
-import com.tikitaka.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,8 +68,6 @@ public class PubsubController {
 	    private ChatMemberService chatmemberService;
 	    @Autowired
 	    private ChatMessageService chatMessageService;
-	    @Autowired
-	    private UserService userService;
 	    @Autowired
 	    private CalendarService calendarService;
 
@@ -281,6 +272,7 @@ public class PubsubController {
 	    	
 	    	return list;
 	    }
+	    
 
 	    @PostMapping("/topic/sendimage")
 	    public String sendImage(@RequestParam("image") MultipartFile image) throws Exception {
@@ -326,6 +318,41 @@ public class PubsubController {
 	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
 	    	
 	    }
+	    
+	    
+	    
+	    @PostMapping("/topic/sendContact")
+	    public void sendContact(@RequestBody HashMap<String, Object> result) throws Exception {
+	    	System.out.println("C : pub message");
+
+	    	Long userNo = Long.parseLong(result.get("authNo").toString().replaceAll("\\\"", ""));
+	    	String chatNo = result.get("chatNo").toString();  
+	    	String name = result.get("userName").toString();
+	    	String contents = result.get("userPhone").toString();
+	    	String type = "CONTACT";
+	        
+	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
+	        
+	        ChannelTopic topic = new ChannelTopic(chatNoo);
+	        
+	        System.out.println("topic은?" + topic);
+	        System.out.println("userName >>> " + name);
+	        System.out.println("userPhone >>> " + contents);
+
+	        
+	        
+	        ContactModel model = new ContactModel(userNo, chatNo, name, contents, type);       
+	        
+	        System.out.println("model" +  model);
+	        
+	        // DB 저장 안함
+	        
+	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
+	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        redisPublisher.publishCon(topic,model);
+	     }
+	    
+	    
 	    
 	    
 	}
