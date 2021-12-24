@@ -330,7 +330,7 @@ public class PubsubController {
 	    
 	    @PostMapping("/topic/addCalendar")
 	    public void addCalendar(@RequestBody Calendar cal) {
-	    	//calendarService.addCalendar(cal);
+	    	calendarService.addCalendar(cal);
 	    	CalendarModel calModel = new CalendarModel(cal.getUserNo(), cal.getTitle(), cal.getContents(), cal.getStartDate(), cal.getEndDate(), cal.getChatNo());
 	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
 	    	
@@ -350,9 +350,9 @@ public class PubsubController {
 	        
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        
-	        ChannelTopic topic = new ChannelTopic(chatNoo);
+	        //ChannelTopic topic = new ChannelTopic(chatNoo);
 	        
-	        System.out.println("topic은?" + topic);
+	        //System.out.println("topic은?" + topic);
 	        System.out.println("userName >>> " + name);
 	        System.out.println("userPhone >>> " + contents);
 
@@ -364,9 +364,9 @@ public class PubsubController {
 	        
 	        // DB 저장 안함
 	        
-	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
-	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-	        redisPublisher.publishCon(topic,model);
+	       // redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
+	        //redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+	        redisPublisher.publishCon(ChannelTopic.of(chatNo),model);
 	     }
 	    
 	    
