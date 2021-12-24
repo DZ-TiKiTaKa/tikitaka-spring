@@ -141,6 +141,15 @@ public class UserController {
     	return list;
    }
     
+    @PostMapping("/searchlotinfo/{userNo}")
+   public List<User> searchlotinfo(@PathVariable Long userNo){
+    	System.out.println("SEARCH LOT INFO");
+    	List<User> list = userService.searchlotinfo(userNo);
+    	
+    	System.out.println(list);
+    	return list;
+    }
+    
 	
 	
 }
