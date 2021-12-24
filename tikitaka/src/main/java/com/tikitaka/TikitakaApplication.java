@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @ComponentScan
  * @EnableAutoConfiguration 3가지 역할을 수행함.
  * 
- * 1. @ComponentScan
+ * 1. @ComponentScan 
  *  - @Component @Configuration @Repository @Service @Controller @RestController
  *  - 하위 패키지에서 위와 같은 어노테이션을 찾아 bean으로 등록한다.
  * 

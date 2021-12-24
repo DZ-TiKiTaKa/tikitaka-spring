@@ -348,11 +348,13 @@ public class PubsubController {
 	    	String contents = result.get("userPhone").toString();
 	    	String type = "CONTACT";
 	        
+
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        
 	        //ChannelTopic topic = new ChannelTopic(chatNoo);
 	        
 	        //System.out.println("topic은?" + topic);
+
 	        System.out.println("userName >>> " + name);
 	        System.out.println("userPhone >>> " + contents);
 
@@ -364,9 +366,11 @@ public class PubsubController {
 	        
 	        // DB 저장 안함
 	        
+
 	       // redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic);
 	        //redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publishCon(ChannelTopic.of(chatNo),model);
+
 	     }
 	    
 	    
