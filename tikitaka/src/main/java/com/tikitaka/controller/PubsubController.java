@@ -244,6 +244,7 @@ public class PubsubController {
 	        System.out.println("상대방 : "+ opuser);
 	        
 	        ChannelTopic opusertopic = new ChannelTopic(opuser);
+	        ChannelTopic usertopic = new ChannelTopic(result.get("userNo").toString());
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
@@ -258,10 +259,12 @@ public class PubsubController {
 	        System.out.println("넣을 데이터!" + chatmessage);
 	        chatMessageService.insertMessage(chatmessage);
 	        
+	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, usertopic);
 	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, opusertopic);
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
 	        redisPublisher.publish(opusertopic,model);
+	        redisPublisher.publish(usertopic,model);
 	     }
 	    
 
