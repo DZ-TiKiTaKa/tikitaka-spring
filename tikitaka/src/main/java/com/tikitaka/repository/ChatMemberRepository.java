@@ -36,6 +36,10 @@ public class ChatMemberRepository {
 		return 1 == sqlSession.update("chatmember.outtimeUpdate",map);
 	}
 
+	public List<ChatMember> findUserNoByChatNo(Long chatNo) {
+		return sqlSession.selectList("chatmember.findUserNoByChatNo", chatNo);
+	}
+
 	
 
 

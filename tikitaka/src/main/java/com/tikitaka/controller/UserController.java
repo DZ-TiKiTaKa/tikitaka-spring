@@ -102,10 +102,13 @@ public class UserController {
 	}
 
 	@PostMapping("/updateProfile")
-	public void updateProfile(@RequestBody HashMap<String, Object> result) {
+	public User updateProfile(@RequestBody HashMap<String, Object> result) {
 		
+		Long userNo = Long.parseLong(result.get("no").toString()) ;
 		userService.updateProfile(result);
-		System.out.println(result);
+		User user = userService.findUser(userNo);
+		System.out.println("바뀐 유저: " + user);
+		return user;
 	}
 	
 	@PostMapping("/updateImage/{token}")
