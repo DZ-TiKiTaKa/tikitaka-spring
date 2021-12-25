@@ -225,8 +225,8 @@ public class PubsubController {
 
 	    
 	    
-	    @PostMapping("/topic/{opuser}")
-	    public void publishMessage(@RequestBody HashMap<String, Object> result, @PathVariable String opuser) throws Exception {
+	    @PostMapping("/topic")
+	    public void publishMessage(@RequestBody HashMap<String, Object> result) throws Exception {
 	    	System.out.println("C : pub message");
 
 	    	Long userNo = Long.parseLong(result.get("userNo").toString().replaceAll("\\\"", ""));
@@ -236,32 +236,40 @@ public class PubsubController {
 	        String type =  result.get("type").toString();
 	        String readCount = result.get("readCount").toString();
 	        String regTime = result.get("regTime").toString();
+	        //String opuser = result.get("opuser").toString();
 	        
+	        Long chatLongNo = Long.parseLong(chatNo);
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	        System.out.println("topic은?" + topic);
 	        System.out.println("전달 컨텐츠" + contents);
-	        System.out.println("상대방 : "+ opuser);
+	        //System.out.println("상대방 : "+ opuser);
 	        
-	        ChannelTopic opusertopic = new ChannelTopic(opuser);
+	        //ChannelTopic opusertopic = new ChannelTopic(opuser);
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
-	        
+	        List list = chatmemberService.findUserNoByChatNo(chatLongNo);
+	        System.out.println("Noo" + chatLongNo);
+	        System.out.println("땡땡떄줘: " + list);
+	        System.out.println("노다:" + chatNo);
+	        for(int i=0; i<list.size(); i++) {
+	        	ChannelTopic topic2 = new ChannelTopic((String) list.get(i));
+	        	redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, topic2);
+	        	redisPublisher.publish(topic2,model);
+	        }
 	        //chat 메시지 DB 저장 메소드
 	        ChatMessage chatmessage = new ChatMessage(
 	        		userNo,
-	        		Long.parseLong(chatNoo),
+	        		Long.parseLong(chatNo),
 	        		type,
 	        		contents,
 	        		Integer.parseInt(readCount));
 	        System.out.println("넣을 데이터!" + chatmessage);
 	        chatMessageService.insertMessage(chatmessage);
 	        
-	        redisMessageListenerContainer.addMessageListener(alertRedisSubscriber, opusertopic);
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
-	        redisPublisher.publish(opusertopic,model);
 	     }
 	    
 
@@ -372,8 +380,6 @@ public class PubsubController {
 	        redisPublisher.publishCon(ChannelTopic.of(chatNo),model);
 
 	     }
-	    
-	    
 	    
 	    
 	}

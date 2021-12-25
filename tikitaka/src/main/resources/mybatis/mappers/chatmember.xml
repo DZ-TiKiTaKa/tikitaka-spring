@@ -22,4 +22,10 @@
 		 update chat_member set out_time=now() where user_no=#{userNo} and chat_no = #{chatNo}; 		
 		]]>
 	</update>
+	
+	<select id="findUserNoByChatNo" parameterType="long" resultType="String">
+		<![CDATA[
+			select user_no from chat_member where chat_no = #{chatNo};
+		]]>
+	</select>
 </mapper>

@@ -27,5 +27,10 @@ public class ChatMemberService {
 	public boolean UpdateOuttime(Long userno, Long chatno) {
 		return chatmemberRepository.UpdateOuttime(userno, chatno);
 	}
+
+	public List<ChatMember>  findUserNoByChatNo(Long chatNo) {
+		return chatmemberRepository.findUserNoByChatNo(chatNo);
+		
+	}
 	
 }
