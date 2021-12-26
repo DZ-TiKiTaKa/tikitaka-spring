@@ -236,16 +236,14 @@ public class PubsubController {
 	        String type =  result.get("type").toString();
 	        String readCount = result.get("readCount").toString();
 	        String regTime = result.get("regTime").toString();
-	        //String opuser = result.get("opuser").toString();
+	        
 	        
 	        Long chatLongNo = Long.parseLong(chatNo);
 	        String chatNoo =  result.get("chatNo").toString().replaceAll("\\\"", "");
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	        System.out.println("topic은?" + topic);
 	        System.out.println("전달 컨텐츠" + contents);
-	        //System.out.println("상대방 : "+ opuser);
 	        
-	        //ChannelTopic opusertopic = new ChannelTopic(opuser);
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
