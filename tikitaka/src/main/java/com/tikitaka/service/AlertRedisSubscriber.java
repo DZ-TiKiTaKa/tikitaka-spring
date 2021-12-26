@@ -47,7 +47,7 @@ public class AlertRedisSubscriber implements MessageListener {
         	 
         	 //user
      		String opuser = new String(message.getChannel());
-     		
+     		System.err.println("message파헤치기"+message.toString());
      		//sub한 채널에 데이터 전송
      		System.out.println("실시간 알림 전송 데이터 : " + opuser );
      		alertmessagingTemplate.convertAndSend("/topic/" + opuser , messageModel);

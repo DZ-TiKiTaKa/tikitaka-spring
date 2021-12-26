@@ -244,7 +244,6 @@ public class PubsubController {
 	        System.out.println("topic은?" + topic);
 	        System.out.println("전달 컨텐츠" + contents);
 	        
-	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
 	        List list = chatmemberService.findUserNoByChatNo(chatLongNo);
@@ -266,8 +265,10 @@ public class PubsubController {
 	        System.out.println("넣을 데이터!" + chatmessage);
 	        chatMessageService.insertMessage(chatmessage);
 	        
+
 	        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
 	        redisPublisher.publish(topic,model);
+
 	     }
 	    
 
@@ -308,10 +309,22 @@ public class PubsubController {
 	    public String sendFile(@RequestParam("file") MultipartFile file) throws Exception {
 	    		    	
 	    	String fileUrl = chatMessageService.sendFile(file);
-	    	System.out.println(fileUrl);
+	    	System.out.println("파일 전송 >>> " + fileUrl);
 	    	
 	    	return fileUrl;
 	    }
+	    
+	    @RequestMapping("/topic/getFileData/")
+	    public JsonResult getFileData(@RequestBody HashMap<String, Object> result) {
+	    	
+	    	System.out.println("받아와지나요 >>>>>" + result);
+	    	
+//	    	String url = "C:/chat-files/" + file
+	    	
+			return null;
+	    	
+	    }
+	    
 	    
 	    // chatNo에 해당하는 채팅방의 공지 리스트 
 	    @RequestMapping("/topic/noticeList/{chatNo}") 
@@ -341,7 +354,6 @@ public class PubsubController {
 	    	redisPublisher.publishCal(ChannelTopic.of(cal.getChatNo().toString()),calModel);
 	    	
 	    }
-	    
 	    
 	    
 	    @PostMapping("/topic/sendContact")
@@ -380,4 +392,5 @@ public class PubsubController {
 	     }
 	    
 	    
+
 	}

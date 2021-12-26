@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tikitaka.dto.JsonResult;
 import com.tikitaka.model.ChatMember;
 import com.tikitaka.model.ChatMessage;
 import com.tikitaka.repository.ChatMessageRepository;
@@ -86,6 +87,8 @@ public class ChatMessageService {
 
 			String fileUrl = FILE_URL_BASE +  "/" + saveName;
 			
+			
+			System.out.println("ddd >>>>>>>>>>>" + fileUrl);
 			return fileUrl;	
 			
 		} catch (IOException e) {
@@ -93,6 +96,8 @@ public class ChatMessageService {
 		}
 		return null;
 	}
+	
+
 
 
 	public List<ChatMember> findByChatNo(Long chatNo) {
