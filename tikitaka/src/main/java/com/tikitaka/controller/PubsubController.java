@@ -243,7 +243,6 @@ public class PubsubController {
 	        ChannelTopic topic = new ChannelTopic(chatNoo);
 	        System.out.println("topic은?" + topic);
 	        System.out.println("전달 컨텐츠" + contents);
-	       
 	        
 	        Messagemodel model = new Messagemodel(userNo,chatNo, name, contents, type,readCount,regTime);       
 	        
