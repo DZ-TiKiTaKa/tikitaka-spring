@@ -97,6 +97,14 @@ public class UserRepository {
 		return sqlSession.selectList("user.searchInfoByNo", userNo);
 	}
 
+	public List<User> searchlotinfo(Long userNo) {
+		return sqlSession.selectList("user.searchlotinfo", userNo);
+	}
+
+	public User findUser(Long userNo) {
+		return sqlSession.selectOne("user.findUser", userNo);
+	}
+
 
 
 }

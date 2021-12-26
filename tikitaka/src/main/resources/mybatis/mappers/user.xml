@@ -108,4 +108,20 @@
 		]]>
 	</select>
 	
+	<select id="searchlotinfo" parameterType="Long" resultType="map">
+		<![CDATA[
+			select c.title, d.chat_no from chat c join 
+			(select a.user_no,a.chat_no from chat_member a join (select chat_no from chat_member where user_no = #{userNo}) b
+			on a.chat_no = b.chat_no where not user_no in (#{userNo})) d on c.no = d.chat_no;	
+		]]>
+	</select>
+	
+	<select id="findUser" parameterType="Long" resultType="user">
+		<![CDATA[
+			select *
+			from user
+			where no = #{userNo}
+		]]>
+	</select>
+	
 </mapper>

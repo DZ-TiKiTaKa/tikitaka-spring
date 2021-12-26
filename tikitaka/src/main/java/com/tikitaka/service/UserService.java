@@ -112,6 +112,15 @@ public class UserService {
 		
 	}
 
+	public List searchlotinfo(Long userNo) {
+		return userRepository.searchlotinfo(userNo);
+	}
+
+	public User findUser(Long UserNo) {
+		return userRepository.findUser(UserNo);
+		
+	}
+
 	
 		
 }

@@ -102,10 +102,13 @@ public class UserController {
 	}
 
 	@PostMapping("/updateProfile")
-	public void updateProfile(@RequestBody HashMap<String, Object> result) {
+	public User updateProfile(@RequestBody HashMap<String, Object> result) {
 		
+		Long userNo = Long.parseLong(result.get("no").toString()) ;
 		userService.updateProfile(result);
-		System.out.println(result);
+		User user = userService.findUser(userNo);
+		System.out.println("바뀐 유저: " + user);
+		return user;
 	}
 	
 	@PostMapping("/updateImage/{token}")
@@ -140,6 +143,15 @@ public class UserController {
     	System.out.println(list);
     	return list;
    }
+    
+    @PostMapping("/searchlotinfo/{userNo}")
+   public List<User> searchlotinfo(@PathVariable Long userNo){
+    	System.out.println("SEARCH LOT INFO");
+    	List<User> list = userService.searchlotinfo(userNo);
+    	
+    	System.out.println(list);
+    	return list;
+    }
     
 	
 	
