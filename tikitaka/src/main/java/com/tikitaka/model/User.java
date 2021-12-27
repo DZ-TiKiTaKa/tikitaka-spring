@@ -3,47 +3,140 @@ package com.tikitaka.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value="user")
+@RedisHash(value = "user")
 public class User {
-	
+
 	@Id
-	private Long id;
+	private Long No;
+	private String role;
 	private String name;
-	private int age;
-	private String message;
+	private String password;
+	private String phone;
+	private String email;
+	private String profile;
+	private String loginTime;
+	private String logoutTime;
+	private int status;
+	private Long careNo;
+	private String proName;
+	private String userNo;
 	
-	public Long getId() {
-		return id;
+	
+
+	public String getUserNo() {
+		return userNo;
 	}
-	public void setId(Long id) {
-		this.id = id;
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public String getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(String loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public String getLogoutTime() {
+		return logoutTime;
+	}
+
+	public void setLogoutTime(String logoutTime) {
+		this.logoutTime = logoutTime;
+	}
+
+	public Long getCareNo() {
+		return careNo;
+	}
+
+	public void setCareNo(Long careNo) {
+		this.careNo = careNo;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public User() {
+
+	};
+
+	public Long getNo() {
+		return No;
+	}
+
+	public void setNo(Long no) {
+		No = no;
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAge() {
-		return age;
+
+	public String getPassword() {
+		return password;
 	}
-	public void setAge(int age) {
-		this.age = age;
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	
-	
-	public String getMessage() {
-		return message;
+
+	public String getEmail() {
+		return email;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public User(Long id, String name, int age, String message) {
-		this.id = id;
-		this.name = name;
-		this.age = age;
-		this.message = message;
+
+	public String getPhone() {
+		return phone;
 	}
-	public User() {};
-	
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Override
+	public String toString() {
+		return "User [No=" + No + ", role=" + role + ", name=" + name + ", password=" + password + ", phone=" + phone
+				+ ", email=" + email + ", profile=" + profile + ", loginTime=" + loginTime + ", logoutTime="
+				+ logoutTime + ", status=" + status + ", careNo=" + careNo + ", proName=" + proName + ", userNo="
+				+ userNo + "]";
+	};
+
 }

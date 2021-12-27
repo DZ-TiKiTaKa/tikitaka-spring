@@ -1,21 +1,18 @@
 package com.tikitaka.test;
 
 
-import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.is;
-import java.util.concurrent.TimeUnit;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import com.tikitaka.RedisConfiguration;
 import com.tikitaka.model.Chat;
-import com.tikitaka.service.ChatService;
 
-
+@Ignore
 @SpringBootTest
 public class RedisTempalateTest {
 	
@@ -27,8 +24,8 @@ public class RedisTempalateTest {
 	@Test
 	public void testStrings() {
 		Chat chat = new Chat();
-		chat.setContents("testing...");
-		chat.setNo(1L);
+		chat.setContents("hello");
+		chat.setNo(1221L);	
 		// 데이터 주기
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		String key = chat.getNo().toString();

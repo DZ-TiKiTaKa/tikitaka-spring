@@ -1,8 +1,5 @@
 package com.tikitaka;
 
-
-
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /*
@@ -12,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @ComponentScan
  * @EnableAutoConfiguration 3가지 역할을 수행함.
  * 
- * 1. @ComponentScan
+ * 1. @ComponentScan 
  *  - @Component @Configuration @Repository @Service @Controller @RestController
  *  - 하위 패키지에서 위와 같은 어노테이션을 찾아 bean으로 등록한다.
  * 
@@ -22,13 +19,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *  : Dependencies > spring-boot-autoconfigure > META-INF > spring.factories
  *  
  *  3. @SpringBootConfiguration
- *   - 스프링 부트의 설정을 나타내는 어노테이
+ *   - 스프링 부트의 설정을 나타내는 어노테이션
  * */
 @SpringBootApplication
-public class RedisTemplateApplication {
+public class TikitakaApplication {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(RedisTemplateApplication.class);
-		System.out.println("branch developer");
+		SpringApplication.run(TikitakaApplication.class);
+		
 	}
 }

@@ -2,10 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="chat">
-	<insert id="insert" parameterType="chat">
+<!-- useGeneratedKeys = "true"(기본값 false), keyColumn = [PK 컬럼명], keyProperty = [매핑할 변수명] -->
+	<insert id="insert" parameterType="chat" useGeneratedKeys="true" 
+			keyProperty="no">
 		<![CDATA[
-			insert into chat values(null, "MEMBER", #{contents}, 1, now())
+			insert into chat
+			values(null,#{title},#{contents},#{joinCount},now(), #{type})
 		]]>
 	</insert>
+
+	<select id="SearchByChatNo" resultType="String">
+		<![CDATA[
+		    select ifnull ((
+            select a.no from chat a join (select d.no  from chat d join chat_member e on d.no = e.chat_no where e.user_no = #{userNo}) b
+            on a.no = b.no 
+            join (select f.no from tikitaka.chat f join tikitaka.chat_member g on f.no = g.chat_no where g.user_no = #{authNo}) c
+			on  c.no = b.no 
+			where a.type = #{type})
+			, '0');
+             
+		]]>	
+	</select>
 	
+
+	<!-- chatNo에 해당하는 채팅방의 공지 리스트 -->
+	<select id="findByChatNo" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT a.important important, a.no, a.title title, a.contents contents,  b.name name, a.reg_date
+			FROM notice a, user b
+			WHERE a.user_no = b.no
+			AND a.chat_no = #{chatNo};
+	 	]]>
+	</select>
+	
+	<select id="findChatNumber" parameterType="long" resultType="string">
+      <![CDATA[
+         select no from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
+      ]]>
+   </select>
+
+	
+		
+	<select id="findChatroom" parameterType="long" resultType="chat">
+		<![CDATA[
+			select * from chat where no IN(select chat_no from chat_member where user_no = #{userNo});
+		]]>
+	</select>
+	
+	<!-- chatNo에 해당하는 채팅방의 최근 공지 가져와서 채팅방 상단에 띄우기 -->
+	<select id="findByRecentNotice" parameterType="string" resultType="map">
+	 	<![CDATA[	
+	 		SELECT u.name, n.no, n.title, n.contents, n.reg_date 
+			FROM user u JOIN notice n
+			ON u.no=n.user_no
+			WHERE chat_no= #{chatNo}
+			ORDER BY reg_date DESC
+			LIMIT 0, 1;
+	 	]]>
+	</select>
 </mapper>

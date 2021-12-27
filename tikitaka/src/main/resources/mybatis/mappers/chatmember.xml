@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chatmember">
+	<insert id="insert" parameterType="map">
+		<![CDATA[
+			insert into chat_member
+			values(#{user_no},#{chat_no},now(),now(),#{role})
+		]]>
+	</insert>
+	
+	<select id="findByChatNo" parameterType="chatmember" resultType="long">
+		<![CDATA[
+			select user_no 
+			from tikitaka.chat_member 
+			where user_no != #{userNo} and chat_no = #{chatNo}
+		]]>
+	</select>
+
+	<update id="outtimeUpdate" parameterType="map">
+		<![CDATA[
+		 update chat_member set out_time=now() where user_no=#{userNo} and chat_no = #{chatNo}; 		
+		]]>
+	</update>
+	
+	<select id="findUserNoByChatNo" parameterType="long" resultType="String">
+		<![CDATA[
+			select user_no from chat_member where chat_no = #{chatNo};
+		]]>
+	</select>
+</mapper>
